@@ -1,6 +1,6 @@
 package com.amosannn.model;
 
-public class Collection {
+public class Favorite {
 
   private int id;
   private String name;
