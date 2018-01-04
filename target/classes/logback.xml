@@ -8,7 +8,6 @@
     </encoder>
   </appender>
 
-
   <logger name="com.amosannn.mapper" level="DEBUG">
     <appender-ref ref="STDOUT"/>
   </logger>

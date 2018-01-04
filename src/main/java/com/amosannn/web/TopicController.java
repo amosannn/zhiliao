@@ -15,31 +15,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/topic")
+@RequestMapping("/zhiliao")
 public class TopicController {
 
   @Resource
   TopicService service;
 
-  @RequestMapping(value = "/topicCount")
+  @RequestMapping(value = "/topic/topicCount")
   public int topicCount() {
     return service.topicCount();
   }
 
-  @RequestMapping("/listBaseTopic")
+  @RequestMapping("/topic/listBaseTopic")
   public ResponseResult<Map<String, Object>> listBaseTopic() {
     Map<String, Object> map = new HashMap<String, Object>();
     map.put("baseTopic", service.listBaseTopic());
     return ResponseResult.createSuccessResult("请求成功", map);
   }
 
-  @RequestMapping(value = "/topicDesc", method = RequestMethod.POST)
+  @RequestMapping(value = "/topic/topicDetail", method = RequestMethod.POST)
   public ResponseResult<Map<String, Topic>> topicDetail(@RequestBody Map<String, Integer> map) {
     Integer topicId = map.get("topicId");
     return ResponseResult.createSuccessResult("请求成功", service.topicDetail(topicId));
   }
 
-  @RequestMapping("/listTopicByParentId")
+  /**
+   * 子话题列表
+   * @param map
+   * @return
+   */
+  @RequestMapping("/topic/listTopicByParentId")
   public ResponseResult<Map<String, List<Topic>>> listTopicByParentId(
       @RequestBody Map<String, Integer> map) {
     Integer topicId = map.get("topicId");
