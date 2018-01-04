@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,7 +27,7 @@ public class TopicController {
     return service.topicCount();
   }
 
-  @RequestMapping("/topic/listBaseTopic")
+  @GetMapping("/topic/listBaseTopic")
   public ResponseResult<Map<String, Object>> listBaseTopic() {
     Map<String, Object> map = new HashMap<String, Object>();
     map.put("baseTopic", service.listBaseTopic());
