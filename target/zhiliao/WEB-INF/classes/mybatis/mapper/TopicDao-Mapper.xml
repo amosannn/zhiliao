@@ -1,26 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.amosannn.mapper.TopicDao">
-    <select id="topicCount" resultType="int">
-        SELECT
-           count(T.topic_id) AS topicCount
-        FROM
-            topic T
-    </select>
+  <select id="topicCount" resultType="int">
+      SELECT
+        count(T.topic_id) AS topicCount
+      FROM
+        topic T
+  </select>
 
-    <select id="listBaseTopic" resultType="com.amosannn.model.Topic">
-        SELECT
-            T.topic_id,
-            T.topic_name
-        FROM
-            topic T
-        WHERE
+  <select id="listBaseTopic" resultType="com.amosannn.model.Topic">
+      SELECT
+        T.topic_id,
+        T.topic_name
+      FROM
+        topic T
+      WHERE
         T.parent_topic_id=0
-    </select>
+  </select>
 
+  <select id="topicDetail"  resultType="com.amosannn.model.Topic">
+      SELECT
+        T.topic_id,
+        T.topic_name,
+        T.topic_desc,
+        T.topic_image,
+        T.parent_topic_id,
+        T.followed_count
+      FROM
+        topic T
+      WHERE
+        T.topic_id = #{topicId}
+  </select>
 
-
+  <select id="listTopicByParentId" resultType="com.amosannn.model.Topic">
+    SELECT
+      topic_id,
+      topic_name,
+      topic_desc,
+      topic_image,
+      parent_topic_id,
+      followed_count
+    FROM
+      topic T
+    where
+     T.parent_topic_id = #{topicId}
+  </select>
 
 </mapper>

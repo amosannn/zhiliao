@@ -2,49 +2,58 @@ package com.amosannn.model;
 
 public class Topic {
 
-    private int id;
-    private String name;
-    private String description;
-    private String image;
-    private int followedCount;
+  private int topicId;
+  private String topicName;
+  private String topicDesc;
+  private String topicImage;
+  private int parentTopicId;
+  private int followedCount;
 
-    public int getId() {
-        return id;
-    }
+  public int getTopicId() {
+    return topicId;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public void setTopicId(int topicId) {
+    this.topicId = topicId;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getTopicName() {
+    return topicName;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setTopicName(String topicName) {
+    this.topicName = topicName;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getTopicDesc() {
+    return topicDesc;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setTopicDesc(String topicDesc) {
+    this.topicDesc = topicDesc;
+  }
 
-    public String getImage() {
-        return image;
-    }
+  public String getTopicImage() {
+    return topicImage;
+  }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+  public void setTopicImage(String topicImage) {
+    this.topicImage = topicImage;
+  }
 
-    public int getFollowedCount() {
-        return followedCount;
-    }
+  public int getParentTopicId() {
+    return parentTopicId;
+  }
 
-    public void setFollowedCount(int followedCount) {
-        this.followedCount = followedCount;
-    }
+  public void setParentTopicId(int parentTopicId) {
+    this.parentTopicId = parentTopicId;
+  }
+
+  public int getFollowedCount() {
+    return followedCount;
+  }
+
+  public void setFollowedCount(int followedCount) {
+    this.followedCount = followedCount;
+  }
 }
