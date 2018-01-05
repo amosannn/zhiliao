@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="zhiliao:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="zhiliao.war">
-      <element id="artifact" artifact-name="zhiliao:war exploded" />
-    </root>
-  </artifact>
-</component>
