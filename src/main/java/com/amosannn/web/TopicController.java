@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,5 +51,11 @@ public class TopicController {
       @RequestBody Map<String, Integer> map) {
     Integer topicId = map.get("topicId");
     return ResponseResult.createSuccessResult("请求成功", service.listTopicByParentId(topicId));
+  }
+
+  @RequestMapping("/topic/listFollowingTopic")
+  public ResponseResult<Map<String, List<Topic>>> listFollowedTopic(HttpServletRequest request){
+    Integer userId = 1;
+    return ResponseResult.createSuccessResult("请求成功", service.listFollowingTopic(userId));
   }
 }

@@ -35,4 +35,7 @@ public interface TopicDao {
   // 父话题
   @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where parent_topic_id = #{topicId} "})
   List<Topic> listTopicByParentId(@Param("topicId") Integer topicId);
+
+  // 正在关注的话题
+  List<Topic> listFollowingTopic(List<Integer> idList);
 }

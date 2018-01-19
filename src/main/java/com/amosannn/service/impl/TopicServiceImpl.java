@@ -3,15 +3,23 @@ package com.amosannn.service.impl;
 import com.amosannn.mapper.TopicDao;
 import com.amosannn.model.Topic;
 import com.amosannn.service.TopicService;
+import com.amosannn.util.MyUtil;
+import com.amosannn.util.RedisKey;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 @Service
 public class TopicServiceImpl implements TopicService {
+
+  @Resource
+  private JedisPool jedisPool;
 
   @Resource
   private TopicDao dao;
@@ -42,4 +50,14 @@ public class TopicServiceImpl implements TopicService {
     return map;
   }
 
+  @Override
+  public Map<String, List<Topic>> listFollowingTopic(Integer userId) {
+    Jedis jedis = jedisPool.getResource();
+    Set<String> idSet = jedis.zrange(userId + RedisKey.FOLLOW_TOPIC, 0, -1);
+    List<Integer> idList = MyUtil.StringSetToIntegerList(idSet);
+    List<Topic> topics = dao.listFollowingTopic(idList);
+    Map<String, List<Topic>> map = new HashMap<>();
+    map.put("followingTopic", topics);
+    return map;
+  }
 }

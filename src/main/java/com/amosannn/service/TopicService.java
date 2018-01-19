@@ -14,4 +14,6 @@ public interface TopicService {
   Map<String, Topic> topicDetail(Integer topicId);
 
   Map<String, List<Topic>> listTopicByParentId(Integer topicId);
+
+  Map<String, List<Topic>> listFollowingTopic(Integer userId);
 }
