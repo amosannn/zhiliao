@@ -54,7 +54,7 @@ public class TopicController {
   }
 
   @RequestMapping("/topic/listFollowingTopic")
-  public ResponseResult<Map<String, List<Topic>>> listFollowedTopic(HttpServletRequest request){
+  public ResponseResult<Map<String, List<Topic>>> listFollowedTopic(){
     Integer userId = 1;
     return ResponseResult.createSuccessResult("请求成功", service.listFollowingTopic(userId));
   }

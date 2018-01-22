@@ -49,12 +49,11 @@
     topic_image
     FROM
     topic
-    <where>
+    WHERE
       topic_id IN
       <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
         #{item}
       </foreach>
-    </where>
   </select>
 
 </mapper>

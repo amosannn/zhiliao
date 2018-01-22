@@ -59,19 +59,16 @@ spring:
         # 默认关闭，需手动开启，当前已关闭
         stat-view-servlet:
           enabled: true
+  redis:
+      host: 127.0.0.1
+      port: 6379
+      timeout: 0
+      pool:
+        max-idle: 10
+        min-idle: 0
+        max-active: 8
+        max-wait: -1
 
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
-
-jedis:
-  pool:
-    host: 127.0.0.1
-    port: 6379
-    config:
-      maxTotal: 100
-      maxIdle: 10
-      maxWaitMillis: 100000
-
-server:
-  port: 8082
