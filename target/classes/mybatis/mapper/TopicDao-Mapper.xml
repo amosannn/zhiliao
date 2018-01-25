@@ -44,9 +44,9 @@
 
   <select id="listFollowingTopic" resultType="com.amosannn.model.Topic">
     SELECT
-    topic_id,
-    topic_name,
-    topic_image
+    topic_id AS topicId,
+    topic_name AS topicName,
+    topic_image AS topicImage
     FROM
     topic
     WHERE

@@ -70,6 +70,10 @@ public class ResponseResult<T> {
         return new ResponseResult("0500", msg, data);
     }
 
+    public static <T> ResponseResult<T> createRegisterFailResult(T data) {
+        return new ResponseResult("0403", "注册失败", data);
+    }
+
     public static <T> ResponseResult<T> createAuthFailResult(T data) {
         return new ResponseResult("0403", "无权限", data);
     }
@@ -82,6 +86,7 @@ public class ResponseResult<T> {
         return new ResponseResult("0403", "未登录", data);
     }
 
+    @Override
     public String toString(){
         ObjectMapper objectMapper = new ObjectMapper();
         try{

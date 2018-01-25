@@ -28,10 +28,9 @@ public class TopicController {
     return service.topicCount();
   }
 
-  @GetMapping("/topic/listBaseTopic")
-  public ResponseResult<Map<String, Object>> listBaseTopic() {
-    Map<String, Object> map = new HashMap<String, Object>();
-    map.put("baseTopic", service.listBaseTopic());
+  @GetMapping("/topic/topics")
+  public ResponseResult<Map<String, List<Topic>>> listAllTopic() {
+    Map<String, List<Topic>> map = service.listAllTopic();
     return ResponseResult.createSuccessResult("请求成功", map);
   }
 

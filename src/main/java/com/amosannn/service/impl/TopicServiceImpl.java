@@ -31,8 +31,13 @@ public class TopicServiceImpl implements TopicService {
   }
 
   @Override
-  public List<Topic> listBaseTopic() {
-    return dao.listBaseTopic();
+  public Map<String, List<Topic>> listAllTopic() {
+    Map<String, List<Topic>> map = new HashMap<>();
+    List<Topic> baseTopicList = dao.listBaseTopic();
+    List<Topic> hotTopicList = dao.listHotTopic();
+    map.put("baseTopicList", baseTopicList);
+    map.put("hotTopicList", hotTopicList);
+    return map;
   }
 
   @Override

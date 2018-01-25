@@ -25,6 +25,9 @@ public interface TopicDao {
   @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where parent_topic_id=0"})
   List<Topic> listBaseTopic();
 
+  @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " order by followed_count desc limit 0,5"})
+  List<Topic> listHotTopic();
+
   // 话题广场子话题（分页
   Map<String, String> listTopic();
 

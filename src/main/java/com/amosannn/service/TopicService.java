@@ -9,7 +9,7 @@ public interface TopicService {
 
   int topicCount();
 
-  List<Topic> listBaseTopic();
+  Map<String, List<Topic>> listAllTopic();
 
   Map<String, Topic> topicDetail(Integer topicId);
 

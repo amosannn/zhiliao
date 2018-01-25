@@ -4,37 +4,101 @@ import java.util.Date;
 
 public class User {
 
-  private int id;
-  private String name;
-  private String shortDesc;
+  private int userId;
+  private String weiboUserId;
+  private String email;
+  private String username;
+  private String password;
+  private Integer activationState;
+  private String activationCode;
+  private String simpleDesc;
+  private String fullDesc;
   private int gender;
   private String position;
   private String industry;
   private String career;
   private String education;
-  private String profile;
-  private Date joinDate;
+  private Long joinTime;
   private String avatarUrl;
-  private int viewedCount;
+  private Integer scanedCount;
+  private int collectedCount;
+  private int likedCount;
   private int followCount;
   private int followedCount;
-  private int collectCount;
-  private int likedCount;
+  private Integer followTopicCount;
+  private Integer followQuestionCount;
+  private Integer followCollectionCount;
 
-  public String getName() {
-    return name;
+  public int getUserId() {
+    return userId;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setUserId(int userId) {
+    this.userId = userId;
   }
 
-  public String getShortDesc() {
-    return shortDesc;
+  public String getWeiboUserId() {
+    return weiboUserId;
   }
 
-  public void setShortDesc(String shortDesc) {
-    this.shortDesc = shortDesc;
+  public void setWeiboUserId(String weiboUserId) {
+    this.weiboUserId = weiboUserId;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public Integer getActivationState() {
+    return activationState;
+  }
+
+  public void setActivationState(Integer activationState) {
+    this.activationState = activationState;
+  }
+
+  public String getActivationCode() {
+    return activationCode;
+  }
+
+  public void setActivationCode(String activationCode) {
+    this.activationCode = activationCode;
+  }
+
+  public String getSimpleDesc() {
+    return simpleDesc;
+  }
+
+  public void setSimpleDesc(String simpleDesc) {
+    this.simpleDesc = simpleDesc;
+  }
+
+  public String getFullDesc() {
+    return fullDesc;
+  }
+
+  public void setFullDesc(String fullDesc) {
+    this.fullDesc = fullDesc;
   }
 
   public int getGender() {
@@ -77,20 +141,12 @@ public class User {
     this.education = education;
   }
 
-  public String getProfile() {
-    return profile;
+  public Long getJoinTime() {
+    return joinTime;
   }
 
-  public void setProfile(String profile) {
-    this.profile = profile;
-  }
-
-  public Date getJoinDate() {
-    return joinDate;
-  }
-
-  public void setJoinDate(Date joinDate) {
-    this.joinDate = joinDate;
+  public void setJoinTime(Long joinTime) {
+    this.joinTime = joinTime;
   }
 
   public String getAvatarUrl() {
@@ -101,20 +157,28 @@ public class User {
     this.avatarUrl = avatarUrl;
   }
 
-  public int getId() {
-    return id;
+  public Integer getScanedCount() {
+    return scanedCount;
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public void setScanedCount(Integer scanedCount) {
+    this.scanedCount = scanedCount;
   }
 
-  public int getViewedCount() {
-    return viewedCount;
+  public int getCollectedCount() {
+    return collectedCount;
   }
 
-  public void setViewedCount(int viewedCount) {
-    this.viewedCount = viewedCount;
+  public void setCollectedCount(int collectedCount) {
+    this.collectedCount = collectedCount;
+  }
+
+  public int getLikedCount() {
+    return likedCount;
+  }
+
+  public void setLikedCount(int likedCount) {
+    this.likedCount = likedCount;
   }
 
   public int getFollowCount() {
@@ -133,19 +197,27 @@ public class User {
     this.followedCount = followedCount;
   }
 
-  public int getCollectCount() {
-    return collectCount;
+  public Integer getFollowTopicCount() {
+    return followTopicCount;
   }
 
-  public void setCollectCount(int collectCount) {
-    this.collectCount = collectCount;
+  public void setFollowTopicCount(Integer followTopicCount) {
+    this.followTopicCount = followTopicCount;
   }
 
-  public int getLikedCount() {
-    return likedCount;
+  public Integer getFollowQuestionCount() {
+    return followQuestionCount;
   }
 
-  public void setLikedCount(int likedCount) {
-    this.likedCount = likedCount;
+  public void setFollowQuestionCount(Integer followQuestionCount) {
+    this.followQuestionCount = followQuestionCount;
+  }
+
+  public Integer getFollowCollectionCount() {
+    return followCollectionCount;
+  }
+
+  public void setFollowCollectionCount(Integer followCollectionCount) {
+    this.followCollectionCount = followCollectionCount;
   }
 }
