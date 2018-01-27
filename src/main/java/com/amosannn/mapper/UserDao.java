@@ -3,7 +3,9 @@ package com.amosannn.mapper;
 import com.amosannn.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 
 @Mapper
 public interface UserDao {
@@ -17,4 +19,10 @@ public interface UserDao {
 
   @Insert({"insert into ", TABLE_NAME, " (email, password, activation_code, join_time, username, avatar_url", ") values (#{email}, #{password}, #{activationCode}, #{joinTime}, #{username}, #{avatarUrl})"})
   void insertUser(User user);
+
+  @SelectProvider(type = UserSqlProvider.class, method = "selectUserIdByEmailOrUsername")
+  Integer selectUserIdByEmailOrUsername(User user);
+
+  @Select({"select activation_state from ", TABLE_NAME, " where user_id = #{userId}"})
+  Integer selectActivationStateByUserId(@Param("userId") Integer userId);
 }

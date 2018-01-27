@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,7 +97,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Map<String, String> login(String username, String email, String password) {
+  public Map<String, String> login(String username, String email, String password,
+      HttpServletResponse response) {
     Map<String, String> map = new HashMap<>();
     if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
       map.put("login-error", "用户名、密码不可为空");
@@ -119,10 +122,39 @@ public class UserServiceImpl implements UserService {
       return map;
     }
 
-    MyUtil.md5(password);
+    User user = new User();
+    user.setUsername(username);
+    user.setPassword(MyUtil.md5(password));
+    user.setEmail(email);
+    Integer userId = userDao.selectUserIdByEmailOrUsername(user);
 
+    if (userId == null) {
+      map.put("login-error", "用户名密码错误");
+      return map;
+    }
 
+    // 检验用户账号是否激活
+    Integer activationState = userDao.selectActivationStateByUserId(userId);
+    if (1 != activationState) {
+      map.put("login-error", "用户未激活");
+      return map;
+    }
 
+    // 设置登录cookie
+    String loginToken = MyUtil.createRadomCode();
+    Cookie cookie = new Cookie("loginToken", loginToken);
+    cookie.setPath("/");
+    cookie.setMaxAge(60 * 60 * 24 * 7);
+    response.addCookie(cookie);
+
+    // 存入redis
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.set(loginToken, userId.toString(), "NX", "EX", 60 * 60 * 24 * 7);
+    }
+    jedisPool.close();
+
+    map.put("login-success", "登录成功");
+    return map;
   }
 
 }
