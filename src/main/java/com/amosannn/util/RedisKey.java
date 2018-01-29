@@ -2,13 +2,26 @@ package com.amosannn.util;
 
 public class RedisKey {
 
-  //
+  // 某人关注的人们
   public static final String FOLLOW_USER = ":follow_user";
+  // 某人的粉丝们
   public static final String FOLLOWED_USER = ":followed_user";
 
-  // 某人关注的哪些话题
+  // 某人关注的话题们
   public static final String FOLLOW_TOPIC = ":follow_topic";
-  // 某话题被哪些人关注
+  // 某话题的关注者们
   public static final String FOLLOWED_TOPIC = ":followed_topic";
+
+  // 某人关注的问题们
+  public static final String FOLLOW_QUESTION = ":follow_question";
+  // 某问题的关注者们
+  public static final String FOLLOWED_QUESTION = ":followed_question";
+
+  // 某人关注的收藏夹
+  public static final String FOLLOW_COLLECTION = ":follow_collection";
+  // 某收藏夹的关注者们
+  public static final String FOLLOWED_COLLECTION = ":followed_collection";
+
+
 
 }

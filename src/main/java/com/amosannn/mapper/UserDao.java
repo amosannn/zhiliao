@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserDao {
@@ -25,4 +26,10 @@ public interface UserDao {
 
   @Select({"select activation_state from ", TABLE_NAME, " where user_id = #{userId}"})
   Integer selectActivationStateByUserId(@Param("userId") Integer userId);
+
+  @Update({"update ", TABLE_NAME, " set activation_state = 1 where activation_code = #{activationCode}"})
+  void updateActivationStateByActivationCode(String activationCode);
+
+  @Select({"select ", SELECT_FILEDS, " from ", TABLE_NAME, " where user_id = #{userId}"})
+  User selectProfileInfoByUserId(Integer userId);
 }

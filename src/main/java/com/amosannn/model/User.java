@@ -13,7 +13,7 @@ public class User {
   private String activationCode;
   private String simpleDesc;
   private String fullDesc;
-  private int gender;
+  private Integer gender;
   private String position;
   private String industry;
   private String career;
@@ -21,10 +21,10 @@ public class User {
   private Long joinTime;
   private String avatarUrl;
   private Integer scanedCount;
-  private int collectedCount;
-  private int likedCount;
-  private int followCount;
-  private int followedCount;
+  private Integer collectedCount;
+  private Integer likedCount;
+  private Integer followCount;
+  private Integer followedCount;
   private Integer followTopicCount;
   private Integer followQuestionCount;
   private Integer followCollectionCount;
@@ -101,11 +101,11 @@ public class User {
     this.fullDesc = fullDesc;
   }
 
-  public int getGender() {
+  public Integer getGender() {
     return gender;
   }
 
-  public void setGender(int gender) {
+  public void setGender(Integer gender) {
     this.gender = gender;
   }
 
@@ -165,35 +165,35 @@ public class User {
     this.scanedCount = scanedCount;
   }
 
-  public int getCollectedCount() {
+  public Integer getCollectedCount() {
     return collectedCount;
   }
 
-  public void setCollectedCount(int collectedCount) {
+  public void setCollectedCount(Integer collectedCount) {
     this.collectedCount = collectedCount;
   }
 
-  public int getLikedCount() {
+  public Integer getLikedCount() {
     return likedCount;
   }
 
-  public void setLikedCount(int likedCount) {
+  public void setLikedCount(Integer likedCount) {
     this.likedCount = likedCount;
   }
 
-  public int getFollowCount() {
+  public Integer getFollowCount() {
     return followCount;
   }
 
-  public void setFollowCount(int followCount) {
+  public void setFollowCount(Integer followCount) {
     this.followCount = followCount;
   }
 
-  public int getFollowedCount() {
+  public Integer getFollowedCount() {
     return followedCount;
   }
 
-  public void setFollowedCount(int followedCount) {
+  public void setFollowedCount(Integer followedCount) {
     this.followedCount = followedCount;
   }
 

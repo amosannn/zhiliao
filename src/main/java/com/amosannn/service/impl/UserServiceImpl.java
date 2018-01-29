@@ -10,12 +10,14 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -156,5 +158,120 @@ public class UserServiceImpl implements UserService {
     map.put("login-success", "登录成功");
     return map;
   }
+
+  @Override
+  public void activate(String activationCode) {
+    userDao.updateActivationStateByActivationCode(activationCode);
+  }
+
+  @Override
+  public void logout(HttpServletRequest request, HttpServletResponse response) {
+    String loginToken = null;
+    Cookie[] cookies = request.getCookies();
+    for (Cookie cookie : cookies) {
+      if ("loginToken".equals(cookie.getName())) {
+        loginToken = cookie.getValue();
+        try (Jedis jedis = jedisPool.getResource()) {
+          jedis.del(loginToken);
+        }
+        jedisPool.close();
+        break;
+      }
+    }
+
+    Cookie cookie = new Cookie("loginToken", "");
+    cookie.setPath("/");
+    cookie.setMaxAge(60 * 60 * 24 * 30);
+    response.addCookie(cookie);
+  }
+
+  @Override
+  public Integer getUserIdFromRedis(HttpServletRequest request) {
+    String loginToken = null;
+    String userId = null;
+    Cookie[] cookies = request.getCookies();
+    for (Cookie cookie : cookies) {
+      if ("loginToken".equals(cookie.getName())) {
+        loginToken = cookie.getValue();
+        break;
+      }
+    }
+    try (Jedis jedis = jedisPool.getResource()) {
+      userId = jedis.get(loginToken);
+    }
+    jedisPool.close();
+
+    return Integer.parseInt(userId);
+  }
+
+  @Override
+  public Map<String, Object> profile(Integer userId, Integer localUserId) {
+    Map<String, Object> map = new HashMap<>();
+    User user = userDao.selectProfileInfoByUserId(userId);
+
+    if (userId.equals(localUserId)) {
+      map.put("isSelf", true);
+    } else {
+      map.put("isSelf", false);
+    }
+
+    try (Jedis jedis = jedisPool.getResource()) {
+      Long followCount = jedis.zcard(userId + RedisKey.FOLLOW_USER);
+      Long followedCount = jedis.zcard(userId + RedisKey.FOLLOWED_USER);
+      Long followTopicCount = jedis.zcard(userId + RedisKey.FOLLOW_TOPIC);
+      Long followQuestionCount = jedis.zcard(userId + RedisKey.FOLLOW_QUESTION);
+      Long followCollectionCount = jedis.zcard(userId + RedisKey.FOLLOW_COLLECTION);
+      user.setFollowCount(Integer.parseInt(followCount+""));
+      user.setFollowedCount(Integer.parseInt(followedCount+""));
+      user.setFollowTopicCount(Integer.parseInt(followTopicCount+""));
+      user.setFollowQuestionCount(Integer.parseInt(followQuestionCount+""));
+      user.setFollowCollectionCount(Integer.parseInt(followCollectionCount+""));
+
+      map.put("user", user);
+      return map;
+    }
+  }
+
+  @Override
+  public boolean judgePeopleFollowUser(Integer localUserId, Integer userId) {
+    Long rank = null;
+    try (Jedis jedis = jedisPool.getResource()){
+      rank = jedis.zrank(localUserId + RedisKey.FOLLOW_USER, String.valueOf(userId));
+    }
+    jedisPool.close();
+
+    return rank == null ? false:true;
+  }
+
+  @Override
+  public boolean followUser(Integer localUserId, Integer userId) {
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.zadd(localUserId + RedisKey.FOLLOW_USER, System.currentTimeMillis(),
+          String.valueOf(userId));
+      jedis.zadd(userId + RedisKey.FOLLOWED_USER, System.currentTimeMillis(),
+          String.valueOf(localUserId));
+    } catch (JedisException e) {
+      return false;
+    }
+    jedisPool.close();
+
+    // todo 站内信(message)
+
+    return true;
+  }
+
+  @Override
+  public boolean unfollowUser(Integer localUserId, Integer userId) {
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.zrem(localUserId + RedisKey.FOLLOW_USER, String.valueOf(userId));
+      jedis.zrem(userId + RedisKey.FOLLOWED_USER, String.valueOf(localUserId));
+    } catch (JedisException e) {
+      return false;
+    }
+    jedisPool.close();
+    return true;
+  }
+
+
 
 }
