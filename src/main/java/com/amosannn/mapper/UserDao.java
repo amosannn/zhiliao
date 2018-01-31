@@ -13,7 +13,7 @@ public interface UserDao {
 
   String TABLE_NAME = " user ";
   String INSERT_FIELDS = " email, password, activation_state, activation_code, join_time, username, avatar_url, gender, simple_desc, position, industry, career, education, full_desc, liked_count, collected_count, follow_count, followed_count, scaned_count, weibo_user_id ";
-  String SELECT_FILEDS = " userId " + INSERT_FIELDS;
+  String SELECT_FILEDS = " user_id " + INSERT_FIELDS;
 
   @Select({"select ", " count(*) from ", TABLE_NAME, " where email like #{email}"})
   int emailCount(String email) ;

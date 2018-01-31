@@ -1,5 +1,6 @@
 package com.amosannn.service.impl;
 
+import com.amosannn.configuration.RedisCacheConfiguration;
 import com.amosannn.mapper.UserDao;
 import com.amosannn.model.User;
 import com.amosannn.service.UserService;
@@ -153,7 +154,7 @@ public class UserServiceImpl implements UserService {
     try (Jedis jedis = jedisPool.getResource()) {
       jedis.set(loginToken, userId.toString(), "NX", "EX", 60 * 60 * 24 * 7);
     }
-    jedisPool.close();
+//    jedisPool.close();
 
     map.put("login-success", "登录成功");
     return map;
@@ -174,7 +175,7 @@ public class UserServiceImpl implements UserService {
         try (Jedis jedis = jedisPool.getResource()) {
           jedis.del(loginToken);
         }
-        jedisPool.close();
+//        jedisPool.close();
         break;
       }
     }
@@ -199,7 +200,7 @@ public class UserServiceImpl implements UserService {
     try (Jedis jedis = jedisPool.getResource()) {
       userId = jedis.get(loginToken);
     }
-    jedisPool.close();
+//    jedisPool.close();
 
     return Integer.parseInt(userId);
   }
@@ -226,10 +227,10 @@ public class UserServiceImpl implements UserService {
       user.setFollowTopicCount(Integer.parseInt(followTopicCount+""));
       user.setFollowQuestionCount(Integer.parseInt(followQuestionCount+""));
       user.setFollowCollectionCount(Integer.parseInt(followCollectionCount+""));
-
-      map.put("user", user);
-      return map;
     }
+
+    map.put("user", user);
+    return map;
   }
 
   @Override
@@ -238,7 +239,7 @@ public class UserServiceImpl implements UserService {
     try (Jedis jedis = jedisPool.getResource()){
       rank = jedis.zrank(localUserId + RedisKey.FOLLOW_USER, String.valueOf(userId));
     }
-    jedisPool.close();
+//    jedisPool.close();
 
     return rank == null ? false:true;
   }
@@ -253,7 +254,7 @@ public class UserServiceImpl implements UserService {
     } catch (JedisException e) {
       return false;
     }
-    jedisPool.close();
+//    jedisPool.close();
 
     // todo 站内信(message)
 
@@ -268,7 +269,7 @@ public class UserServiceImpl implements UserService {
     } catch (JedisException e) {
       return false;
     }
-    jedisPool.close();
+//    jedisPool.close();
     return true;
   }
 

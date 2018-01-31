@@ -1,79 +1,108 @@
 package com.amosannn.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Question {
 
-  private int id;
-  private String title;
-  private String content;
-  private int topicId;
-  private int followedCount;
-  private int viewedCount;
-  private Date createTime;
-  private int userId;
+  private Integer questionId;
+  private String questionTitle;
+  private String questionContent;
+  private String topicKvList;
+  private Integer followedCount;
+  private Integer scanedCount;
+  private Long createTime;
+  private Integer userId;
+  private User user;
+  private Integer answerCount;
+  private List<QuestionComment> questionCommentList;
 
-  public int getId() {
-    return id;
+  public Integer getQuestionId() {
+    return questionId;
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public void setQuestionId(Integer questionId) {
+    this.questionId = questionId;
   }
 
-  public String getTitle() {
-    return title;
+  public String getQuestionTitle() {
+    return questionTitle;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setQuestionTitle(String questionTitle) {
+    this.questionTitle = questionTitle;
   }
 
-  public String getContent() {
-    return content;
+  public String getQuestionContent() {
+    return questionContent;
   }
 
-  public void setContent(String content) {
-    this.content = content;
+  public void setQuestionContent(String questionContent) {
+    this.questionContent = questionContent;
   }
 
-  public int getTopicId() {
-    return topicId;
+  public String getTopicKvList() {
+    return topicKvList;
   }
 
-  public void setTopicId(int topicId) {
-    this.topicId = topicId;
+  public void setTopicKvList(String topicKvList) {
+    this.topicKvList = topicKvList;
   }
 
-  public int getFollowedCount() {
+  public Integer getFollowedCount() {
     return followedCount;
   }
 
-  public void setFollowedCount(int followedCount) {
+  public void setFollowedCount(Integer followedCount) {
     this.followedCount = followedCount;
   }
 
-  public int getViewedCount() {
-    return viewedCount;
+  public Integer getScanedCount() {
+    return scanedCount;
   }
 
-  public void setViewedCount(int viewedCount) {
-    this.viewedCount = viewedCount;
+  public void setScanedCount(Integer scanedCount) {
+    this.scanedCount = scanedCount;
   }
 
-  public Date getCreateTime() {
+  public Long getCreateTime() {
     return createTime;
   }
 
-  public void setCreateTime(Date createTime) {
+  public void setCreateTime(Long createTime) {
     this.createTime = createTime;
   }
 
-  public int getUserId() {
+  public Integer getUserId() {
     return userId;
   }
 
-  public void setUserId(int userId) {
+  public void setUserId(Integer userId) {
     this.userId = userId;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public Integer getAnswerCount() {
+    return answerCount;
+  }
+
+  public void setAnswerCount(Integer answerCount) {
+    this.answerCount = answerCount;
+  }
+
+  public List<QuestionComment> getQuestionCommentList() {
+    return questionCommentList;
+  }
+
+  public void setQuestionCommentList(
+      List<QuestionComment> questionCommentList) {
+    this.questionCommentList = questionCommentList;
   }
 }

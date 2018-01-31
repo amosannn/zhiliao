@@ -64,10 +64,10 @@ spring:
       port: 6379
       timeout: 0
       pool:
-        max-idle: 10
-        min-idle: 0
-        max-active: 8
-        max-wait: -1
+        max-idle: 50
+        min-idle: 8
+        max-active: 1000
+        max-wait: 3000
 
 mybatis:
   config-location: classpath:mybatis-config.xml

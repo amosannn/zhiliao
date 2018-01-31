@@ -3,7 +3,9 @@ package com.amosannn.mapper;
 import com.amosannn.model.Topic;
 import java.util.List;
 import java.util.Map;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -41,4 +43,14 @@ public interface TopicDao {
 
   // 正在关注的话题
   List<Topic> listFollowingTopic(List<Integer> idList);
+
+  // 查找话题对应的id
+  @Select({"select topic_id from ", TABLE_NAME, " where topic_name = #{topicName} limit 0,1"})
+  Integer selectTopicIdByTopicName(@Param("topicName") String topicName);
+
+
+  // 插入话题
+  @Insert({"insert into ", TABLE_NAME, " (topic_name,parent_topic_id,topic_desc) values(#{topicName},#{parentTopicId},'暂无描述')"})
+  @Options(useGeneratedKeys = true, keyProperty = "topic.topicId")
+  Integer insertTopic(Topic topic);
 }
