@@ -1,6 +1,7 @@
 package com.amosannn.mapper;
 
 import com.amosannn.model.User;
+import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,4 +33,7 @@ public interface UserDao {
 
   @Select({"select ", SELECT_FILEDS, " from ", TABLE_NAME, " where user_id = #{userId}"})
   User selectProfileInfoByUserId(Integer userId);
+
+  @SelectProvider(type = UserSqlProvider.class, method = "listUserInfoByUserId")
+  List<User> listUserInfoByUserId(List<Integer> userIdList);
 }

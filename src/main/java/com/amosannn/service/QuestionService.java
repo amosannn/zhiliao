@@ -1,8 +1,11 @@
 package com.amosannn.service;
 
 import com.amosannn.model.Question;
+import java.util.Map;
 
 public interface QuestionService {
 
-  public Integer ask(Question question, String topicNames, Integer userId);
+  Integer ask(Question question, String topicNames, Integer userId);
+
+  Map<String, Object> questionDetail(Integer questionId, Integer userId);
 }

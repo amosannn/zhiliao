@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,8 +34,19 @@ public class QuestionController {
     Map<String, String> resMap = (Map<String, String>) map.get("question");
     question.setQuestionTitle(resMap.get("questionTitle"));
     question.setQuestionContent(resMap.get("questionContent"));
-    String topicNames = (String)map.get("topicNames");
+    String topicNames = (String) map.get("topicNames");
     Integer questionId = questionService.ask(question, topicNames, userId);
     return ResponseResult.createSuccessResult("提问发布成功！", "question id :" + questionId);
+  }
+
+  @RequestMapping("question/{questionId}")
+  public ResponseResult<Map<String, Object>> questionDetail(@PathVariable Integer questionId,
+      HttpServletRequest request) {
+    Integer userId = userService.getUserIdFromRedis(request);
+    Map<String, Object> questionDetail = questionService.questionDetail(questionId, userId);
+
+    // todo 收藏夹信息
+
+    return ResponseResult.createSuccessResult("获取问题详情页成功！", questionDetail);
   }
 }

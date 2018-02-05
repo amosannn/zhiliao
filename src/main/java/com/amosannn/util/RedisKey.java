@@ -22,6 +22,8 @@ public class RedisKey {
   // 某收藏夹的关注者们
   public static final String FOLLOWED_COLLECTION = ":followed_collection";
 
+  // 某问题被浏览次数
+  public static final String QUESTION_SCANED_COUNT = ":question_scaned_count";
 
 
 }
