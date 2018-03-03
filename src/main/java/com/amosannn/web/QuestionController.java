@@ -5,6 +5,7 @@ import com.amosannn.service.QuestionService;
 import com.amosannn.service.UserService;
 import com.amosannn.util.ResponseResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,4 +50,19 @@ public class QuestionController {
 
     return ResponseResult.createSuccessResult("获取问题详情页成功！", questionDetail);
   }
+
+//  @RequestMapping("/questionList")
+//  public String questionList(){
+//    return
+//  }
+
+  @RequestMapping("/listQuestionByPage")
+  public ResponseResult<List<Question>> listQuestionByPage(@RequestBody Map<String, Object> map){
+    Integer curPage = Integer.parseInt(map.get("curPage")+"");
+    List<Question> questionList = questionService.listQuestionByPage(curPage);
+
+    return ResponseResult.createSuccessResult("获取第" + curPage + "页问题列表成功", questionList);
+  }
+
+
 }

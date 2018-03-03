@@ -129,4 +129,36 @@ public class QuestionServiceIml implements QuestionService {
     return map;
   }
 
+  /**
+   * 问题列表（翻页
+   * @param curPage
+   * @return
+   */
+  @Override
+  public List<Question> listQuestionByPage(Integer curPage){
+    // 当请求没有请求页信息，则默认为第一页
+    curPage = curPage == null ? 1 : curPage;
+    // 每页条数
+    int limit = 3;
+    // 记录起始条数
+    int offset = (curPage - 1) * limit;
+
+    List<Question> questionList = new ArrayList<>();
+    try (Jedis jedis = jedisPool.getResource()) {
+      Set<String> idSet = jedis.zrange(RedisKey.QUESTION_SCANED_COUNT, offset, offset + limit - 1);
+      List<Integer> idList = MyUtil.StringSetToIntegerList(idSet);
+
+      if (idList.size() > 0) {
+        questionList = questionDao.listQuestionByQuestionId(idList);
+
+        for (Question question : questionList) {
+//          question.setAnswerCount(answerDao);
+          question.setFollowedCount(Integer.parseInt(jedis.zcard(question.getQuestionId() + RedisKey.FOLLOWED_QUESTION)+""));
+        }
+      }
+    }
+
+    return questionList;
+  }
+
 }

@@ -3,6 +3,7 @@ package com.amosannn.mapper;
 import com.amosannn.model.Question;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,6 @@ public interface QuestionDao {
   @Select({"select ", SELECT_FIELDS, ""})
   List<Question> listRelatedQuestion(@Param("questionId") Integer questionId);
 
+  @SelectProvider(type = QuestionSqlProvider.class, method = "listQuestionByQuestionId")
+  List<Question> listQuestionByQuestionId(@Param("idList") List<Integer> idList);
 }
