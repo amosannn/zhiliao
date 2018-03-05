@@ -2,6 +2,7 @@ package com.amosannn.mapper;
 
 import com.amosannn.model.Question;
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,4 +32,10 @@ public interface QuestionDao {
 
   @SelectProvider(type = QuestionSqlProvider.class, method = "listQuestionByQuestionId")
   List<Question> listQuestionByQuestionId(@Param("idList") List<Integer> idList);
+
+  @Select({"select ", " count(*) from ", TABLE_NAME, " where user_id = #{userId}"})
+  Integer selectQuestionCountByUserId(@Param("userId") Integer userId);
+
+  @Select({"select ", " question_id,question_title,create_time from ", TABLE_NAME, " where user_id = #{userId} limit #{offset},#{limit} "})
+  List<Question> listQuestionByUserId(Map map);
 }

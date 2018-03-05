@@ -229,5 +229,40 @@ public class QuestionServiceIml implements QuestionService {
     return list;
   }
 
+  /**
+   * 某用户的提问列表
+   * @param userId
+   * @param curPage
+   * @return
+   */
+  @Override
+  public List<Question> listQuestionByUserId(Integer userId, Integer curPage) {
+    // 请求页默认为0
+    curPage = curPage == null ? 1 : curPage;
+    // 每页问题数
+    int limit = 6;
+    // 问题数坐标
+    int offset = (curPage - 1) * limit;
+
+    // 用户提问总数
+    int allCount = questionDao.selectQuestionCountByUserId(userId);
+    //总页数
+    int allPage = 0;
+    if (allCount <= limit) {
+      allPage = 1;
+    } else if (allCount / limit == 0) {
+      allPage = allCount / limit;
+    } else {
+      allPage = allCount / limit + 1;
+    }
+
+    Map<String, Object> map = new HashMap<>();
+    map.put("offset", offset);
+    map.put("limit", offset + limit);
+    map.put("userId", userId);
+    List<Question> questionList = questionDao.listQuestionByUserId(map);
+
+    return questionList;
+  }
 
 }
