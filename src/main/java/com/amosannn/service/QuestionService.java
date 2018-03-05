@@ -18,4 +18,5 @@ public interface QuestionService {
 
   boolean unfollowQuestion(Integer userId, Integer questionId);
 
+  List<Question> listFollowingQuestion(Integer userId);
 }

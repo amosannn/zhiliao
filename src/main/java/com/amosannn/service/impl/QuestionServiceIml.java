@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.session.SessionProperties.Redis;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -201,5 +202,32 @@ public class QuestionServiceIml implements QuestionService {
     }
     return status;
   }
+
+  /**
+   * 某用户关注的问题列表
+   * @param userId
+   * @return
+   */
+  @Override
+  public List<Question> listFollowingQuestion(Integer userId) {
+    List<Question> list = new ArrayList<Question>();
+    try (Jedis jedis = jedisPool.getResource()) {
+      Set<String> idSet = jedis.zrange(userId + RedisKey.FOLLOW_QUESTION, 0, -1);
+      List<Integer> idList = MyUtil.StringSetToIntegerList(idSet);
+
+      if (idList.size() > 0) {
+        list = questionDao.listQuestionByQuestionId(idList);
+        for (Question question : list) {
+          //todo 设置该问题的回答数
+
+          //设置该问题关注数
+          Long followedCount = jedis.zcard(question.getQuestionId() + RedisKey.FOLLOWED_QUESTION);
+          question.setFollowedCount(Integer.parseInt(followedCount + ""));
+        }
+      }
+    }
+    return list;
+  }
+
 
 }

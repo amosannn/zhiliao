@@ -7,11 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89a58e9a-1fe0-4cad-bbd7-382e3919ff10" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amosannn/mapper/QuestionSqlProvider.java" afterPath="$PROJECT_DIR$/src/main/java/com/amosannn/mapper/QuestionSqlProvider.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amosannn/service/QuestionService.java" afterPath="$PROJECT_DIR$/src/main/java/com/amosannn/service/QuestionService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java" afterPath="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amosannn/web/QuestionController.java" afterPath="$PROJECT_DIR$/src/main/java/com/amosannn/web/QuestionController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -48,7 +45,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/QuestionService.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
-              <caret line="20" column="1" lean-forward="true" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+              <caret line="20" column="55" lean-forward="false" selection-start-line="20" selection-start-column="55" selection-end-line="20" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -59,10 +56,11 @@
       <file leaf-file-name="QuestionServiceIml.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="198" column="58" lean-forward="false" selection-start-line="198" selection-start-column="58" selection-end-line="198" selection-end-column="58" />
+            <state relative-caret-position="241">
+              <caret line="231" column="0" lean-forward="false" selection-start-line="231" selection-start-column="0" selection-end-line="231" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#6491#6501#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -152,6 +150,7 @@
       <find>TopicKvList</find>
       <find>listUserInfoByUserId</find>
       <find>myba</find>
+      <find>listQuestionByUserId</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -215,8 +214,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/mapper/QuestionDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/mapper/QuestionSqlProvider.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/web/QuestionController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/service/QuestionService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java" />
       </list>
     </option>
   </component>
@@ -964,12 +963,12 @@
       <workItem from="1514988516970" duration="23866000" />
       <workItem from="1515054876120" duration="3843000" />
       <workItem from="1516282880559" duration="107502000" />
-      <workItem from="1518172208143" duration="20831000" />
+      <workItem from="1518172208143" duration="21964000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="227213000" />
+    <option name="totallyTimeSpent" value="228346000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="32" y="23" width="1248" height="777" extended-state="6" />
@@ -1033,13 +1032,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java</url>
-          <line>82</line>
+          <line>83</line>
           <properties />
           <option name="timeStamp" value="47" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java</url>
-          <line>100</line>
+          <line>101</line>
           <properties />
           <option name="timeStamp" value="48" />
         </line-breakpoint>
@@ -1051,7 +1050,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java</url>
-          <line>149</line>
+          <line>150</line>
           <properties />
           <option name="timeStamp" value="52" />
         </line-breakpoint>
@@ -1069,7 +1068,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java</url>
-          <line>153</line>
+          <line>154</line>
           <properties />
           <option name="timeStamp" value="56" />
         </line-breakpoint>
@@ -1439,10 +1438,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="198" column="58" lean-forward="false" selection-start-line="198" selection-start-column="58" selection-end-line="198" selection-end-column="58" />
+        <state relative-caret-position="241">
+          <caret line="231" column="0" lean-forward="false" selection-start-line="231" selection-start-column="0" selection-end-line="231" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#6491#6501#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1450,7 +1450,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/QuestionService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
-          <caret line="20" column="1" lean-forward="true" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+          <caret line="20" column="55" lean-forward="false" selection-start-line="20" selection-start-column="55" selection-end-line="20" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
