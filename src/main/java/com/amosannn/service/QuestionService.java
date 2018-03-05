@@ -11,4 +11,11 @@ public interface QuestionService {
   Map<String, Object> questionDetail(Integer questionId, Integer userId);
 
   List<Question> listQuestionByPage(Integer curPage);
+
+  boolean judgePeopleFollowQuestion(Integer userId, Integer questionId);
+
+  boolean followQuestion(Integer userId, Integer questionId);
+
+  boolean unfollowQuestion(Integer userId, Integer questionId);
+
 }

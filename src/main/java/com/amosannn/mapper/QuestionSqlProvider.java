@@ -1,13 +1,11 @@
 package com.amosannn.mapper;
 
 import java.util.List;
-import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
 public class QuestionSqlProvider {
 
-  public String listQuestionByQuestionId(final Map<String, Object> map) {
-    List<Integer> idList = (List<Integer>)map.get("idList");
+  public String listQuestionByQuestionId(final List<Integer> idList) {
     StringBuilder sb = new StringBuilder();
     sb.append("(");
     for (Integer questionId : idList) {

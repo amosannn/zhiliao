@@ -57,12 +57,43 @@ public class QuestionController {
 //  }
 
   @RequestMapping("/listQuestionByPage")
-  public ResponseResult<List<Question>> listQuestionByPage(@RequestBody Map<String, Object> map){
-    Integer curPage = Integer.parseInt(map.get("curPage")+"");
+  public ResponseResult<List<Question>> listQuestionByPage(@RequestBody Map<String, Object> map) {
+    Integer curPage = Integer.parseInt(map.get("curPage") + "");
     List<Question> questionList = questionService.listQuestionByPage(curPage);
 
     return ResponseResult.createSuccessResult("获取第" + curPage + "页问题列表成功", questionList);
   }
 
+  @RequestMapping("/judgePeopleFollowQuestion")
+  public ResponseResult<Boolean> judgePeopleFollowQuestion(Integer questionId,
+      HttpServletRequest request) {
+    Integer userId = userService.getUserIdFromRedis(request);
+    boolean status = questionService.judgePeopleFollowQuestion(userId, questionId);
+    if (status) {
+      return ResponseResult.createSuccessResult("已关注该问题", status);
+    }
+    return ResponseResult.createFailResult("未关注该问题", status);
+  }
 
+  @RequestMapping("/followQuestion")
+  public ResponseResult<Boolean> followQuestion(Integer questionId,
+      HttpServletRequest request) {
+    Integer userId = userService.getUserIdFromRedis(request);
+    boolean status = questionService.followQuestion(userId, questionId);
+    if (status) {
+      return ResponseResult.createSuccessResult("关注成功", status);
+    }
+    return ResponseResult.createFailResult("关注失败", status);
+  }
+
+  @RequestMapping("/unfollowQuestion")
+  public ResponseResult<Boolean> unfollowQuestion(Integer questionId,
+      HttpServletRequest request) {
+    Integer userId = userService.getUserIdFromRedis(request);
+    boolean status = questionService.unfollowQuestion(userId, questionId);
+    if (status) {
+      return ResponseResult.createSuccessResult("取消关注成功", status);
+    }
+    return ResponseResult.createFailResult("取消关注失败", status);
+  }
 }

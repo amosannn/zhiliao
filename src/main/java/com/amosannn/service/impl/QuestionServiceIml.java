@@ -116,9 +116,9 @@ public class QuestionServiceIml implements QuestionService {
 
     //话题信息
     Map<Integer, String> topicMap = null;
-    try{
+    try {
       topicMap = objectMapper.readValue(question.getTopicKvList(), Map.class);
-    } catch (Exception e){
+    } catch (Exception e) {
       System.out.println(e.getMessage());
     }
 
@@ -131,11 +131,9 @@ public class QuestionServiceIml implements QuestionService {
 
   /**
    * 问题列表（翻页
-   * @param curPage
-   * @return
    */
   @Override
-  public List<Question> listQuestionByPage(Integer curPage){
+  public List<Question> listQuestionByPage(Integer curPage) {
     // 当请求没有请求页信息，则默认为第一页
     curPage = curPage == null ? 1 : curPage;
     // 每页条数
@@ -153,12 +151,55 @@ public class QuestionServiceIml implements QuestionService {
 
         for (Question question : questionList) {
 //          question.setAnswerCount(answerDao);
-          question.setFollowedCount(Integer.parseInt(jedis.zcard(question.getQuestionId() + RedisKey.FOLLOWED_QUESTION)+""));
+          question.setFollowedCount(Integer
+              .parseInt(jedis.zcard(question.getQuestionId() + RedisKey.FOLLOWED_QUESTION) + ""));
         }
       }
     }
 
     return questionList;
+  }
+
+  /**
+   * 判断某人是否关注某问题
+   */
+  @Override
+  public boolean judgePeopleFollowQuestion(Integer userId, Integer questionId) {
+    Long rank = null;
+    try (Jedis jedis = jedisPool.getResource()) {
+      rank = jedis.zrank(userId + RedisKey.FOLLOW_QUESTION, String.valueOf(questionId));
+    }
+    return rank == null ? false : true;
+  }
+
+  /**
+   * 关注问题
+   */
+  @Override
+  public boolean followQuestion(Integer userId, Integer questionId) {
+    boolean status = false;
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.zadd(userId + RedisKey.FOLLOW_QUESTION, System.currentTimeMillis(),
+          String.valueOf(questionId));
+      jedis.zadd(questionId + RedisKey.FOLLOWED_QUESTION, System.currentTimeMillis(),
+          String.valueOf(userId));
+      status = true;
+    }
+    return status;
+  }
+
+  /**
+   * 取消关注问题
+   */
+  @Override
+  public boolean unfollowQuestion(Integer userId, Integer questionId) {
+    boolean status = false;
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.zrem(userId + RedisKey.FOLLOW_QUESTION, String.valueOf(questionId));
+      jedis.zrem(questionId + RedisKey.FOLLOWED_QUESTION, String.valueOf(userId));
+      status = true;
+    }
+    return status;
   }
 
 }
