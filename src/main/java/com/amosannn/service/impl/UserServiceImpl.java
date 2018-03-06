@@ -6,8 +6,11 @@ import com.amosannn.model.User;
 import com.amosannn.service.UserService;
 import com.amosannn.util.MyUtil;
 import com.amosannn.util.RedisKey;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.Cookie;
@@ -213,6 +216,7 @@ public class UserServiceImpl implements UserService {
     if (userId.equals(localUserId)) {
       map.put("isSelf", true);
     } else {
+      // todo 访客访问量 + 1
       map.put("isSelf", false);
     }
 
@@ -271,6 +275,44 @@ public class UserServiceImpl implements UserService {
     }
 //    jedisPool.close();
     return true;
+  }
+
+  /**
+   * 正在关注的用户列表
+   * @param userId
+   * @return
+   */
+  @Override
+  public List<User> listFollowingUser(Integer userId) {
+    List<User> userList = new ArrayList<User>(;
+    try (Jedis jedis = jedisPool.getResource()) {
+      // 获取所关注用户的信息
+      Set<String> idSet = jedis.zrange(userId + RedisKey.FOLLOW_USER, 0, -1);
+      List<Integer> idList = MyUtil.StringSetToIntegerList(idSet);
+      if (idList.size() > 0) {
+        userList = userDao.listUserInfoByUserId(idList);
+      }
+    }
+    return userList;
+  }
+
+  /**
+   * 粉丝列表
+   * @param userId
+   * @return
+   */
+  @Override
+  public List<User> listFollowedUser(Integer userId) {
+    List<User> userList = new ArrayList<User>(;
+    try (Jedis jedis = jedisPool.getResource()) {
+      // 获取粉丝的信息
+      Set<String> idSet = jedis.zrange(userId + RedisKey.FOLLOWED_USER, 0, -1);
+      List<Integer> idList = MyUtil.StringSetToIntegerList(idSet);
+      if (idList.size() > 0) {
+        userList = userDao.listUserInfoByUserId(idList);
+      }
+    }
+    return userList;
   }
 
 

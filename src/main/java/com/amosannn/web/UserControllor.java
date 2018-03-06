@@ -1,8 +1,12 @@
 package com.amosannn.web;
 
+import com.amosannn.model.Question;
+import com.amosannn.model.User;
+import com.amosannn.service.QuestionService;
 import com.amosannn.service.UserService;
 import com.amosannn.util.ResponseResult;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +23,8 @@ public class UserControllor {
 
   @Autowired
   private UserService userService;
+  @Autowired
+  private QuestionService questionService;
 
   @RequestMapping("/register")
   public ResponseResult<Map<String, String>> register(@RequestBody Map<String, String> reqMap) {
@@ -63,13 +69,28 @@ public class UserControllor {
   @RequestMapping("/profile/{userId}")
   public ResponseResult<Map<String, Object>> profile(@PathVariable Integer userId, Integer page,
       HttpServletRequest request) {
-    Map<String, Object> map = new HashMap<>();
+    Map<String, Object> profileMap = new HashMap<>();
     Integer localUserId = userService.getUserIdFromRedis(request);
-    map = userService.profile(userId, localUserId);
+    // 获取用户信息
+    profileMap = userService.profile(userId, localUserId);
 
     // todo listAnswerByUserId
 
-    return ResponseResult.createSuccessResult("请求成功!", map);
+    return ResponseResult.createSuccessResult("请求成功!", profileMap);
+  }
+
+  @RequestMapping("/profileQuestion/{userId}")
+  public ResponseResult<Map<String, Object>> profileQuestion(@PathVariable Integer userId,
+      Integer curPage, HttpServletRequest request) {
+    Integer localUserId = userService.getUserIdFromRedis(request);
+    // 获取用户信息
+    Map<String, Object> profileMap = userService.profile(userId, localUserId);
+    // 获取提问列表
+    List<Question> questionList = questionService.listQuestionByUserId(userId, curPage);
+    // 装载提问列表
+    profileMap.put("questionList", questionList);
+
+    return ResponseResult.createSuccessResult("用户主页提问模块装载成功！", profileMap);
   }
 
   @RequestMapping("/judgePeopleFollowUser")
@@ -102,4 +123,33 @@ public class UserControllor {
     }
     return ResponseResult.createSuccessResult("取关成功!", String.valueOf(status));
   }
+
+  @RequestMapping("/profileFollowPeople/{userId}")
+  public ResponseResult<Map<String, Object>> profileFollowPeople(@PathVariable Integer userId,
+      HttpServletRequest request) {
+    // 获取用户信息
+    Integer localUserId = userService.getUserIdFromRedis(request);
+    // 获取关注者列表
+    Map<String, Object> profileMap = userService.profile(userId, localUserId);
+    List<User> followingUserList = userService.listFollowingUser(userId);
+    profileMap.put("followingUserList", followingUserList);
+
+    return ResponseResult.createSuccessResult("获取关注列表成功！", profileMap);
+  }
+
+  @RequestMapping("/profileFollowedPeople/{userId}")
+  public ResponseResult<Map<String, Object>> profileFollowedPeople(@PathVariable Integer userId,
+      HttpServletRequest request) {
+    // 获取用户信息
+    Integer localUserId = userService.getUserIdFromRedis(request);
+    // 获取粉丝列表
+    Map<String, Object> profileMap = userService.profile(userId, localUserId);
+    List<User> followedUserList = userService.listFollowedUser(userId);
+    profileMap.put("followingUserList", followedUserList);
+
+    return ResponseResult.createSuccessResult("获取粉丝列表成功！", profileMap);
+  }
+
+  
+
 }

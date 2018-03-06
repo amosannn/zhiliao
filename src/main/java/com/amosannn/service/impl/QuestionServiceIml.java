@@ -78,7 +78,7 @@ public class QuestionServiceIml implements QuestionService {
   }
 
   @Override
-  public Map<String, Object> questionDetail(Integer questionId, Integer userId) {
+  public Map<String, Object> getQuestionDetail(Integer questionId, Integer userId) {
     Map<String, Object> map = new HashMap<>();
     // 获取问题信息
     Question question = questionDao.selectQuestionByQuestionId(questionId);

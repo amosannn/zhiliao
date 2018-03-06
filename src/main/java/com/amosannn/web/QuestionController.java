@@ -44,7 +44,7 @@ public class QuestionController {
   public ResponseResult<Map<String, Object>> questionDetail(@PathVariable Integer questionId,
       HttpServletRequest request) {
     Integer userId = userService.getUserIdFromRedis(request);
-    Map<String, Object> questionDetail = questionService.questionDetail(questionId, userId);
+    Map<String, Object> questionDetail = questionService.getQuestionDetail(questionId, userId);
 
     // todo 收藏夹信息
 

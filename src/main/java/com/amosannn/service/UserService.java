@@ -1,6 +1,7 @@
 package com.amosannn.service;
 
 import com.amosannn.model.User;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,4 +25,8 @@ public interface UserService {
   boolean followUser(Integer localUserId, Integer userId);
 
   boolean unfollowUser(Integer localUserId, Integer userId);
+
+  List<User> listFollowingUser(Integer userId);
+
+  List<User> listFollowedUser(Integer userId);
 }
