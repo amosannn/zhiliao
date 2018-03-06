@@ -11,7 +11,7 @@ public interface TopicService {
 
   Map<String, List<Topic>> listAllTopic();
 
-  Map<String, Topic> topicDetail(Integer topicId);
+  Map<String, Object> topicDetail(Integer topicId, Integer curPage, Boolean allQuestion, Integer userId);
 
   Map<String, List<Topic>> listTopicByParentId(Integer topicId);
 
@@ -20,4 +20,6 @@ public interface TopicService {
   boolean followTopic(Integer userId, Integer topicId);
 
   boolean unfollowTopic(Integer userId, Integer topicId);
+
+  boolean judgePeopleFollowTopic(Integer userId, Integer topicId);
 }

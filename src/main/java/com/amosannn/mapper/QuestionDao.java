@@ -38,4 +38,10 @@ public interface QuestionDao {
 
   @Select({"select ", " question_id,question_title,create_time from ", TABLE_NAME, " where user_id = #{userId} limit #{offset},#{limit} "})
   List<Question> listQuestionByUserId(Map map);
+
+  @Select("select count(*) from question_topic where topic_id = #{topicId}")
+  Integer selectQuestionCountByTopicId(Integer topicId);
+
+  @Select("select question_id from question_topic where topic_id = #{topicId} order by qt_id desc limit #{offset},#{limit}")
+  List<Integer> listQuestionIdByTopicId(Map<String, Integer> map);
 }

@@ -36,9 +36,13 @@ public class TopicController {
   }
 
   @RequestMapping(value = "/topic/topicDetail", method = RequestMethod.POST)
-  public ResponseResult<Map<String, Topic>> topicDetail(@RequestBody Map<String, Integer> map) {
-    Integer topicId = map.get("topicId");
-    return ResponseResult.createSuccessResult("请求成功", topicService.topicDetail(topicId));
+  public ResponseResult<Map<String, Object>> topicDetail(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+    Integer userId = userService.getUserIdFromRedis(request);
+
+    Integer topicId = Integer.parseInt(map.get("topicId")+"");
+    Integer curPage = Integer.parseInt(map.get("curPage")+"");
+    Boolean allQuestion = Boolean.parseBoolean(map.get("allQuestion")+"");// todo 需测试是否"false"可以转换成false
+    return ResponseResult.createSuccessResult("请求成功", topicService.topicDetail(topicId, curPage, allQuestion, userId));
   }
 
   /**
@@ -70,7 +74,7 @@ public class TopicController {
   }
 
   /**
-   * 关注话题
+   * 取关话题
    * @param topicId
    * @param request
    * @return
@@ -85,5 +89,22 @@ public class TopicController {
     return ResponseResult.createFailResult("取关失败！", status);
   }
 
+  /**
+   * 判断用户是否关注过某话题
+   * @param topicId
+   * @param request
+   * @return
+   */
+  @RequestMapping("/judgePeopleFollowTopic")
+  public ResponseResult<Boolean> judgePeopleFollowTopic(Integer topicId, HttpServletRequest request) {
+    // 获取用户信息
+    Integer userId = userService.getUserIdFromRedis(request);
+    // 判断用户是否关注过该话题
+    boolean status = topicService.judgePeopleFollowTopic(userId, topicId);
+    if (status) {
+      return ResponseResult.createSuccessResult("已关注过该话题！", status);
+    }
+    return ResponseResult.createFailResult("未关注过该话题！", status);
+  }
 
 }

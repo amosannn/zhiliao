@@ -58,4 +58,9 @@ public interface TopicDao {
   // 更新话题关注者数量
   @Update({"update ", TABLE_NAME, " set followed_count = followed_count #{num} where topic_id = #{topicId} ",})
   void updateFollowedCount(Integer topicId, String num);
+
+  // 获取该话题下的问题列表
+  @Select("select question_id from question_topic where topic_id = #{topicId}")
+  List<Integer> selectQuestionIdByTopicId(Integer topicId);
+
 }
