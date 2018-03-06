@@ -7,10 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89a58e9a-1fe0-4cad-bbd7-382e3919ff10" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amosannn/mapper/TopicDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/amosannn/mapper/TopicDao.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amosannn/service/TopicService.java" afterPath="$PROJECT_DIR$/src/main/java/com/amosannn/service/TopicService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/TopicServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/TopicServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/UserServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/UserServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amosannn/web/UserControllor.java" afterPath="$PROJECT_DIR$/src/main/java/com/amosannn/web/UserControllor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amosannn/web/TopicController.java" afterPath="$PROJECT_DIR$/src/main/java/com/amosannn/web/TopicController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -31,8 +32,8 @@
       <file leaf-file-name="UserControllor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/web/UserControllor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="178" column="3" lean-forward="true" selection-start-line="178" selection-start-column="3" selection-end-line="178" selection-end-column="3" />
+            <state relative-caret-position="72">
+              <caret line="113" column="43" lean-forward="false" selection-start-line="113" selection-start-column="33" selection-end-line="113" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -41,8 +42,28 @@
       <file leaf-file-name="TopicController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/web/TopicController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="39" column="81" lean-forward="false" selection-start-line="39" selection-start-column="74" selection-end-line="39" selection-end-column="81" />
+            <state relative-caret-position="414">
+              <caret line="72" column="9" lean-forward="false" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TopicServiceImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/TopicServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="490">
+              <caret line="97" column="5" lean-forward="true" selection-start-line="97" selection-start-column="5" selection-end-line="97" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TopicDao.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/mapper/TopicDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="468">
+              <caret line="57" column="9" lean-forward="false" selection-start-line="57" selection-start-column="9" selection-end-line="57" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -51,8 +72,8 @@
       <file leaf-file-name="UserServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/UserServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="47">
-              <caret line="287" column="14" lean-forward="true" selection-start-line="287" selection-start-column="14" selection-end-line="287" selection-end-column="14" />
+            <state relative-caret-position="201">
+              <caret line="251" column="27" lean-forward="false" selection-start-line="251" selection-start-column="17" selection-end-line="251" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#8601#8607#0" expanded="true" />
@@ -75,8 +96,8 @@
       <file leaf-file-name="QuestionController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/web/QuestionController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-298">
-              <caret line="43" column="50" lean-forward="true" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
+            <state relative-caret-position="332">
+              <caret line="85" column="59" lean-forward="true" selection-start-line="82" selection-start-column="4" selection-end-line="85" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -99,16 +120,14 @@
       <file leaf-file-name="QuestionServiceIml.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="238" column="72" lean-forward="true" selection-start-line="238" selection-start-column="72" selection-end-line="238" selection-end-column="72" />
+            <state relative-caret-position="346">
+              <caret line="195" column="70" lean-forward="true" selection-start-line="195" selection-start-column="70" selection-end-line="195" selection-end-column="70" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#ask#0;class#QuestionServiceIml#0" expanded="false" />
                 <element signature="method#getQuestionDetail#0;class#QuestionServiceIml#0" expanded="false" />
                 <element signature="method#listQuestionByPage#0;class#QuestionServiceIml#0" expanded="false" />
                 <element signature="method#judgePeopleFollowQuestion#0;class#QuestionServiceIml#0" expanded="false" />
-                <element signature="method#followQuestion#0;class#QuestionServiceIml#0" expanded="false" />
-                <element signature="method#unfollowQuestion#0;class#QuestionServiceIml#0" expanded="false" />
                 <element signature="method#listFollowingQuestion#0;class#QuestionServiceIml#0" expanded="false" />
                 <element signature="e#6494#6504#0" expanded="true" />
               </folding>
@@ -126,18 +145,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QuestionDao.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/mapper/QuestionDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="39" column="37" lean-forward="false" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -150,11 +157,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Collection</find>
-      <find>myb</find>
-      <find>resource</find>
-      <find>json</find>
-      <find>annotation-driven</find>
       <find>:annotation-driven</find>
       <find>dao</find>
       <find>log</find>
@@ -180,6 +182,11 @@
       <find>listFollowingUser</find>
       <find>profileFollowQuestion</find>
       <find>judgePeopleFollowUser</find>
+      <find>listFollowingTopic</find>
+      <find>followUser</find>
+      <find>关注</find>
+      <find>count</find>
+      <find>listTopicByParentId</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -221,7 +228,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/interceptor/CorsInterceptor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/configuration/InterceptorConfiguration.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mybatis/mapper/TopicDao-Mapper.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/amosannn/web/TopicController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/util/MyUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/util/ResponseResult.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/model/User.java" />
@@ -229,7 +235,6 @@
         <option value="$PROJECT_DIR$/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/configuration/RedisCacheConfiguration.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/model/QuestionComment.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/amosannn/mapper/TopicDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/model/Question.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/util/RedisKey.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/mapper/UserDao.java" />
@@ -241,10 +246,12 @@
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/mapper/QuestionDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/service/UserService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/TopicServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/amosannn/service/TopicService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/web/UserControllor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/UserServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/amosannn/service/TopicService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/TopicServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/amosannn/mapper/TopicDao.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/amosannn/web/TopicController.java" />
       </list>
     </option>
   </component>
@@ -992,12 +999,12 @@
       <workItem from="1514988516970" duration="23866000" />
       <workItem from="1515054876120" duration="3843000" />
       <workItem from="1516282880559" duration="107502000" />
-      <workItem from="1518172208143" duration="30473000" />
+      <workItem from="1518172208143" duration="32311000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="236855000" />
+    <option name="totallyTimeSpent" value="238693000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="32" y="23" width="1248" height="777" extended-state="6" />
@@ -1167,6 +1174,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="55" lean-forward="false" selection-start-line="14" selection-start-column="55" selection-end-line="14" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1333,14 +1343,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/mapper/TopicDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="54" column="33" lean-forward="false" selection-start-line="54" selection-start-column="28" selection-end-line="54" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/mapper/UserSqlProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="82">
@@ -1393,24 +1395,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="238" column="72" lean-forward="true" selection-start-line="238" selection-start-column="72" selection-end-line="238" selection-end-column="72" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#ask#0;class#QuestionServiceIml#0" expanded="false" />
-            <element signature="method#getQuestionDetail#0;class#QuestionServiceIml#0" expanded="false" />
-            <element signature="method#listQuestionByPage#0;class#QuestionServiceIml#0" expanded="false" />
-            <element signature="method#judgePeopleFollowQuestion#0;class#QuestionServiceIml#0" expanded="false" />
-            <element signature="method#followQuestion#0;class#QuestionServiceIml#0" expanded="false" />
-            <element signature="method#unfollowQuestion#0;class#QuestionServiceIml#0" expanded="false" />
-            <element signature="method#listFollowingQuestion#0;class#QuestionServiceIml#0" expanded="false" />
-            <element signature="e#6494#6504#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/util/ResponseResult.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
@@ -1419,18 +1403,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/TopicServiceImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/web/UserControllor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="59" column="20" lean-forward="false" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
+        <state relative-caret-position="72">
+          <caret line="113" column="43" lean-forward="false" selection-start-line="113" selection-start-column="33" selection-end-line="113" selection-end-column="43" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/QuestionService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/QuestionServiceIml.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="195" column="70" lean-forward="true" selection-start-line="195" selection-start-column="70" selection-end-line="195" selection-end-column="70" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#ask#0;class#QuestionServiceIml#0" expanded="false" />
+            <element signature="method#getQuestionDetail#0;class#QuestionServiceIml#0" expanded="false" />
+            <element signature="method#listQuestionByPage#0;class#QuestionServiceIml#0" expanded="false" />
+            <element signature="method#judgePeopleFollowQuestion#0;class#QuestionServiceIml#0" expanded="false" />
+            <element signature="method#listFollowingQuestion#0;class#QuestionServiceIml#0" expanded="false" />
+            <element signature="e#6494#6504#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/UserServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="251" column="27" lean-forward="false" selection-start-line="251" selection-start-column="17" selection-end-line="251" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8601#8607#0" expanded="true" />
+            <element signature="e#9114#9120#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/TopicService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="17" column="13" lean-forward="true" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        <state relative-caret-position="270">
+          <caret line="21" column="3" lean-forward="false" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/mapper/TopicDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="57" column="9" lean-forward="false" selection-start-line="57" selection-start-column="9" selection-end-line="57" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/TopicServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="490">
+          <caret line="97" column="5" lean-forward="true" selection-start-line="97" selection-start-column="5" selection-end-line="97" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -1445,48 +1483,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/web/QuestionController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-298">
-          <caret line="43" column="50" lean-forward="true" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
+        <state relative-caret-position="332">
+          <caret line="85" column="59" lean-forward="true" selection-start-line="82" selection-start-column="4" selection-end-line="85" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/QuestionService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/service/impl/UserServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47">
-          <caret line="287" column="14" lean-forward="true" selection-start-line="287" selection-start-column="14" selection-end-line="287" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8601#8607#0" expanded="true" />
-            <element signature="e#9114#9120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/web/UserControllor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="178" column="3" lean-forward="true" selection-start-line="178" selection-start-column="3" selection-end-line="178" selection-end-column="3" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/amosannn/web/TopicController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="39" column="81" lean-forward="false" selection-start-line="39" selection-start-column="74" selection-end-line="39" selection-end-column="81" />
+        <state relative-caret-position="414">
+          <caret line="72" column="9" lean-forward="false" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
           <folding />
         </state>
       </provider>

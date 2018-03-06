@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface TopicDao {
@@ -53,4 +54,8 @@ public interface TopicDao {
   @Insert({"insert into ", TABLE_NAME, " (topic_name,parent_topic_id,topic_desc) values(#{topicName},#{parentTopicId},'暂无描述')"})
   @Options(useGeneratedKeys = true, keyProperty = "topic.topicId")
   Integer insertTopic(Topic topic);
+
+  // 更新话题关注者数量
+  @Update({"update ", TABLE_NAME, " set followed_count = followed_count #{num} where topic_id = #{topicId} ",})
+  void updateFollowedCount(Integer topicId, String num);
 }
