@@ -284,7 +284,7 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public List<User> listFollowingUser(Integer userId) {
-    List<User> userList = new ArrayList<User>(;
+    List<User> userList = new ArrayList<User>();
     try (Jedis jedis = jedisPool.getResource()) {
       // 获取所关注用户的信息
       Set<String> idSet = jedis.zrange(userId + RedisKey.FOLLOW_USER, 0, -1);
@@ -303,7 +303,7 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public List<User> listFollowedUser(Integer userId) {
-    List<User> userList = new ArrayList<User>(;
+    List<User> userList = new ArrayList<User>();
     try (Jedis jedis = jedisPool.getResource()) {
       // 获取粉丝的信息
       Set<String> idSet = jedis.zrange(userId + RedisKey.FOLLOWED_USER, 0, -1);

@@ -57,13 +57,11 @@ public class TopicServiceImpl implements TopicService {
   }
 
   @Override
-  public Map<String, List<Topic>> listFollowingTopic(Integer userId) {
+  public List<Topic> listFollowingTopic(Integer userId) {
     Jedis jedis = jedisPool.getResource();
     Set<String> idSet = jedis.zrange(userId + RedisKey.FOLLOW_TOPIC, 0, -1);
     List<Integer> idList = MyUtil.StringSetToIntegerList(idSet);
     List<Topic> topics = dao.listFollowingTopic(idList);
-    Map<String, List<Topic>> map = new HashMap<>();
-    map.put("followingTopic", topics);
-    return map;
+    return topics;
   }
 }

@@ -1,8 +1,10 @@
 package com.amosannn.web;
 
 import com.amosannn.model.Question;
+import com.amosannn.model.Topic;
 import com.amosannn.model.User;
 import com.amosannn.service.QuestionService;
+import com.amosannn.service.TopicService;
 import com.amosannn.service.UserService;
 import com.amosannn.util.ResponseResult;
 import java.util.HashMap;
@@ -23,6 +25,8 @@ public class UserControllor {
 
   @Autowired
   private UserService userService;
+  @Autowired
+  private TopicService topicService;
   @Autowired
   private QuestionService questionService;
 
@@ -127,10 +131,10 @@ public class UserControllor {
   @RequestMapping("/profileFollowPeople/{userId}")
   public ResponseResult<Map<String, Object>> profileFollowPeople(@PathVariable Integer userId,
       HttpServletRequest request) {
-    // 获取用户信息
     Integer localUserId = userService.getUserIdFromRedis(request);
-    // 获取关注者列表
+    // 获取用户信息
     Map<String, Object> profileMap = userService.profile(userId, localUserId);
+    // 获取关注者列表
     List<User> followingUserList = userService.listFollowingUser(userId);
     profileMap.put("followingUserList", followingUserList);
 
@@ -140,16 +144,37 @@ public class UserControllor {
   @RequestMapping("/profileFollowedPeople/{userId}")
   public ResponseResult<Map<String, Object>> profileFollowedPeople(@PathVariable Integer userId,
       HttpServletRequest request) {
-    // 获取用户信息
     Integer localUserId = userService.getUserIdFromRedis(request);
-    // 获取粉丝列表
+    // 获取用户信息
     Map<String, Object> profileMap = userService.profile(userId, localUserId);
+    // 获取粉丝列表
     List<User> followedUserList = userService.listFollowedUser(userId);
     profileMap.put("followingUserList", followedUserList);
 
     return ResponseResult.createSuccessResult("获取粉丝列表成功！", profileMap);
   }
 
-  
+  @RequestMapping("/profileFollowQuestion/{userId}")
+  public ResponseResult<Map<String, Object>> profileFollowQuestion(@PathVariable Integer userId,
+      HttpServletRequest request) {
+    Integer localUserId = userService.getUserIdFromRedis(request);
+    // 获取用户信息
+    Map<String, Object> profileMap = userService.profile(userId, localUserId);
+    // 获取问题列表
+    List<Question> questionList = questionService.listFollowingQuestion(userId);
+    profileMap.put("questionList", questionList);
+    return ResponseResult.createSuccessResult("获取提问列表成功！", profileMap);
+  }
 
+  @RequestMapping("/profileFollowTopic/{userId}")
+  public ResponseResult<Map<String, Object>> profileFollowTopic(@PathVariable Integer userId,
+      HttpServletRequest request) {
+    Integer localUserId = userService.getUserIdFromRedis(request);
+    // 获取用户信息
+    Map<String, Object> profileMap = userService.profile(userId, localUserId);
+    // 获取问题列表
+    List<Topic> topicList = topicService.listFollowingTopic(userId);
+    profileMap.put("questionList", topicList);
+    return ResponseResult.createSuccessResult("获取提问列表成功！", profileMap);
+  }
 }
