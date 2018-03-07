@@ -63,4 +63,6 @@ public interface TopicDao {
   @Select("select question_id from question_topic where topic_id = #{topicId}")
   List<Integer> selectQuestionIdByTopicId(Integer topicId);
 
+  @Select({"select * from ", TABLE_NAME, " where topic_name REGEXP #{topicName} "})
+  List<Topic> listTopicByTopicName(@Param("topicName") String topicName);
 }

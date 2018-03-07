@@ -22,4 +22,6 @@ public interface TopicService {
   boolean unfollowTopic(Integer userId, Integer topicId);
 
   boolean judgePeopleFollowTopic(Integer userId, Integer topicId);
+
+  List<Topic> listTopicByTopicName(String topicName);
 }

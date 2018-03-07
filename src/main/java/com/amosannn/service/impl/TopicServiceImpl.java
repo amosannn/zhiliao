@@ -84,6 +84,14 @@ public class TopicServiceImpl implements TopicService {
     return map;
   }
 
+  @Override
+  public List<Topic> listTopicByTopicName(String topicName) {
+    List<Topic> map = new ArrayList<>();
+    List<Topic> topicList = topicDao.listTopicByTopicName(topicName);
+    return topicList;
+  }
+
+
   /**
    * 获取正在关注的话题列表
    * @param userId
@@ -185,5 +193,6 @@ public class TopicServiceImpl implements TopicService {
 
     return questionList;
   }
+
 
 }

@@ -56,6 +56,11 @@ public class UserControllor {
     return ResponseResult.createSuccessResult("登录成功!", resMap);
   }
 
+  /**
+   * 激活账号
+   * @param map
+   * @return
+   */
   @RequestMapping("/activate")
   public ResponseResult<Map<String, String>> activate(@RequestBody Map<String, String> map) {
     String activationCode = map.get("code");
@@ -70,9 +75,17 @@ public class UserControllor {
     return ResponseResult.createSuccessResult("账户已登出!", null);
   }
 
+  /**
+   * 我的主页
+   * @param userId
+   * @param map
+   * @param request
+   * @return
+   */
   @RequestMapping("/profile/{userId}")
-  public ResponseResult<Map<String, Object>> profile(@PathVariable Integer userId, Integer page,
+  public ResponseResult<Map<String, Object>> profile(@PathVariable Integer userId, @RequestBody Map<String, Object> map,
       HttpServletRequest request) {
+    Integer page = Integer.parseInt(map.get("page") + "");
     Map<String, Object> profileMap = new HashMap<>();
     Integer localUserId = userService.getUserIdFromRedis(request);
     // 获取用户信息
@@ -83,10 +96,18 @@ public class UserControllor {
     return ResponseResult.createSuccessResult("请求成功!", profileMap);
   }
 
+  /**
+   * 我的主页（我的提问页
+   * @param userId
+   * @param map
+   * @param request
+   * @return
+   */
   @RequestMapping("/profileQuestion/{userId}")
   public ResponseResult<Map<String, Object>> profileQuestion(@PathVariable Integer userId,
-      Integer curPage, HttpServletRequest request) {
-    Integer localUserId = userService.getUserIdFromRedis(request);
+      @RequestBody Map<String, Object> map, HttpServletRequest request) {
+    Integer curPage = Integer.parseInt(map.get("curPage") + "");
+        Integer localUserId = userService.getUserIdFromRedis(request);
     // 获取用户信息
     Map<String, Object> profileMap = userService.profile(userId, localUserId);
     // 获取提问列表
@@ -97,9 +118,16 @@ public class UserControllor {
     return ResponseResult.createSuccessResult("用户主页提问模块装载成功！", profileMap);
   }
 
+  /**
+   * 判断用户是否关注某用户
+   * @param map
+   * @param request
+   * @return
+   */
   @RequestMapping("/judgePeopleFollowUser")
-  public ResponseResult<String> judgePeopleFollowUser(Integer userId,
+  public ResponseResult<String> judgePeopleFollowUser(@RequestBody Map<String, Object> map,
       HttpServletRequest request) {
+    Integer userId = Integer.parseInt(map.get("userId") + "");
     Integer localUserId = userService.getUserIdFromRedis(request);
     boolean status = userService.judgePeopleFollowUser(localUserId, userId);
     if (!status) {
@@ -108,8 +136,15 @@ public class UserControllor {
     return ResponseResult.createSuccessResult("已关注该用户！", String.valueOf(status));
   }
 
+  /**
+   * 关注用户
+   * @param map
+   * @param request
+   * @return
+   */
   @RequestMapping("/follow")
-  public ResponseResult<String> followUser(Integer userId, HttpServletRequest request) {
+  public ResponseResult<String> followUser(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+    Integer userId = Integer.parseInt(map.get("userId") + "");
     Integer localUserId = userService.getUserIdFromRedis(request);
     boolean status = userService.followUser(localUserId, userId);
     if (!status) {
@@ -118,8 +153,15 @@ public class UserControllor {
     return ResponseResult.createSuccessResult("关注成功!", String.valueOf(status));
   }
 
+  /**
+   * 取消关注用户
+   * @param map
+   * @param request
+   * @return
+   */
   @RequestMapping("/unfollow")
-  public ResponseResult<String> unfollowUser(Integer userId, HttpServletRequest request) {
+  public ResponseResult<String> unfollowUser(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+    Integer userId = Integer.parseInt(map.get("userId") + "");
     Integer localUserId = userService.getUserIdFromRedis(request);
     boolean status = userService.unfollowUser(localUserId, userId);
     if (!status) {
@@ -128,6 +170,12 @@ public class UserControllor {
     return ResponseResult.createSuccessResult("取关成功!", String.valueOf(status));
   }
 
+  /**
+   * 用户主页（正在关注的用户页
+   * @param userId
+   * @param request
+   * @return
+   */
   @RequestMapping("/profileFollowPeople/{userId}")
   public ResponseResult<Map<String, Object>> profileFollowPeople(@PathVariable Integer userId,
       HttpServletRequest request) {
@@ -141,6 +189,12 @@ public class UserControllor {
     return ResponseResult.createSuccessResult("获取关注列表成功！", profileMap);
   }
 
+  /**
+   * 用户主页（粉丝页
+   * @param userId
+   * @param request
+   * @return
+   */
   @RequestMapping("/profileFollowedPeople/{userId}")
   public ResponseResult<Map<String, Object>> profileFollowedPeople(@PathVariable Integer userId,
       HttpServletRequest request) {
@@ -154,6 +208,12 @@ public class UserControllor {
     return ResponseResult.createSuccessResult("获取粉丝列表成功！", profileMap);
   }
 
+  /**
+   * 用户主页（正在关注的问题页
+   * @param userId
+   * @param request
+   * @return
+   */
   @RequestMapping("/profileFollowQuestion/{userId}")
   public ResponseResult<Map<String, Object>> profileFollowQuestion(@PathVariable Integer userId,
       HttpServletRequest request) {
@@ -166,6 +226,12 @@ public class UserControllor {
     return ResponseResult.createSuccessResult("获取提问列表成功！", profileMap);
   }
 
+  /**
+   * 用户主页（正在关注的话题页
+   * @param userId
+   * @param request
+   * @return
+   */
   @RequestMapping("/profileFollowTopic/{userId}")
   public ResponseResult<Map<String, Object>> profileFollowTopic(@PathVariable Integer userId,
       HttpServletRequest request) {

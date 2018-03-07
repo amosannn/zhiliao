@@ -27,6 +27,12 @@ public class QuestionController {
   @Autowired
   private ObjectMapper objectMapper;
 
+  /**
+   * 提问
+   * @param map
+   * @param request
+   * @return
+   */
   @RequestMapping("/ask")
   public ResponseResult<String> ask(@RequestBody Map<String, Object> map,
       HttpServletRequest request) {
@@ -40,6 +46,12 @@ public class QuestionController {
     return ResponseResult.createSuccessResult("提问发布成功！", "question id :" + questionId);
   }
 
+  /**
+   * 获取某问题详情
+   * @param questionId
+   * @param request
+   * @return
+   */
   @RequestMapping("question/{questionId}")
   public ResponseResult<Map<String, Object>> questionDetail(@PathVariable Integer questionId,
       HttpServletRequest request) {
@@ -56,6 +68,11 @@ public class QuestionController {
 //    return
 //  }
 
+  /**
+   * 获取问题列表（分页）
+   * @param map
+   * @return
+   */
   @RequestMapping("/listQuestionByPage")
   public ResponseResult<List<Question>> listQuestionByPage(@RequestBody Map<String, Object> map) {
     Integer curPage = Integer.parseInt(map.get("curPage") + "");
@@ -64,9 +81,16 @@ public class QuestionController {
     return ResponseResult.createSuccessResult("获取第" + curPage + "页问题列表成功", questionList);
   }
 
+  /**
+   * 判断用户是否关注过该问题
+   * @param map
+   * @param request
+   * @return
+   */
   @RequestMapping("/judgePeopleFollowQuestion")
-  public ResponseResult<Boolean> judgePeopleFollowQuestion(Integer questionId,
+  public ResponseResult<Boolean> judgePeopleFollowQuestion(@RequestBody Map<String, Object> map,
       HttpServletRequest request) {
+    Integer questionId = Integer.parseInt(map.get("questionId") + "");
     Integer userId = userService.getUserIdFromRedis(request);
     boolean status = questionService.judgePeopleFollowQuestion(userId, questionId);
     if (status) {
@@ -75,9 +99,16 @@ public class QuestionController {
     return ResponseResult.createFailResult("未关注该问题", status);
   }
 
+  /**
+   * 关注该问题
+   * @param map
+   * @param request
+   * @return
+   */
   @RequestMapping("/followQuestion")
-  public ResponseResult<Boolean> followQuestion(Integer questionId,
+  public ResponseResult<Boolean> followQuestion(@RequestBody Map<String, Object> map,
       HttpServletRequest request) {
+    Integer questionId = Integer.parseInt(map.get("questionId") + "");
     Integer userId = userService.getUserIdFromRedis(request);
     boolean status = questionService.followQuestion(userId, questionId);
     if (status) {
@@ -86,9 +117,16 @@ public class QuestionController {
     return ResponseResult.createFailResult("关注失败", status);
   }
 
+  /**
+   * 取消关注该问题
+   * @param map
+   * @param request
+   * @return
+   */
   @RequestMapping("/unfollowQuestion")
-  public ResponseResult<Boolean> unfollowQuestion(Integer questionId,
+  public ResponseResult<Boolean> unfollowQuestion(@RequestBody Map<String, Object> map,
       HttpServletRequest request) {
+    Integer questionId = Integer.parseInt(map.get("questionId") + "");
     Integer userId = userService.getUserIdFromRedis(request);
     boolean status = questionService.unfollowQuestion(userId, questionId);
     if (status) {
