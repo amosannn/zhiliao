@@ -25,7 +25,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 @Service
-public class QuestionServiceIml implements QuestionService {
+public class QuestionServiceImpl implements QuestionService {
 
   @Autowired
   private QuestionDao questionDao;

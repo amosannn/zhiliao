@@ -1,0 +1,36 @@
+/*
+    headers
+    "key":"Accept" "value":"application/json"
+    "key":"charset "value":"utf-8"
+    "key":"Content-Type "value":"application/json"
+*/
+[
+  // POST 登录 http://127.0.0.1:8080/zhiliao/login
+  {
+    "email": "aaa@qq.com",
+    "username": "aaa",
+    "password": "aaa"
+  },
+  // POST 获取问题页 http://127.0.0.1:8080/zhiliao/question/20
+  {
+    "question": {
+      "questionTitle": "为什么呢？",
+      "questionContent": "没为什么。"
+    },
+    "topicNames": "Java,C++"
+  },
+  // GET http://127.0.0.1:8080/zhiliao/topic/listFollowingTopic
+
+  // POST http://127.0.0.1:8080/zhiliao/listTopicByTopicName
+  {
+    "topicName": "python"
+  },
+  // POST 回答问题 http://127.0.0.1:8080/zhiliao/answer
+  {
+    "answer": {
+      "answerContent": "这是回答！",
+      "questionId": "1",
+      "userId": "11218"
+    }
+  }
+]
