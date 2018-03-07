@@ -25,5 +25,9 @@ public class RedisKey {
   // 某问题被浏览次数
   public static final String QUESTION_SCANED_COUNT = ":question_scaned_count";
 
+  // 某人点赞的回答们
+  public static final String LIKE_ANSWER = ":like_answer";
+  // 某回答被哪些人点赞
+  public static final String LIKED_ANSWER = ":liked_answer";
 
 }

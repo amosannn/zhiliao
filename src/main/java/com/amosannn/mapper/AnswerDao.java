@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface AnswerDao {
@@ -15,5 +16,7 @@ public interface AnswerDao {
   @Options(useGeneratedKeys = true, keyProperty = "answerId")
   Integer insertAnswer(Answer answer);
 
+  @Update({"update ", TABLE_NAME, " set liked_count = liked_count + #{addCount} where answer_id = #{answerId}"})
+  void updateLikedCount(@Param("answerId") Integer answerId, @Param("addCount") Integer addCount);
 
 }

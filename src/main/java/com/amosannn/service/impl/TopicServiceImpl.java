@@ -114,7 +114,7 @@ public class TopicServiceImpl implements TopicService {
       jedis.zadd(userId + RedisKey.FOLLOW_TOPIC, System.currentTimeMillis(), String.valueOf(topicId));
       jedis.zadd(topicId + RedisKey.FOLLOWED_TOPIC, System.currentTimeMillis(), String.valueOf(userId));
       // 话题被关注数 + 1
-      topicDao.updateFollowedCount(topicId, "+ 1");
+      topicDao.updateFollowedCount(topicId, 1);
       status = true;
     }
     return status;
@@ -129,7 +129,7 @@ public class TopicServiceImpl implements TopicService {
       jedis.zrem(userId + RedisKey.FOLLOW_TOPIC, String.valueOf(topicId));
       jedis.zrem(topicId + RedisKey.FOLLOWED_TOPIC, String.valueOf(userId));
       // 话题被关注数 - 1
-      topicDao.updateFollowedCount(topicId, "- 1");
+      topicDao.updateFollowedCount(topicId, -1);
       status = true;
     }
     return status;

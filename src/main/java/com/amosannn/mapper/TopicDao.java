@@ -56,8 +56,8 @@ public interface TopicDao {
   Integer insertTopic(Topic topic);
 
   // 更新话题关注者数量
-  @Update({"update ", TABLE_NAME, " set followed_count = followed_count #{num} where topic_id = #{topicId} ",})
-  void updateFollowedCount(Integer topicId, String num);
+  @Update({"update ", TABLE_NAME, " set followed_count = followed_count + #{addCount} where topic_id = #{topicId} ",})
+  void updateFollowedCount(@Param("topicId") Integer topicId, @Param("addCount") Integer addCount);
 
   // 获取该话题下的问题列表
   @Select("select question_id from question_topic where topic_id = #{topicId}")

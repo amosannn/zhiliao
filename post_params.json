@@ -32,5 +32,9 @@
       "questionId": "1",
       "userId": "11218"
     }
+  },
+  // POST 点赞回答 http://127.0.0.1:8080/zhiliao/likeAnswer unlikeAnswer
+  {
+    "answerId":"37"
   }
 ]
