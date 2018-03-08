@@ -70,5 +70,15 @@ public class AnswerController {
     return ResponseResult.createSuccessResult("取消点赞成功",true);
   }
 
+  /**
+   * 获取今天的热门回答
+   * @return
+   */
+  @RequestMapping("/listTodayHotAnswer")
+  public ResponseResult<Map<String, Object>> listTodayHotAnswer() {
+    Map<String, Object> map = answerService.listTodayHotAnswer();
+    return ResponseResult.createSuccessResult("获取今日热门回答成功！", map);
+  }
+
 }
 

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
 
-  private int userId;
+  private Integer userId;
   private String weiboUserId;
   private String email;
   private String username;
@@ -29,11 +29,11 @@ public class User {
   private Integer followQuestionCount;
   private Integer followCollectionCount;
 
-  public int getUserId() {
+  public Integer getUserId() {
     return userId;
   }
 
-  public void setUserId(int userId) {
+  public void setUserId(Integer userId) {
     this.userId = userId;
   }
 

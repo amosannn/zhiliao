@@ -6,7 +6,7 @@ public class Answer {
 
   private Integer answerId;
   private String answerContent;
-  private Integer likeCount;
+  private Integer likedCount;
   private Long createTime;
 
   private Integer userId;
@@ -35,12 +35,12 @@ public class Answer {
     this.answerContent = answerContent;
   }
 
-  public Integer getLikeCount() {
-    return likeCount;
+  public Integer getLikedCount() {
+    return likedCount;
   }
 
-  public void setLikeCount(Integer likeCount) {
-    this.likeCount = likeCount;
+  public void setLikedCount(Integer likedCount) {
+    this.likedCount = likedCount;
   }
 
   public Long getCreateTime() {

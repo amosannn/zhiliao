@@ -1,6 +1,7 @@
 package com.amosannn.service;
 
 import com.amosannn.model.Answer;
+import java.util.Map;
 
 public interface AnswerService {
 
@@ -9,4 +10,6 @@ public interface AnswerService {
   void likeAnswer(Integer answerId, Integer userId);
 
   void unlikeAnswer(Integer answerId, Integer userId);
+
+  Map<String, Object> listTodayHotAnswer();
 }
