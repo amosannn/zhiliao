@@ -80,5 +80,15 @@ public class AnswerController {
     return ResponseResult.createSuccessResult("获取今日热门回答成功！", map);
   }
 
+  /**
+   * 获取本月的热门回答
+   * @return
+   */
+  @RequestMapping("/listMonthHotAnswer")
+  public ResponseResult<Map<String, Object>> listMonthHotAnswer() {
+    Map<String, Object> map = answerService.listMonthHotAnswer();
+    return ResponseResult.createSuccessResult("获取本月热门回答成功！", map);
+  }
+
 }
 

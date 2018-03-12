@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
@@ -58,4 +59,8 @@ public interface AnswerDao {
   @Select("select user_id, username, avatar_url, simple_desc from user where user_id = #{userId}")
   @ResultType(User.class)
   User selectUserById(@Param("userId") Integer userId);
+
+  @SelectProvider(type = AnswerSqlProvider.class, method = "listAnswerByAnswerId")
+  List<Answer> listAnswerByAnswerId(List<Integer> idList);
+
 }

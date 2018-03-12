@@ -81,4 +81,17 @@ public class AnswerServiceImpl implements AnswerService{
     return map;
   }
 
+  @Override
+  public Map<String, Object> listMonthHotAnswer() {
+    Map<String, Object> map = new HashMap<>();
+    long period = 1000 * 60 * 60 * 24 * 30L;
+    long today = System.currentTimeMillis();
+    System.out.println("period:" + period);
+    System.out.println("today:" + today);
+    System.out.println("today - period:" + (today - period));
+    System.out.println(new Date(today - period));
+    List<Answer> answerList = answerDao.listAnswerByCreateTime(today - period);
+    map.put("answerList", answerList);
+    return map;
+  }
 }

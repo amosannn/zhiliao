@@ -142,7 +142,7 @@ public class UserController {
    * @param request
    * @return
    */
-  @RequestMapping("/follow")
+  @RequestMapping("/followUser")
   public ResponseResult<String> followUser(@RequestBody Map<String, Object> map, HttpServletRequest request) {
     Integer userId = Integer.parseInt(map.get("userId") + "");
     Integer localUserId = userService.getUserIdFromRedis(request);
@@ -159,7 +159,7 @@ public class UserController {
    * @param request
    * @return
    */
-  @RequestMapping("/unfollow")
+  @RequestMapping("/unfollowUser")
   public ResponseResult<String> unfollowUser(@RequestBody Map<String, Object> map, HttpServletRequest request) {
     Integer userId = Integer.parseInt(map.get("userId") + "");
     Integer localUserId = userService.getUserIdFromRedis(request);

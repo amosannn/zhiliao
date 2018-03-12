@@ -12,4 +12,6 @@ public interface AnswerService {
   void unlikeAnswer(Integer answerId, Integer userId);
 
   Map<String, Object> listTodayHotAnswer();
+
+  Map<String, Object> listMonthHotAnswer();
 }

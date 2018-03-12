@@ -2,6 +2,11 @@ package com.amosannn.util;
 
 public class RedisKey {
 
+  // 某收藏夹收藏了那些回答
+  public static final String COLLECT = ":collect";
+  // 某回答被哪些收藏夹收录
+  public static final String COLLECTED = ":collected";
+
   // 某人关注的人们
   public static final String FOLLOW_USER = ":follow_user";
   // 某人的粉丝们
