@@ -78,4 +78,28 @@ public class CollectionServiceImpl implements CollectionService {
     return map;
   }
 
+  // 关注收藏夹
+  @Override
+  public Boolean followCollection(Integer userId, Integer collectionId) {
+    boolean status = false;
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.zadd(userId + RedisKey.FOLLOW_COLLECTION, System.currentTimeMillis(), String.valueOf(collectionId));
+      jedis.zadd(collectionId + RedisKey.FOLLOWED_COLLECTION, System.currentTimeMillis(), String.valueOf(userId));
+      status = true;
+    }
+    return status;
+  }
+
+  // 取消关注收藏夹
+  @Override
+  public Boolean unfollowCollection(Integer userId, Integer collectionId) {
+    boolean status = false;
+    try (Jedis jedis = jedisPool.getResource()) {
+    jedis.zrem(userId + RedisKey.FOLLOW_COLLECTION, String.valueOf(collectionId));
+    jedis.zrem(collectionId + RedisKey.FOLLOWED_COLLECTION, String.valueOf(userId));
+    status = true;
+  }
+    return status;
+  }
+
 }

@@ -34,5 +34,25 @@ public class CollectionController {
     return ResponseResult.createSuccessResult("获取收藏夹详情成功", map);
   }
 
+  @RequestMapping("/followCollection")
+  public ResponseResult<Boolean> followCollection(Map<String, Object> map, HttpServletRequest request) {
+    Integer collectionId = Integer.parseInt(map.get("collectionId")+"");
+    Integer userId = userService.getUserIdFromRedis(request);
+    Boolean status = collectionService.followCollection(userId, collectionId);
+    if (status) {
+      return ResponseResult.createSuccessResult("关注成功", status);
+    }
+    return ResponseResult.createFailResult("关注失败", status);
+  }
 
+  @RequestMapping("/unfollowCollection")
+  public ResponseResult<Boolean> unfollowCollection(Map<String, Object> map, HttpServletRequest request) {
+    Integer collectionId = Integer.parseInt(map.get("collectionId")+"");
+    Integer userId = userService.getUserIdFromRedis(request);
+    Boolean status = collectionService.unfollowCollection(userId, collectionId);
+    if (status) {
+      return ResponseResult.createSuccessResult("取消关注成功", status);
+    }
+    return ResponseResult.createFailResult("取消关注失败", status);
+  }
 }

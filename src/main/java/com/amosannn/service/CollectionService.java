@@ -10,4 +10,8 @@ public interface CollectionService {
 
   List<Collection> listCreatingCollection(Integer userId);
 
+  Boolean followCollection(Integer userId, Integer collectionId);
+
+  Boolean unfollowCollection(Integer userId, Integer collectionId);
+
 }
