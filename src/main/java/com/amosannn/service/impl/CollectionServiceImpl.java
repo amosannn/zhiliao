@@ -2,6 +2,7 @@ package com.amosannn.service.impl;
 
 import com.amosannn.mapper.AnswerDao;
 import com.amosannn.mapper.CollectionDao;
+import com.amosannn.mapper.UserDao;
 import com.amosannn.model.Answer;
 import com.amosannn.model.Collection;
 import com.amosannn.service.CollectionService;
@@ -24,12 +25,24 @@ public class CollectionServiceImpl implements CollectionService {
   CollectionDao collectionDao;
   @Autowired
   AnswerDao answerDao;
+  @Autowired
+  UserDao userDao;
 
   @Autowired
   JedisPool jedisPool;
 
+  // 创建收藏夹
+  @Override
+  public Integer addCollection(Collection collection, Integer userId) {
+    collection.setUserId(userId);
+    collection.setCreateTime(System.currentTimeMillis());
+    collection.setUpdateTime(System.currentTimeMillis());
+    Integer collectionId = collectionDao.insertCollection(collection);
+    return collectionId;
+  }
+
   /**
-   * 列出自己创建的收藏夹
+   * 列出自己创建的收藏夹列表
    * @param userId
    * @return
    */
@@ -49,6 +62,12 @@ public class CollectionServiceImpl implements CollectionService {
     return collectionList;
   }
 
+  /**
+   * 获取收藏夹内容（收藏夹详情、回答）
+   * @param collectionId
+   * @param localUserId
+   * @return
+   */
   @Override
   public Map<String, Object> getCollectionContent(Integer collectionId, Integer localUserId) {
     Map<String, Object> map = new HashMap<>();
@@ -78,7 +97,31 @@ public class CollectionServiceImpl implements CollectionService {
     return map;
   }
 
-  // 关注收藏夹
+  /**
+   * 收藏回答
+   * @param collectionId
+   * @param answerId
+   * @return
+   */
+  @Override
+  public Boolean collectAnswer(Integer collectionId, Integer answerId) {
+    Boolean status = false;
+    // 更新用户回答被收藏数量
+    userDao.updateCollectedCountByAnswerId(answerId, 1);
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.zadd(collectionId + RedisKey.COLLECT, System.currentTimeMillis(), String.valueOf(answerId));
+      jedis.zadd(answerId + RedisKey.COLLECTED, System.currentTimeMillis(), String.valueOf(collectionId));
+      status = true;
+    }
+    return status;
+  }
+
+  /**
+   * 关注收藏夹
+   * @param userId
+   * @param collectionId
+   * @return
+   */
   @Override
   public Boolean followCollection(Integer userId, Integer collectionId) {
     boolean status = false;
@@ -90,7 +133,12 @@ public class CollectionServiceImpl implements CollectionService {
     return status;
   }
 
-  // 取消关注收藏夹
+  /**
+   * 取消关注收藏夹
+   * @param userId
+   * @param collectionId
+   * @return
+   */
   @Override
   public Boolean unfollowCollection(Integer userId, Integer collectionId) {
     boolean status = false;

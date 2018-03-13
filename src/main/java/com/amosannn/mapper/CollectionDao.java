@@ -3,8 +3,10 @@ package com.amosannn.mapper;
 import com.amosannn.model.Collection;
 import com.amosannn.model.User;
 import java.util.List;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -14,6 +16,10 @@ import org.apache.ibatis.annotations.Select;
 public interface CollectionDao {
 
   String SELECT_TABLE = " collection ";
+
+  @Insert({"insert into ", SELECT_TABLE, " (collection_name,create_time,update_time,user_id) values(#{collectionName},#{createTime},#{updateTime},#{userId})"})
+  @Options(useGeneratedKeys = true, keyProperty = "collection.collectionId")
+  Integer insertCollection(Collection collection);
 
   @Select({"select collection_id,collection_name,create_time,update_time,followed_count from ", SELECT_TABLE, " where user_id = #{userId}"})
   List<Collection> listCreatingCollectionByUserId(@Param("userId") Integer userId);
