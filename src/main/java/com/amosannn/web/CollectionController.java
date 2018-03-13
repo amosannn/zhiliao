@@ -76,16 +76,37 @@ public class CollectionController {
     return ResponseResult.createSuccessResult("获取我的收藏夹列表成功！",  map);
   }
 
-
+  /**
+   * 判断是否收藏了某回答
+   * @param map
+   * @return
+   */
   @RequestMapping("/collectionContainAnswer")
   public ResponseResult<Boolean> collectionContainAnswer(@RequestBody Map<String, Object> map) {
     Integer collectionId = Integer.parseInt(map.get("collectionId") + "");
     Integer answerId = Integer.parseInt(map.get("answerId") + "");
-    boolean status = collectionService.collectionContainAnswer(collectionId, answerId);
+    Boolean status = collectionService.collectionContainAnswer(collectionId, answerId);
     if (status) {
       return ResponseResult.createSuccessResult("收藏夹包含该问题！", status);
     }
     return ResponseResult.createFailResult("收藏夹不包含该问题！", status);
+  }
+
+  /**
+   * 判断某用户是否关注某收藏夹
+   * @param map
+   * @param request
+   * @return
+   */
+  @RequestMapping("/judgePeopleFollowCollection")
+  public ResponseResult<Boolean> judgePeopleFollowCollection(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+    Integer collectionId = Integer.parseInt(map.get("collectionId") + "");
+    Integer userId = userService.getUserIdFromRedis(request);
+    Boolean status = collectionService.judgePeopleFollowCollection(userId, collectionId);
+    if (status) {
+      return ResponseResult.createSuccessResult("该用户正在关注该收藏夹！", status);
+    }
+    return ResponseResult.createFailResult("该用户并未关注该收藏夹！", status);
   }
 
   /**

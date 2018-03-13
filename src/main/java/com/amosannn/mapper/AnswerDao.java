@@ -4,6 +4,7 @@ import com.amosannn.model.Answer;
 import com.amosannn.model.Question;
 import com.amosannn.model.User;
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
@@ -63,4 +64,9 @@ public interface AnswerDao {
   @SelectProvider(type = AnswerSqlProvider.class, method = "listAnswerByAnswerId")
   List<Answer> listAnswerByAnswerId(List<Integer> idList);
 
+  @Select("select count(*) from answer where user_id = #{userId}")
+  Integer selectAnswerCountByUserId(@Param("userId") Integer userId);
+
+  @SelectProvider(type = AnswerSqlProvider.class, method = "listAnswerByUserId")
+  List<Answer> listAnswerByUserId(Map<String, Object> map);
 }

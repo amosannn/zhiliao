@@ -115,6 +115,23 @@ public class CollectionServiceImpl implements CollectionService {
   }
 
   /**
+   * 判断用户是否关注某收藏夹
+   * @param userId
+   * @param collectionId
+   * @return
+   */
+  @Override
+  public Boolean judgePeopleFollowCollection(Integer userId, Integer collectionId) {
+    try (Jedis jedis = jedisPool.getResource()) {
+      Long rank = jedis.zrank(userId + RedisKey.FOLLOW_COLLECTION, String.valueOf(collectionId));
+      if (null == rank) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
    * 收藏回答
    * @param collectionId
    * @param answerId

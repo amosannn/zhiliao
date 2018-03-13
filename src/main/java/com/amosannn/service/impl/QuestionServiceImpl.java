@@ -246,7 +246,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     // 用户提问总数
     int allCount = questionDao.selectQuestionCountByUserId(userId);
-    //总页数
+    // 总页数
     int allPage = 0;
     if (allCount <= limit) {
       allPage = 1;
@@ -260,6 +260,8 @@ public class QuestionServiceImpl implements QuestionService {
     map.put("offset", offset);
     map.put("limit", offset + limit);
     map.put("userId", userId);
+
+    // 得到某页问题列表
     List<Question> questionList = questionDao.listQuestionByUserId(map);
 
     return questionList;

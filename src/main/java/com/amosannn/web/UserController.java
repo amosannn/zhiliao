@@ -1,8 +1,10 @@
 package com.amosannn.web;
 
+import com.amosannn.model.Answer;
 import com.amosannn.model.Question;
 import com.amosannn.model.Topic;
 import com.amosannn.model.User;
+import com.amosannn.service.AnswerService;
 import com.amosannn.service.QuestionService;
 import com.amosannn.service.TopicService;
 import com.amosannn.service.UserService;
@@ -29,6 +31,8 @@ public class UserController {
   private TopicService topicService;
   @Autowired
   private QuestionService questionService;
+  @Autowired
+  private AnswerService answerService;
 
   @RequestMapping("/register")
   public ResponseResult<Map<String, String>> register(@RequestBody Map<String, String> reqMap) {
@@ -91,7 +95,9 @@ public class UserController {
     // 获取用户信息
     profileMap = userService.profile(userId, localUserId);
 
-    // todo listAnswerByUserId
+    // 获取用户回答列表
+    List<Answer> answerList = answerService.listAnswerByUserId(userId, page);
+    profileMap.put("answerList", answerList);
 
     return ResponseResult.createSuccessResult("请求成功!", profileMap);
   }

@@ -14,6 +14,8 @@ public interface CollectionService {
 
   Boolean collectionContainAnswer(Integer collectionId, Integer answerId);
 
+  Boolean judgePeopleFollowCollection(Integer userId, Integer collectionId);
+
   Boolean collectAnswer(Integer collectionId, Integer answerId);
 
   Boolean uncollectAnswer(Integer collectionId, Integer answerId);

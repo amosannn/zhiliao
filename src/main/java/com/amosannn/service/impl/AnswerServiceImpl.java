@@ -35,6 +35,53 @@ public class AnswerServiceImpl implements AnswerService{
     return answerId;
   }
 
+  /**
+   * 某用户的回答列表（分页）
+   * @param userId
+   * @param curPage
+   * @return
+   */
+  @Override
+  public List<Answer> listAnswerByUserId(Integer userId, Integer curPage) {
+    // 请求页默认为0
+    curPage = curPage == null ? 1 : curPage;
+    // 每页回答数
+    int limit = 8;
+    // 问题数坐标
+    int offset = (curPage - 1) * limit;
+
+    // 用户回答总数
+    int allCount = answerDao.selectAnswerCountByUserId(userId);
+    // 总页数
+    int allPage = 0;
+    if (allCount <= limit) {
+      allPage = 1;
+    } else if (allCount / limit == 0) {
+      allPage = allCount / limit;
+    } else {
+      allPage = allCount / limit + 1;
+    }
+
+    // 构造查询map
+    Map<String, Object> map = new HashMap<>();
+    map.put("offset", offset);
+    map.put("limit", limit);
+    map.put("userId", userId);
+
+    // 得到某页回答列表
+    List<Answer> answerList = answerDao.listAnswerByUserId(map);
+
+    // 获取各个回答的被点赞数
+    try (Jedis jedis = jedisPool.getResource()) {
+      for (Answer answer : answerList) {
+        Long likedCount = jedis.zcard(answer.getAnswerId() + RedisKey.LIKED_ANSWER);
+        answer.setLikedCount(Integer.parseInt(likedCount + ""));
+      }
+    }
+
+    return answerList;
+  }
+
   @Override
   public void likeAnswer(Integer answerId, Integer userId) {
     // 更新答案点赞数
