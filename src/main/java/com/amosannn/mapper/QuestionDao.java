@@ -18,7 +18,7 @@ public interface QuestionDao {
   String SELECT_FIELDS = " question_title, question_content, topic_kv_list, followed_count, scaned_count, create_time, user_id ";
 
   @Insert({"insert into ", TABLE_NAME, " (question_title,question_content,topic_kv_list,create_time,user_id) values(#{question.questionTitle},#{question.questionContent},#{question.topicKvList},#{question.createTime},#{question.userId})"})
-  @Options(useGeneratedKeys = true, keyProperty = "question.questionId")
+  @Options(useGeneratedKeys = true, keyProperty = "questionId")
   Integer insertQuestion(@Param("question") Question question);
 
   @Insert("insert into question_topic(question_id,topic_id) values(#{questionId},#{topicId})")

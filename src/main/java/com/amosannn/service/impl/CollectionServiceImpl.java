@@ -37,7 +37,8 @@ public class CollectionServiceImpl implements CollectionService {
     collection.setUserId(userId);
     collection.setCreateTime(System.currentTimeMillis());
     collection.setUpdateTime(System.currentTimeMillis());
-    Integer collectionId = collectionDao.insertCollection(collection);
+    collectionDao.insertCollection(collection);
+    Integer collectionId = collection.getCollectionId();
     return collectionId;
   }
 

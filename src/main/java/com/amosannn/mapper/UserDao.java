@@ -42,4 +42,7 @@ public interface UserDao {
 
   @Update("update user set collected_count = collected_count + #{addCount} where user_id = (select user_id from answer where answer_id = #{answerId})")
   void updateCollectedCountByAnswerId(@Param("answerId") Integer answerId, @Param("addCount") Integer addCount);
+
+  @Select({"select user_id,username,avatar_url,simple_desc from ", TABLE_NAME, " where user_id = #{userId}"})
+  User selectUserInfoByUserId(@Param("userId") Integer userId);
 }

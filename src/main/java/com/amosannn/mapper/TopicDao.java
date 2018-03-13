@@ -52,7 +52,7 @@ public interface TopicDao {
 
   // 插入话题
   @Insert({"insert into ", TABLE_NAME, " (topic_name,parent_topic_id,topic_desc) values(#{topicName},#{parentTopicId},'暂无描述')"})
-  @Options(useGeneratedKeys = true, keyProperty = "topic.topicId")
+  @Options(useGeneratedKeys = true, keyProperty = "topicId")
   Integer insertTopic(Topic topic);
 
   // 更新话题关注者数量

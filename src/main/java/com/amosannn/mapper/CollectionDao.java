@@ -16,16 +16,17 @@ import org.apache.ibatis.annotations.SelectProvider;
 @Mapper
 public interface CollectionDao {
 
-  String SELECT_TABLE = " collection ";
+  String TABLE_NAME = " collection ";
 
-  @Insert({"insert into ", SELECT_TABLE, " (collection_name,create_time,update_time,user_id) values(#{collectionName},#{createTime},#{updateTime},#{userId})"})
-  @Options(useGeneratedKeys = true, keyProperty = "collection.collectionId")
+  @Insert({"insert into ", TABLE_NAME, " (collection_name,create_time,update_time,user_id) values(#{collectionName},#{createTime},#{updateTime},#{userId})"})
+  @Options(useGeneratedKeys = true, keyProperty = "collectionId")
   Integer insertCollection(Collection collection);
 
-  @Select({"select collection_id,collection_name,create_time,update_time,followed_count from ", SELECT_TABLE, " where user_id = #{userId}"})
+  @Select({"select collection_id,collection_name,create_time,update_time,followed_count from ",
+      TABLE_NAME, " where user_id = #{userId}"})
   List<Collection> listCreatingCollectionByUserId(@Param("userId") Integer userId);
 
-  @Select({"select user_id from ", SELECT_TABLE, " where collection_id = #{collectionId}"})
+  @Select({"select user_id from ", TABLE_NAME, " where collection_id = #{collectionId}"})
   Integer selectUserIdByCollectionId(@Param("collectionId") Integer collectionId);
 
   @Select("select collection_id, collection_name, create_time, update_time from collection where collection_id = #{collectionId}")
