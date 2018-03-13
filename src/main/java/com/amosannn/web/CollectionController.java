@@ -76,6 +76,18 @@ public class CollectionController {
     return ResponseResult.createSuccessResult("获取我的收藏夹列表成功！",  map);
   }
 
+
+  @RequestMapping("/collectionContainAnswer")
+  public ResponseResult<Boolean> collectionContainAnswer(@RequestBody Map<String, Object> map) {
+    Integer collectionId = Integer.parseInt(map.get("collectionId") + "");
+    Integer answerId = Integer.parseInt(map.get("answerId") + "");
+    boolean status = collectionService.collectionContainAnswer(collectionId, answerId);
+    if (status) {
+      return ResponseResult.createSuccessResult("收藏夹包含该问题！", status);
+    }
+    return ResponseResult.createFailResult("收藏夹不包含该问题！", status);
+  }
+
   /**
    * 收藏回答
    * @param map
@@ -90,6 +102,22 @@ public class CollectionController {
       return ResponseResult.createSuccessResult("收藏回答成功！", status);
     }
     return ResponseResult.createFailResult("收藏回答失败！", status);
+  }
+
+  /**
+   * 取消收藏回答
+   * @param map
+   * @return
+   */
+  @RequestMapping("/ uncollectAnswer")
+  public ResponseResult<Boolean> uncollectAnswer(@RequestBody Map<String, Object> map) {
+    Integer collectionId = Integer.parseInt(map.get("collectionId") + "");
+    Integer answerId = Integer.parseInt(map.get("answerId") + "");
+    Boolean status = collectionService.uncollectAnswer(collectionId, answerId);
+    if (status) {
+      return ResponseResult.createSuccessResult("取消收藏回答成功！", status);
+    }
+    return ResponseResult.createFailResult("取消收藏回答失败！", status);
   }
 
   /**

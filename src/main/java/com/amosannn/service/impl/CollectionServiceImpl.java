@@ -98,6 +98,23 @@ public class CollectionServiceImpl implements CollectionService {
   }
 
   /**
+   * 判断收藏夹是否包含某问题
+   * @param collectionId
+   * @param answerId
+   * @return
+   */
+  @Override
+  public Boolean collectionContainAnswer(Integer collectionId, Integer answerId) {
+    try (Jedis jedis = jedisPool.getResource()) {
+      Long rank = jedis.zrank(collectionId + RedisKey.COLLECT, String.valueOf(answerId));
+      if (null == rank) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
    * 收藏回答
    * @param collectionId
    * @param answerId
@@ -111,6 +128,25 @@ public class CollectionServiceImpl implements CollectionService {
     try (Jedis jedis = jedisPool.getResource()) {
       jedis.zadd(collectionId + RedisKey.COLLECT, System.currentTimeMillis(), String.valueOf(answerId));
       jedis.zadd(answerId + RedisKey.COLLECTED, System.currentTimeMillis(), String.valueOf(collectionId));
+      status = true;
+    }
+    return status;
+  }
+
+  /**
+   * 取消收藏回答
+   * @param collectionId
+   * @param answerId
+   * @return
+   */
+  @Override
+  public Boolean uncollectAnswer(Integer collectionId, Integer answerId) {
+    Boolean status = false;
+    // 更新用户回答被收藏数量
+    userDao.updateCollectedCountByAnswerId(answerId, -1);
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.zrem(collectionId + RedisKey.COLLECT, String.valueOf(answerId));
+      jedis.zrem(answerId + RedisKey.COLLECTED, String.valueOf(collectionId));
       status = true;
     }
     return status;

@@ -12,7 +12,11 @@ public interface CollectionService {
 
   List<Collection> listCreatingCollection(Integer userId);
 
+  Boolean collectionContainAnswer(Integer collectionId, Integer answerId);
+
   Boolean collectAnswer(Integer collectionId, Integer answerId);
+
+  Boolean uncollectAnswer(Integer collectionId, Integer answerId);
 
   Boolean followCollection(Integer userId, Integer collectionId);
 
