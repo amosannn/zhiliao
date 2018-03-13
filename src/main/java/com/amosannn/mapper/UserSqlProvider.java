@@ -2,6 +2,7 @@ package com.amosannn.mapper;
 
 import com.amosannn.model.User;
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
 public class UserSqlProvider {
@@ -25,7 +26,8 @@ public class UserSqlProvider {
     }}.toString();
   }
 
-  public String listUserInfoByUserId(final List<Integer> userIdList) {
+  public String listUserInfoByUserId(final Map<String, Object> map) {
+    List<Integer> userIdList = (List<Integer>)map.get("userIdList");
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("(");
     for (Integer userId : userIdList) {
@@ -36,7 +38,7 @@ public class UserSqlProvider {
     return new SQL() {{
       SELECT(" user_id,username,avatar_url,simple_desc ");
       FROM("user");
-      WHERE("userId in " + stringBuilder.toString());
+      WHERE("user_id in " + stringBuilder.toString());
     }}.toString();
   }
 

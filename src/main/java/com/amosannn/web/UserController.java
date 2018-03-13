@@ -1,10 +1,12 @@
 package com.amosannn.web;
 
 import com.amosannn.model.Answer;
+import com.amosannn.model.Collection;
 import com.amosannn.model.Question;
 import com.amosannn.model.Topic;
 import com.amosannn.model.User;
 import com.amosannn.service.AnswerService;
+import com.amosannn.service.CollectionService;
 import com.amosannn.service.QuestionService;
 import com.amosannn.service.TopicService;
 import com.amosannn.service.UserService;
@@ -33,6 +35,8 @@ public class UserController {
   private QuestionService questionService;
   @Autowired
   private AnswerService answerService;
+  @Autowired
+  private CollectionService collectionService;
 
   @RequestMapping("/register")
   public ResponseResult<Map<String, String>> register(@RequestBody Map<String, String> reqMap) {
@@ -122,6 +126,42 @@ public class UserController {
     profileMap.put("questionList", questionList);
 
     return ResponseResult.createSuccessResult("用户主页提问模块装载成功！", profileMap);
+  }
+
+  /**
+   * 我的主页（我的收藏夹页
+   * @param userId
+   * @param request
+   * @return
+   */
+  @RequestMapping("/profileCollection/{userId}")
+  public ResponseResult<Map<String, Object>> profileCollection(@PathVariable Integer userId, HttpServletRequest request) {
+    Integer localUserId = userService.getUserIdFromRedis(request);
+    // 获取用户信息
+    Map<String, Object> map = userService.profile(userId, localUserId);
+    // 获取收藏夹列表
+    List<Collection> collectionList = collectionService.listCreatingCollection(userId);
+    map.put("collectionList", collectionList);
+
+    return ResponseResult.createSuccessResult("用户主页收藏夹模块装载成功！", map);
+  }
+
+  /**
+   * 我关注的收藏夹
+   * @param userId
+   * @param request
+   * @return
+   */
+  @RequestMapping("/profileFollowCollection/{userId}")
+  public ResponseResult<Map<String, Object>> profileFollowCollection(@PathVariable Integer userId, HttpServletRequest request) {
+    Integer localUserId = userService.getUserIdFromRedis(request);
+    // 获取用户信息
+    Map<String, Object> map = userService.profile(userId, localUserId);
+    // 获取收藏夹列表
+    List<Collection> collectionList = collectionService.listFollowingCollection(userId);
+    map.put("collectionList", collectionList);
+
+    return ResponseResult.createSuccessResult("我关注的收藏夹模块装载成功！", map);
   }
 
   /**

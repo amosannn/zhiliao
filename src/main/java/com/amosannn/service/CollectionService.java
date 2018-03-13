@@ -16,6 +16,8 @@ public interface CollectionService {
 
   Boolean judgePeopleFollowCollection(Integer userId, Integer collectionId);
 
+  List<Collection> listFollowingCollection(Integer userId);
+
   Boolean collectAnswer(Integer collectionId, Integer answerId);
 
   Boolean uncollectAnswer(Integer collectionId, Integer answerId);

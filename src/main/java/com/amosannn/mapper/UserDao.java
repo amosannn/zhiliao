@@ -35,7 +35,7 @@ public interface UserDao {
   User selectProfileInfoByUserId(Integer userId);
 
   @SelectProvider(type = UserSqlProvider.class, method = "listUserInfoByUserId")
-  List<User> listUserInfoByUserId(List<Integer> userIdList);
+  List<User> listUserInfoByUserId(@Param("userIdList") List<Integer> userIdList);
 
   @Update({"update ", TABLE_NAME, " set liked_count = liked_count + #{addCount} where user_id = (select user_id from answer where answer_id = #{answerId})"})
   void updateLikedCountByAnswerId(@Param("answerId") Integer answerId, @Param("addCount") Integer addCount);

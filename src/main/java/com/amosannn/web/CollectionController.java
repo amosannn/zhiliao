@@ -44,7 +44,7 @@ public class CollectionController {
   }
 
   /**
-   * 获取收藏夹详情
+   * 获取某个收藏夹的详情
    * @param collectionId
    * @param request
    * @return
@@ -54,7 +54,7 @@ public class CollectionController {
       HttpServletRequest request) {
     // 本地用户Id
     Integer localUserId = userService.getUserIdFromRedis(request);
-    // 获取收藏夹内答案列表
+    // 获取目标收藏夹内答案列表
     Map<String, Object> map = collectionService.getCollectionContent(collectionId, localUserId);
     // 获取当前用户收藏夹列表
     List<Collection> collectionList = collectionService.listCreatingCollection(localUserId);
@@ -148,7 +148,7 @@ public class CollectionController {
    * @return
    */
   @RequestMapping("/followCollection")
-  public ResponseResult<Boolean> followCollection(Map<String, Object> map, HttpServletRequest request) {
+  public ResponseResult<Boolean> followCollection(@RequestBody Map<String, Object> map, HttpServletRequest request) {
     Integer collectionId = Integer.parseInt(map.get("collectionId")+"");
     Integer userId = userService.getUserIdFromRedis(request);
     Boolean status = collectionService.followCollection(userId, collectionId);
@@ -165,7 +165,7 @@ public class CollectionController {
    * @return
    */
   @RequestMapping("/unfollowCollection")
-  public ResponseResult<Boolean> unfollowCollection(Map<String, Object> map, HttpServletRequest request) {
+  public ResponseResult<Boolean> unfollowCollection(@RequestBody Map<String, Object> map, HttpServletRequest request) {
     Integer collectionId = Integer.parseInt(map.get("collectionId")+"");
     Integer userId = userService.getUserIdFromRedis(request);
     Boolean status = collectionService.unfollowCollection(userId, collectionId);

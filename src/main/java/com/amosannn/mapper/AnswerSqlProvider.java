@@ -7,7 +7,8 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class AnswerSqlProvider {
 
-  public String listAnswerByAnswerId(final List<Integer> idList) {
+  public String listAnswerByAnswerId(final Map<String, Object> map) {
+    List<Integer> idList = (List<Integer>)map.get("idList");
     StringBuilder sb = new StringBuilder();
     sb.append("(");
     for (Integer answerId : idList) {

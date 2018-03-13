@@ -131,6 +131,26 @@ public class CollectionServiceImpl implements CollectionService {
     return true;
   }
 
+  @Override
+  public List<Collection> listFollowingCollection(Integer userId) {
+    List<Collection> collectionList = new ArrayList<>();
+    try (Jedis jedis = jedisPool.getResource()) {
+      // 获取所关注的收藏夹的id集合
+      Set<String> idSet = jedis.zrange(userId + RedisKey.FOLLOW_COLLECTION, 0, -1);
+      List<Integer> idList = MyUtil.StringSetToIntegerList(idSet);
+
+      if (idList.size() > 0) {
+        collectionList = collectionDao.listCollectionByCollectionId(idList);
+        for (Collection collection : collectionList) {
+          Long answerCount = jedis.zcard(collection.getCollectionId() + RedisKey.COLLECT);
+          collection.setAnswerCount(Integer.parseInt(answerCount + ""));
+        }
+      }
+    }
+
+    return collectionList;
+  }
+
   /**
    * 收藏回答
    * @param collectionId

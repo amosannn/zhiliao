@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 
 @Mapper
 public interface CollectionDao {
@@ -40,4 +41,7 @@ public interface CollectionDao {
 
   @Select("select user_id, username, avatar_url, simple_desc from user where user_id = #{userId}")
   User selectUserByUserId(@Param("userId") Integer userId);
+
+  @SelectProvider(type = CollectionSqlProvider.class, method = "listCollectionByCollectionId")
+  List<Collection> listCollectionByCollectionId(@Param("idList") List<Integer> idList);
 }
