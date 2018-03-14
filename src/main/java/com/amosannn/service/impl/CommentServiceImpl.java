@@ -3,6 +3,7 @@ package com.amosannn.service.impl;
 import com.amosannn.mapper.CommentDao;
 import com.amosannn.mapper.UserDao;
 import com.amosannn.model.AnswerComment;
+import com.amosannn.model.QuestionComment;
 import com.amosannn.model.User;
 import com.amosannn.service.CommentService;
 import java.util.Map;
@@ -33,8 +34,8 @@ public class CommentServiceImpl implements CommentService {
     comment.setCreateTime(System.currentTimeMillis());
     comment.setLikedCount(0);
 
-    Integer answerCommentId = commentDao.insertAnswerComment(comment);
-    comment.setAnswerCommentId(answerCommentId);
+    Integer successRowCount = commentDao.insertAnswerComment(comment);
+//    comment.setAnswerCommentId(answerCommentId);
 
     User user = userDao.selectUserInfoByUserId(userId);
     comment.setUser(user);
@@ -43,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
   }
 
   /**
-   * 回复评论
+   * 回复回答下的评论
    * @param reqMap
    * @param userId
    * @return
@@ -61,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
     answerComment.setCreateTime(System.currentTimeMillis());
     answerComment.setUserId(userId);
 
-    Integer answerCommentId = commentDao.insertAnswerCommentReply(answerComment);
+    Integer successRowCount = commentDao.insertAnswerCommentReply(answerComment);
 //    answerComment.setAnswerCommentId(answerCommentId);
 
     User user = userDao.selectUserInfoByUserId(userId);
@@ -70,6 +71,53 @@ public class CommentServiceImpl implements CommentService {
     return answerComment;
   }
 
+  /**
+   * 评论问题
+   * @param questionId
+   * @param commentContent
+   * @param userId
+   * @return
+   */
+  @Override
+  public QuestionComment commentQuestion(Integer questionId, String commentContent, Integer userId) {
+    QuestionComment comment = new QuestionComment();
+    comment.setQuestionId(questionId);
+    comment.setQuestionCommentContent(commentContent);
+    comment.setUserId(userId);
 
+    comment.setLikedCount(0);
+    comment.setCreateTime(System.currentTimeMillis());
+
+    commentDao.insertQuestionComment(comment);
+    User user = userDao.selectUserInfoByUserId(userId);
+    comment.setUser(user);
+
+    return comment;
+  }
+
+  /**
+   * 回复问题下的评论
+   * @param reqMap
+   * @param userId
+   * @return
+   */
+  @Override
+  public QuestionComment replyQuestionComment(Map<String, Object> reqMap, Integer userId) {
+    QuestionComment questionComment = new QuestionComment();
+    questionComment.setQuestionCommentContent(String.valueOf(reqMap.get("questionCommentContent")));
+    questionComment.setQuestionId(Integer.parseInt(reqMap.get("questionId") + ""));
+    questionComment.setAtUserId(Integer.parseInt(reqMap.get("atUserId") + ""));
+    questionComment.setAtUserName(String.valueOf(reqMap.get("atUserName")));
+
+    questionComment.setLikedCount(0);
+    questionComment.setCreateTime(System.currentTimeMillis());
+    questionComment.setUserId(userId);
+
+    commentDao.insertQuestionCommentReply(questionComment);
+    User user = userDao.selectUserInfoByUserId(userId);
+    questionComment.setUser(user);
+
+    return questionComment;
+  }
 
 }

@@ -1,6 +1,7 @@
 package com.amosannn.web;
 
 import com.amosannn.model.AnswerComment;
+import com.amosannn.model.QuestionComment;
 import com.amosannn.service.CommentService;
 import com.amosannn.service.UserService;
 import com.amosannn.util.ResponseResult;
@@ -40,7 +41,7 @@ public class CommentController {
   }
 
   /**
-   * 回复评论
+   * 回复回答下的评论
    * @param reqMap
    * @param request
    * @return
@@ -53,6 +54,38 @@ public class CommentController {
     Integer userId = userService.getUserIdFromRedis(request);
     AnswerComment answerComment = commentService.replyAnswerComment(reqMap, userId);
     resMap.put("answerComment", answerComment);
+    return ResponseResult.createSuccessResult("回复评论成功！", resMap);
+  }
+
+  /**
+   * 评论问题
+   * @param reqMap
+   * @param request
+   * @return
+   */
+  @RequestMapping("/commentQuestion")
+  public ResponseResult<Map<String, Object>> commentQuestion(@RequestBody Map<String, Object> reqMap, HttpServletRequest request) {
+    Map<String, Object> resMap = new HashMap<>();
+    Integer questionId = Integer.parseInt(reqMap.get("questionId") + "");
+    String commentContent = String.valueOf(reqMap.get("commentContent"));
+    Integer userId = userService.getUserIdFromRedis(request);
+    QuestionComment questionComment = commentService.commentQuestion(questionId, commentContent, userId);
+    resMap.put("questionComment", questionComment);
+    return ResponseResult.createSuccessResult("评论问题成功！", resMap);
+  }
+
+  /**
+   * 回复问题下的评论
+   * @param reqMap
+   * @param request
+   * @return
+   */
+  @RequestMapping("/replyQuestionComment")
+  public ResponseResult<Map<String, Object>> replyQuestionComment(@RequestBody Map<String, Object> reqMap, HttpServletRequest request) {
+    Map<String, Object> resMap = new HashMap<>();
+    Integer userId = userService.getUserIdFromRedis(request);
+    QuestionComment questionComment = commentService.replyQuestionComment(reqMap, userId);
+    resMap.put("questionComment", questionComment);
     return ResponseResult.createSuccessResult("回复评论成功！", resMap);
   }
 }
