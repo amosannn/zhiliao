@@ -6,9 +6,13 @@ import com.amosannn.model.AnswerComment;
 import com.amosannn.model.QuestionComment;
 import com.amosannn.model.User;
 import com.amosannn.service.CommentService;
+import com.amosannn.util.RedisKey;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisException;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -17,6 +21,9 @@ public class CommentServiceImpl implements CommentService {
   CommentDao commentDao;
   @Autowired
   UserDao userDao;
+
+  @Autowired
+  JedisPool jedisPool;
 
   /**
    * 评论回答
@@ -118,6 +125,40 @@ public class CommentServiceImpl implements CommentService {
     questionComment.setUser(user);
 
     return questionComment;
+  }
+
+  /**
+   * 点赞回答下的评论
+   * @param userId
+   * @param answerCommentId
+   */
+  @Override
+  public Boolean likeAnswerComment(Integer userId, Integer answerCommentId) {
+    Boolean status = false;
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.zadd(userId + RedisKey.LIKE_ANSWER_COMMENT, System.currentTimeMillis(), String.valueOf(answerCommentId));
+      jedis.zadd(answerCommentId + RedisKey.LIKED_ANSWER_COMMENT, System.currentTimeMillis(), String.valueOf(userId));
+      status = true;
+    }
+    return status;
+  }
+
+  /**
+   * 点赞问题下的评论
+   * @param userId
+   * @param questionCommentId
+   * @return
+   */
+  @Override
+  public Boolean likeQuestionComment(Integer userId, Integer questionCommentId) {
+    Boolean status = false;
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.zadd(userId + RedisKey.LIKE_QUESTION_COMMENT, System.currentTimeMillis(), String.valueOf(questionCommentId));
+      jedis.zadd(questionCommentId + RedisKey.LIKED_QUESTION_COMMENT, System.currentTimeMillis(), String.valueOf(userId));
+      status = true;
+    }
+    return status;
+
   }
 
 }

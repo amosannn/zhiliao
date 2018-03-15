@@ -58,6 +58,23 @@ public class CommentController {
   }
 
   /**
+   * 点赞回答下的评论
+   * @param map
+   * @param request
+   * @return
+   */
+  @RequestMapping("/likeAnswerComment")
+  public ResponseResult<Boolean> likeAnswerComment(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+    Integer answerCommentId = Integer.parseInt(map.get("answerCommentId") + "");
+    Integer userId = userService.getUserIdFromRedis(request);
+    Boolean status = commentService.likeAnswerComment(userId, answerCommentId);
+    if (status) {
+      return ResponseResult.createSuccessResult("点赞成功！", status);
+    }
+    return ResponseResult.createFailResult("点赞失败！", status);
+  }
+
+  /**
    * 评论问题
    * @param reqMap
    * @param request
@@ -88,4 +105,22 @@ public class CommentController {
     resMap.put("questionComment", questionComment);
     return ResponseResult.createSuccessResult("回复评论成功！", resMap);
   }
+
+  /**
+   * 点赞问题下的评论
+   * @param map
+   * @param request
+   * @return
+   */
+  @RequestMapping("/likeQuestionComment")
+  public ResponseResult<Boolean> likeQuestionComment(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+    Integer questionCommentId = Integer.parseInt(map.get("questionCommentId") + "");
+    Integer userId = userService.getUserIdFromRedis(request);
+    Boolean status = commentService.likeQuestionComment(userId, questionCommentId);
+    if (status) {
+      return ResponseResult.createSuccessResult("点赞成功！", status);
+    }
+    return ResponseResult.createFailResult("点赞失败！", status);
+  }
+
 }

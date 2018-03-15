@@ -35,4 +35,14 @@ public class RedisKey {
   // 某回答被哪些人点赞
   public static final String LIKED_ANSWER = ":liked_answer";
 
+  // 某人点赞了哪些某问题评论
+  public static final String LIKE_QUESTION_COMMENT = ":like_question_answer";
+  // 某问题评论被哪些人点赞
+  public static final String LIKED_QUESTION_COMMENT = ":liked_question_answer";
+
+  // 某人点赞了哪些回答评论
+  public static final String LIKE_ANSWER_COMMENT = ":like_answer_comment";
+  // 某回答评论被哪些人点赞
+  public static final String LIKED_ANSWER_COMMENT = ":liked_answer_comment";
+
 }

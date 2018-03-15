@@ -14,4 +14,8 @@ public interface CommentService {
 
   QuestionComment replyQuestionComment(Map<String, Object> reqMap, Integer userId);
 
+  Boolean likeAnswerComment(Integer userId, Integer answerCommentId);
+
+  Boolean likeQuestionComment(Integer userId, Integer questionCommentId);
+
 }
