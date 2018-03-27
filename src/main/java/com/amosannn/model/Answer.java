@@ -11,7 +11,7 @@ public class Answer {
 
   private Integer userId;
   private Integer questionId;
-  private String likeState;
+  private Boolean likeState;
   private Integer commentCount;
 
   private Question question;
@@ -67,11 +67,11 @@ public class Answer {
     this.questionId = questionId;
   }
 
-  public String getLikeState() {
+  public Boolean getLikeState() {
     return likeState;
   }
 
-  public void setLikeState(String likeState) {
+  public void setLikeState(Boolean likeState) {
     this.likeState = likeState;
   }
 

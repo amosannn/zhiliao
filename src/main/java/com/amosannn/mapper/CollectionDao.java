@@ -22,8 +22,17 @@ public interface CollectionDao {
   @Options(useGeneratedKeys = true, keyProperty = "collectionId")
   Integer insertCollection(Collection collection);
 
-  @Select({"select collection_id,collection_name,create_time,update_time,followed_count from ",
+  @Select({"select collection_id,collection_name,create_time,update_time,followed_count,user_id from ",
       TABLE_NAME, " where user_id = #{userId}"})
+  @Results({
+      @Result(column = "collection_id", property = "collectionId"),
+      @Result(column = "collection_name", property = "collectionName"),
+      @Result(column = "create_time", property = "createTime"),
+      @Result(column = "update_time", property = "updateTime"),
+      @Result(column = "followed_count", property = "followedCount"),
+      @Result(column = "user_id", property = "user",
+          one = @One(select = "selectUserByUserId"))
+  })
   List<Collection> listCreatingCollectionByUserId(@Param("userId") Integer userId);
 
   @Select({"select user_id from ", TABLE_NAME, " where collection_id = #{collectionId}"})

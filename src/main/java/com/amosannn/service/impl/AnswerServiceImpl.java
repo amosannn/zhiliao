@@ -1,9 +1,16 @@
 package com.amosannn.service.impl;
 
 import com.amosannn.mapper.AnswerDao;
+import com.amosannn.mapper.MessageDao;
+import com.amosannn.mapper.QuestionDao;
 import com.amosannn.mapper.UserDao;
 import com.amosannn.model.Answer;
+import com.amosannn.model.AnswerComment;
+import com.amosannn.model.Message;
+import com.amosannn.model.Question;
 import com.amosannn.service.AnswerService;
+import com.amosannn.service.CommentService;
+import com.amosannn.util.MyUtil;
 import com.amosannn.util.RedisKey;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,9 +25,15 @@ import redis.clients.jedis.JedisPool;
 public class AnswerServiceImpl implements AnswerService{
 
   @Autowired
+  private CommentService commentService;
+  @Autowired
   AnswerDao answerDao;
   @Autowired
   UserDao userDao;
+  @Autowired
+  QuestionDao questionDao;
+  @Autowired
+  MessageDao messageDao;
   @Autowired
   private JedisPool jedisPool;
 
@@ -30,7 +43,19 @@ public class AnswerServiceImpl implements AnswerService{
     answer.setCreateTime(System.currentTimeMillis());
     Integer answerId = answerDao.insertAnswer(answer);
 
-//    answer.setAnswerId(answerId);
+    Message message = new Message();
+    message.setType(Message.TYPE_ANSWER);
+    message.setSecondType(1);
+    message.setMessageDate(MyUtil.formatDate(new Date()));
+    message.setMessageTime(System.currentTimeMillis());
+    message.setUserId(userId);
+    message.setFromUserName(userDao.selectUsernameByUserId(userId));
+    Question question = questionDao.selectQuestionByAnswerId(answer.getAnswerId());
+    message.setQuestionId(question.getQuestionId());
+    message.setQuestionTitle(question.getQuestionTitle());
+    message.setAnswerId(answer.getAnswerId());
+    message.setUserId(question.getUserId());
+    messageDao.insertTypeComment(message);
 
     return answerId;
   }
@@ -80,6 +105,53 @@ public class AnswerServiceImpl implements AnswerService{
     }
 
     return answerList;
+  }
+
+  @Override
+  public Map<String, Object> getAnswerDetail(Integer answerId, Integer userId){
+    Map<String, Object> map = new HashMap<>();
+    Answer answer = answerDao.selectAnswerByAnswerId(answerId);
+    if (answer == null) {
+      throw new RuntimeException("该回答不存在");
+    }
+    try (Jedis jedis = jedisPool.getResource()) {
+      // 获取回答点赞数
+      Integer likedcount = Integer.parseInt(jedis.zcard(answerId + RedisKey.LIKED_ANSWER)+"");
+      answer.setLikedCount(likedcount);
+    }
+
+    // 获取回答下评论数
+    Integer commentCount = commentService.getAnswerCommentCount(answerId);
+    answer.setCommentCount(commentCount);
+
+    // todo 是否收藏过该问题
+
+    // 获取回答下的评论
+    List<AnswerComment> answerCommentList = commentService.listAnswerComment(answerId);
+    answer.setAnswerCommentList(answerCommentList);
+
+    // 是否点赞过该问题
+    Boolean likeState = judgePeopleLikedAnswer(userId, answerId);
+    answer.setLikeState(likeState);
+
+    map.put("answer", answer);
+    return map;
+  }
+
+  /**
+   * 判断是否点赞过该问题
+   * @param localUserId
+   * @param answerId
+   * @return
+   */
+  @Override
+  public boolean judgePeopleLikedAnswer(Integer localUserId, Integer answerId) {
+    Long rank = null;
+    try (Jedis jedis = jedisPool.getResource()){
+      rank = jedis.zrank(localUserId + RedisKey.LIKED_ANSWER, String.valueOf(answerId));
+    }
+
+    return rank == null ? false:true;
   }
 
   @Override

@@ -7,6 +7,7 @@ import com.amosannn.model.QuestionComment;
 import com.amosannn.model.User;
 import com.amosannn.service.CommentService;
 import com.amosannn.util.RedisKey;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -159,6 +160,28 @@ public class CommentServiceImpl implements CommentService {
     }
     return status;
 
+  }
+
+  /**
+   * 获取某回答下的评论数
+   * @param answerId
+   * @return
+   */
+  @Override
+  public Integer getAnswerCommentCount(Integer answerId) {
+    Integer commentCount = commentDao.getAnswerCommentCount(answerId);
+    return commentCount;
+  }
+
+  /**
+   * 获取回答下的评论
+   * @param answerId
+   * @return
+   */
+  @Override
+  public List<AnswerComment> listAnswerComment(Integer answerId) {
+    List<AnswerComment> answerCommentList = commentDao.listAnswerComment(answerId);
+    return answerCommentList;
   }
 
 }

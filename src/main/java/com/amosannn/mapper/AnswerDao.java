@@ -28,6 +28,19 @@ public interface AnswerDao {
   @Options(useGeneratedKeys = true, keyProperty = "answerId")
   Integer insertAnswer(Answer answer);
 
+  @Select({"select answer_id, answer_content, liked_count, create_time, question_id, user_id from ", TABLE_NAME, " where answer_id=#{answerId}"})
+  @Results({
+      @Result(id = true, column = "answer_id", property = "answerId", javaType = Integer.class),
+      @Result(column = "answer_content", property = "answerContent"),
+      @Result(column = "liked_count", property = "likedCount", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+      @Result(column = "create_time", property = "createTime"),
+      @Result(column = "question_id", property = "question", javaType = Question.class,
+          one = @One(select = "selectQuestionById")),
+      @Result(column = "user_id", property = "user",
+          one = @One(select = "selectUserById"))
+  })
+  Answer selectAnswerByAnswerId(Integer answerId);
+
   @Update({"update ", TABLE_NAME,
       " set liked_count = liked_count + #{addCount} where answer_id = #{answerId}"})
   void updateLikedCount(@Param("answerId") Integer answerId, @Param("addCount") Integer addCount);

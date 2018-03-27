@@ -2,6 +2,7 @@ package com.amosannn.service;
 
 import com.amosannn.model.AnswerComment;
 import com.amosannn.model.QuestionComment;
+import java.util.List;
 import java.util.Map;
 
 public interface CommentService {
@@ -18,4 +19,7 @@ public interface CommentService {
 
   Boolean likeQuestionComment(Integer userId, Integer questionCommentId);
 
+  Integer getAnswerCommentCount(Integer answerId);
+
+  List<AnswerComment> listAnswerComment(Integer answerId);
 }

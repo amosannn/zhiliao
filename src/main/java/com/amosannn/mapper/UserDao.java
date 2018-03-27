@@ -45,4 +45,8 @@ public interface UserDao {
 
   @Select({"select user_id,username,avatar_url,simple_desc from ", TABLE_NAME, " where user_id = #{userId}"})
   User selectUserInfoByUserId(@Param("userId") Integer userId);
+
+  @Select({"select username from ", TABLE_NAME, " where user_id = #{userId}"})
+  String selectUsernameByUserId(@Param("userId") Integer userId);
+
 }

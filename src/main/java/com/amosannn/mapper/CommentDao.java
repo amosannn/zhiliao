@@ -2,9 +2,11 @@ package com.amosannn.mapper;
 
 import com.amosannn.model.AnswerComment;
 import com.amosannn.model.QuestionComment;
+import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface CommentDao {
@@ -27,5 +29,11 @@ public interface CommentDao {
   @Insert({"insert into ", QUESTION_TABLE_NAME, " (question_comment_content, create_time, question_id, user_id, at_user_id, at_user_name) values(#{questionCommentContent}, #{createTime}, #{questionId}, #{userId}, #{atUserId}, #{atUserName})"})
   @Options(useGeneratedKeys = true, keyProperty = "questionCommentId")
   void insertQuestionCommentReply(QuestionComment comment);
+
+  @Select({"select count(1) from ", ANSWER_TABLE_NAME, " where answer_id=#{answerId}"})
+  Integer getAnswerCommentCount(Integer answerId);
+
+  @Select({"select answer_comment_id, answer_comment_content, create_time, answer_id, user_id from ", ANSWER_TABLE_NAME, " where answer_id=#{answerId} order by create_time desc"})
+  List<AnswerComment> listAnswerComment(Integer answerId);
 
 }

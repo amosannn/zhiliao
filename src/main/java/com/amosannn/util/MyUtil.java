@@ -3,6 +3,7 @@ package com.amosannn.util;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,5 +37,10 @@ public class MyUtil {
 
   public static String createRadomCode() {
     return System.currentTimeMillis() + UUID.randomUUID().toString().replace("-", "");
+  }
+
+  public static String formatDate(Date date) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    return sdf.format(date);
   }
 }

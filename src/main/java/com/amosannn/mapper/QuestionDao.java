@@ -44,4 +44,8 @@ public interface QuestionDao {
 
   @Select("select question_id from question_topic where topic_id = #{topicId} order by qt_id desc limit #{offset},#{limit}")
   List<Integer> listQuestionIdByTopicId(Map<String, Integer> map);
+
+  @Select("select question_id,question_title,user_id from question where question_id = (select question_id from answer where answer_id = #{answerId})")
+  Question selectQuestionByAnswerId(@Param("answerId") Integer answerId);
+
 }
