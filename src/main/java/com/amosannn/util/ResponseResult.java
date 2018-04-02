@@ -29,6 +29,7 @@ public class ResponseResult<T> {
 
     public ResponseResult(String code, String msg, T data) {
         this(data);
+        this.setCode(code);
         this.setMsg(msg);
         this.setData(data);
     }
@@ -75,11 +76,11 @@ public class ResponseResult<T> {
     }
 
     public static <T> ResponseResult<T> createAuthFailResult(T data) {
-        return new ResponseResult("0403", "无权限", data);
+        return new ResponseResult("0401", "无权限", data);
     }
 
     public static <T> ResponseResult<T> createLoginFailResult(T data) {
-        return new ResponseResult("0403", "登录失败", data);
+        return new ResponseResult(LOGIN_FAIL_CODE, "登录失败", data);
     }
 
     public static <T> ResponseResult<T> createLoginRequireResult(T data) {

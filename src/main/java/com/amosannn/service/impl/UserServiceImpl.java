@@ -43,26 +43,26 @@ public class UserServiceImpl implements UserService {
     // 检验邮箱格式
     Matcher matcher = emailPattern.matcher(email);
     if (!matcher.matches()) {
-      map.put("register-error", "邮箱格式错误");
+      map.put("register_error", "邮箱格式错误");
       return map;
     }
 
     // 检验用户名长度
     if (StringUtils.isEmpty(username) || username.length() > 10) {
-      map.put("register-error", "用户名长度需在1-10个字符");
+      map.put("register_error", "用户名长度需在1-10个字符");
       return map;
     }
 
     // 检验密码长度
     matcher = passwordPattern.matcher(password);
     if (!matcher.matches()) {
-      map.put("register-error", "密码长度需在6-20个字符");
+      map.put("register_error", "密码长度需在6-20个字符");
       return map;
     }
 
     //检测邮箱可用性
     if (userDao.emailCount(email) > 0) {
-      map.put("register-error", "该邮箱已被注册");
+      map.put("register_error", "该邮箱已被注册");
       return map;
     }
 
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
     }
     jedisPool.close();
 
-    map.put("register-success", "注册成功");
+    map.put("register_success", "注册成功");
     return map;
   }
 
@@ -106,25 +106,35 @@ public class UserServiceImpl implements UserService {
   public Map<String, String> login(String username, String email, String password,
       HttpServletResponse response) {
     Map<String, String> map = new HashMap<>();
-    if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-      map.put("login-error", "用户名、密码不可为空");
+    Matcher matcher = null;
+    if (StringUtils.isEmpty(username) && StringUtils.isEmpty(email)) {
+      map.put("login_error", "用户名或邮箱不可为空");
       return map;
     }
 
-    if (StringUtils.isEmpty(username) || username.length() > 10) {
-      map.put("login-error", "用户名格式错误");
+    if (StringUtils.isEmpty(password)) {
+      map.put("login_error", "密码不可为空");
       return map;
     }
 
-    Matcher matcher = emailPattern.matcher(email);
-    if (!matcher.matches()) {
-      map.put("login-error", "邮箱格式错误");
-      return map;
+    if (!StringUtils.isEmpty(email)) {
+      matcher = emailPattern.matcher(email);
+      if (!matcher.matches()) {
+        map.put("login_error", "邮箱格式错误");
+        return map;
+      }
+      username = null;
+    } else{
+      if (StringUtils.isEmpty(username) || username.length() > 10){
+        map.put("login_error", "用户名格式错误");
+        return map;
+      }
+      email = null;
     }
 
     matcher = passwordPattern.matcher(password);
     if (!matcher.matches()) {
-      map.put("login-error", "密码格式错误");
+      map.put("login_error", "密码格式错误");
       return map;
     }
 
@@ -135,14 +145,14 @@ public class UserServiceImpl implements UserService {
     Integer userId = userDao.selectUserIdByEmailOrUsername(user);
 
     if (userId == null) {
-      map.put("login-error", "用户名密码错误");
+      map.put("login_error", "用户名密码错误");
       return map;
     }
 
     // 检验用户账号是否激活
     Integer activationState = userDao.selectActivationStateByUserId(userId);
     if (1 != activationState) {
-      map.put("login-error", "用户未激活");
+      map.put("login_error", "用户未激活");
       return map;
     }
 
@@ -159,7 +169,9 @@ public class UserServiceImpl implements UserService {
     }
 //    jedisPool.close();
 
-    map.put("login-success", "登录成功");
+    map.put("login_success", "登录成功");
+    // 临时方案  前端页面 token 验证
+    map.put("token", loginToken);
     return map;
   }
 

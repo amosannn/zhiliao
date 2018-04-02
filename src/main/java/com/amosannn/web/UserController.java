@@ -44,7 +44,7 @@ public class UserController {
     String email = reqMap.get("email");
     String password = reqMap.get("password");
     Map<String, String> resMap = userService.register(username, email, password);
-    if (resMap.get("register-success") != null) {
+    if (resMap.get("register_success") != null) {
       return ResponseResult.createSuccessResult("邮件已送出，激活邮箱后即可登录～", resMap);
     }
     return ResponseResult.createRegisterFailResult(resMap);
@@ -57,7 +57,7 @@ public class UserController {
     String email = reqMap.get("email");
     String password = reqMap.get("password");
     Map<String, String> resMap = userService.login(username, email, password, res);
-    if (resMap.get("login-error") != null) {
+    if (resMap.get("login_error") != null) {
       return ResponseResult.createLoginFailResult(resMap);
     }
 
