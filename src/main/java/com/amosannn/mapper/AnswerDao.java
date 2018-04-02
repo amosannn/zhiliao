@@ -41,6 +41,9 @@ public interface AnswerDao {
   })
   Answer selectAnswerByAnswerId(Integer answerId);
 
+  @Select({"select * from ", TABLE_NAME, " where question_id = #{questionId}"})
+  List<Answer> selectAnswerByQuestionId(@Param("questionId") Integer questionId);
+
   @Update({"update ", TABLE_NAME,
       " set liked_count = liked_count + #{addCount} where answer_id = #{answerId}"})
   void updateLikedCount(@Param("answerId") Integer answerId, @Param("addCount") Integer addCount);

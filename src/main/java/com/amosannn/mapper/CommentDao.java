@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
@@ -13,6 +14,12 @@ public interface CommentDao {
 
   String ANSWER_TABLE_NAME = " answer_comment ";
   String QUESTION_TABLE_NAME = " question_comment ";
+
+  @Select({"select question_comment_id,question_comment_content,liked_count,create_time,at_user_id,at_user_name,question_id,user_id from ", QUESTION_TABLE_NAME, " where question_id = #{questionId}"})
+  List<QuestionComment> listQuestionCommentByQuestionId(@Param("questionId") Integer questionId);
+
+  @Select({"select answer_comment_id,answer_comment_content,liked_count,create_time,at_user_id,at_user_name,answer_id,user_id from ", ANSWER_TABLE_NAME, " where answer_id = #{answerId}"})
+  List<AnswerComment> listAnswerCommentByAnswerId(@Param("answerId") Integer answerId);
 
   @Insert({"insert into ", ANSWER_TABLE_NAME, " (answer_comment_content, create_time, answer_id, user_id) values(#{answerCommentContent}, #{createTime}, #{answerId}, #{userId})"})
   @Options(useGeneratedKeys = true, keyProperty = "answerCommentId")

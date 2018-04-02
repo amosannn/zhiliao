@@ -9,7 +9,7 @@ public class QuestionComment {
   private String atUserName;
   private Integer questionId;
   private Integer userId;
-  private String likeState;
+  private Boolean likeState;
   private User user;
 
   public Integer getQuestionCommentId() {
@@ -76,11 +76,11 @@ public class QuestionComment {
     this.userId = userId;
   }
 
-  public String getLikeState() {
+  public Boolean getLikeState() {
     return likeState;
   }
 
-  public void setLikeState(String likeState) {
+  public void setLikeState(Boolean likeState) {
     this.likeState = likeState;
   }
 

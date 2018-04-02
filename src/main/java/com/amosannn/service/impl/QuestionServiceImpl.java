@@ -1,9 +1,14 @@
 package com.amosannn.service.impl;
 
+import com.amosannn.mapper.AnswerDao;
+import com.amosannn.mapper.CommentDao;
 import com.amosannn.mapper.QuestionDao;
 import com.amosannn.mapper.TopicDao;
 import com.amosannn.mapper.UserDao;
+import com.amosannn.model.Answer;
+import com.amosannn.model.AnswerComment;
 import com.amosannn.model.Question;
+import com.amosannn.model.QuestionComment;
 import com.amosannn.model.Topic;
 import com.amosannn.model.User;
 import com.amosannn.service.QuestionService;
@@ -11,6 +16,7 @@ import com.amosannn.util.MyUtil;
 import com.amosannn.util.RedisKey;
 import com.amosannn.util.ResponseResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +41,12 @@ public class QuestionServiceImpl implements QuestionService {
 
   @Autowired
   private UserDao userDao;
+
+  @Autowired
+  private AnswerDao answerDao;
+
+  @Autowired
+  private CommentDao commentDao;
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -111,20 +123,69 @@ public class QuestionServiceImpl implements QuestionService {
     User questioner = userDao.selectProfileInfoByUserId(question.getUserId());
     question.setUser(questioner);
 
-    //todo 问题评论列表（绑定评论者用户信息
+    // 问题评论列表（绑定评论者用户信息
+    List<QuestionComment> questionCommentList = commentDao.listQuestionCommentByQuestionId(questionId);
+    // 为每条问题评论绑定用户信息
+    try (Jedis jedis = jedisPool.getResource()) {
+      for (QuestionComment comment : questionCommentList) {
+        User commentUser = userDao.selectUserInfoByUserId(comment.getUserId());
+        comment.setUser(commentUser);
+        // 判断用户是否赞过该评论
+        Long rank = jedis
+            .zrank(userId + RedisKey.LIKE_QUESTION_COMMENT, comment.getQuestionCommentId() + "");
+        comment.setLikeState(rank == null ? false : true);
+        // 获取该评论被点赞次数
+        Long likedCount = jedis
+            .zcard(comment.getQuestionCommentId() + RedisKey.LIKED_QUESTION_COMMENT);
+        comment.setLikedCount(Integer.valueOf(likedCount + ""));
+      }
+    }
+    question.setQuestionCommentList(questionCommentList);
 
-    //todo 答案列表（绑定回答者用户信息，点赞情况
+    // 答案列表（绑定回答者用户信息，点赞情况
+    List<Answer> answerList = answerDao.selectAnswerByQuestionId(questionId);
+    for (Answer answer : answerList) {
+      User answerUser = userDao.selectUserInfoByUserId(answer.getUserId());
+      answer.setUser(answerUser);
+      // 获取答案评论列表
+      List<AnswerComment> answerCommentList = commentDao.listAnswerCommentByAnswerId(answer.getAnswerId());
+      try (Jedis jedis = jedisPool.getResource()) {
+        for (AnswerComment comment : answerCommentList) {
+          // 为评论绑定用户信息
+          User commentUser = userDao.selectUserInfoByUserId(comment.getUserId());
+          comment.setUser(commentUser);
+          // 判断用户是否赞过该评论
+          Long rank = jedis.zrank(userId + RedisKey.LIKE_ANSWER_COMMENT, comment.getAnswerCommentId() + "");
+          comment.setLikeState(rank == null ? "false" : "true");
+          // 获取该评论被点赞次数
+          Long likedCount = jedis.zcard(comment.getAnswerCommentId() + RedisKey.LIKED_ANSWER_COMMENT);
+          comment.setLikedCount(Integer.valueOf(likedCount + ""));
+        }
+        answer.setAnswerCommentList(answerCommentList);
+
+        // 获取用户点赞状态
+        Long rank = jedis.zrank(answer.getAnswerId() + RedisKey.LIKED_ANSWER, String.valueOf(userId));
+        answer.setLikeState(rank == null ? false : true);
+        // 获取该回答被点赞次数
+        Long likedCount = jedis.zcard(answer.getAnswerId() + RedisKey.LIKED_ANSWER);
+        answer.setLikedCount(Integer.valueOf(likedCount + ""));
+      }
+
+    }
 
     //话题信息
-    Map<Integer, String> topicMap = null;
+    Map<Integer, String> topicMap = new HashMap<>();
+//    topicMap.put(12,"啊");//k
     try {
-      topicMap = objectMapper.readValue(question.getTopicKvList(), Map.class);
+//      String temp = "{\"12\":\"啊\"}"; //objectMapper.writeValueAsString(topicMap);
+      topicMap = objectMapper.readValue(question.getTopicKvList(), new TypeReference<HashMap<Integer,String>>(){});
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
 
     map.put("topicMap", topicMap);
     map.put("question", question);
+    map.put("answerList", answerList);
     map.put("followedUserList", followedUserList);
 
     return map;
