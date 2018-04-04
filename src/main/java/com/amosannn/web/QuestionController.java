@@ -5,6 +5,7 @@ import com.amosannn.service.QuestionService;
 import com.amosannn.service.UserService;
 import com.amosannn.util.ResponseResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -34,16 +35,18 @@ public class QuestionController {
    * @return
    */
   @RequestMapping("/ask")
-  public ResponseResult<String> ask(@RequestBody Map<String, Object> map,
+  public ResponseResult<Map<String, Object>> ask(@RequestBody Map<String, Object> map,
       HttpServletRequest request) {
     Question question = new Question();
     Integer userId = userService.getUserIdFromRedis(request);
-    Map<String, String> resMap = (Map<String, String>) map.get("question");
-    question.setQuestionTitle(resMap.get("questionTitle"));
-    question.setQuestionContent(resMap.get("questionContent"));
+    Map<String, String> questionMap = (Map<String, String>) map.get("question");
+    question.setQuestionTitle(questionMap.get("questionTitle"));
+    question.setQuestionContent(questionMap.get("questionContent"));
     String topicNames = (String) map.get("topicNames");
     Integer questionId = questionService.ask(question, topicNames, userId);
-    return ResponseResult.createSuccessResult("提问发布成功！", "question id :" + questionId);
+    Map<String, Object> resMap = new HashMap<>();
+    resMap.put("questionId", questionId);
+    return ResponseResult.createSuccessResult("提问发布成功！", resMap);
   }
 
   /**
@@ -96,7 +99,7 @@ public class QuestionController {
     if (status) {
       return ResponseResult.createSuccessResult("已关注该问题", status);
     }
-    return ResponseResult.createFailResult("未关注该问题", status);
+    return ResponseResult.createSuccessResult("未关注该问题", status);
   }
 
   /**

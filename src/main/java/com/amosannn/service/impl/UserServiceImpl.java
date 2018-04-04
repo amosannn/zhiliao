@@ -75,6 +75,7 @@ public class UserServiceImpl implements UserService {
     user.setAvatarUrl(
         "https://avatars3.githubusercontent.com/u/16012509?s=400&u=6fe0dd08943216aeff2d3c9d1b8c3e602f6de8e9&v=4");
     user.setJoinTime(System.currentTimeMillis());
+    user.setSimpleDesc("猜猜我是谁～");
 
     // 用户状态默认未激活
     String activateCode = MyUtil.createRadomCode();

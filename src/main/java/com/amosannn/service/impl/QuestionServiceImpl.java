@@ -56,7 +56,7 @@ public class QuestionServiceImpl implements QuestionService {
 
   @Override
   public Integer ask(Question question, String topicNames, Integer userId) {
-    String[] topicNameArr = topicNames.split(",");
+    String[] topicNameArr = topicNames.split(",|，");
     Map<Integer, String> map = new HashMap<>();
     List<Integer> topicIdList = new ArrayList<>();
     for (String topicName : topicNameArr) {
@@ -94,6 +94,7 @@ public class QuestionServiceImpl implements QuestionService {
     Map<String, Object> map = new HashMap<>();
     // 获取问题信息
     Question question = questionDao.selectQuestionByQuestionId(questionId);
+    question.setQuestionId(questionId);
     if (question == null) {
       throw new RuntimeException("该问题不存在");
     }
