@@ -1,8 +1,10 @@
 package com.amosannn.service.impl;
 
+import com.amosannn.mapper.AnswerDao;
 import com.amosannn.mapper.QuestionDao;
 import com.amosannn.mapper.TopicDao;
 import com.amosannn.model.Answer;
+import com.amosannn.model.PageBean;
 import com.amosannn.model.Question;
 import com.amosannn.model.Topic;
 import com.amosannn.service.TopicService;
@@ -32,6 +34,9 @@ public class TopicServiceImpl implements TopicService {
   @Autowired
   private QuestionDao questionDao;
 
+  @Autowired
+  private AnswerDao answerDao;
+
   @Override
   public int topicCount() {
     return topicDao.topicCount();
@@ -58,16 +63,20 @@ public class TopicServiceImpl implements TopicService {
       Long followedCount = jedis.zcard(topicId + RedisKey.FOLLOWED_TOPIC);
       topic.setFollowedCount(Integer.parseInt(followedCount + ""));
 
-      // 如果不是请求全部问题列表
+      // 如果不是请求全部问题列表（精华）
       if (allQuestion == null || allQuestion.equals(false)) {
         // 获得该话题下答案列表的分页数据
         List<Integer> questionIdList = topicDao.selectQuestionIdByTopicId(topicId);
 
-        // todo listGoodAnswerByQuestionId
-
+        if (questionIdList.size() > 0) {
+          PageBean<Answer> pageBean = _listGoodAnswerByQuestionId(questionIdList, curPage, jedis, userId);
+          map.put("pageBean", pageBean);
+        } else {
+          map.put("pageBean", new PageBean<Answer>());
+        }
       } else {
-        List<Question> questionList = _listAllQuestionByTopicId(topic.getTopicId(), curPage, jedis);
-        map.put("questionList", questionList);
+        PageBean<Question> pageBean = _listAllQuestionByTopicId(topic.getTopicId(), curPage, jedis);
+        map.put("pageBean", pageBean);
         // 告诉页面返回的是问题列表，而不是答案列表
         map.put("allQuestion", true);
       }
@@ -150,6 +159,44 @@ public class TopicServiceImpl implements TopicService {
     return rank == null ? false : true;
   }
 
+  private PageBean<Answer> _listGoodAnswerByQuestionId(List<Integer> questionIdList, Integer curPage, Jedis jedis, Integer userId) {
+    // 能执行该函数，说明questionIdList不空
+    // 当请求页数为空时
+    curPage = curPage == null ? 1 : curPage;
+    // 每页记录数，从哪开始
+    int limit = 8;
+    int offset = (curPage - 1) * limit;
+    // 获得总记录数，总页数
+    int allCount = answerDao.listAnswerCountByQuestionId(questionIdList);
+    int allPage = 0;
+    if (allCount <= limit) {
+      allPage = 1;
+    } else if (allCount / limit == 0) {
+      allPage = allCount / limit;
+    } else {
+      allPage = allCount / limit + 1;
+    }
+
+    // 构造查询map
+    Map<String, Object> map = new HashMap<>();
+    map.put("offset", offset);
+    map.put("limit", limit);
+    map.put("questionIdList", questionIdList);
+    // 得到某页数据列表
+    List<Answer> answerList = answerDao.listGoodAnswerByQuestionId(map);
+
+    for (Answer answer : answerList) {
+      // 获取用户点赞状态
+      Long rank = jedis.zrank(answer.getAnswerId() + RedisKey.LIKED_ANSWER, String.valueOf(userId));
+      answer.setLikeState(rank == null ? false : true);
+    }
+    // 构造PageBean
+    PageBean<Answer> pageBean = new PageBean<>(allPage, curPage);
+    pageBean.setList(answerList);
+
+    return pageBean;
+  }
+
   /**
    * 获取话题下的所有问题
    * @param topicId
@@ -157,11 +204,11 @@ public class TopicServiceImpl implements TopicService {
    * @param jedis
    * @return
    */
-  private List<Question> _listAllQuestionByTopicId(Integer topicId, Integer curPage, Jedis jedis) {
+  private PageBean<Question> _listAllQuestionByTopicId(Integer topicId, Integer curPage, Jedis jedis) {
     // 当请求页数为空时
     curPage = curPage == null ? 1 : curPage;
     // 每页记录数，从哪开始
-    int limit = 6;
+    int limit = 8;
     int offset = (curPage - 1) * limit;
     // 获得总记录数，总页数
     int allCount = questionDao.selectQuestionCountByTopicId(topicId);
@@ -191,7 +238,11 @@ public class TopicServiceImpl implements TopicService {
       }
     }
 
-    return questionList;
+    // 构造PageBean
+    PageBean<Question> pageBean = new PageBean<>(allPage, curPage);
+    pageBean.setList(questionList);
+
+    return pageBean;
   }
 
 

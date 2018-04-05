@@ -37,4 +37,46 @@ public class AnswerSqlProvider {
     }}.toString() + limitSql;
   }
 
+  public String listAnswerCountByQuestionId(final Map<String, Object> map) {
+    List<Integer> questionIdList = (List<Integer>)map.get("questionIdList");
+    StringBuilder sb = new StringBuilder();
+    sb.append("(");
+    for (Integer questionId : questionIdList) {
+      sb.append(" '" + questionId + "',");
+    }
+    sb.deleteCharAt(sb.length() - 1);
+    sb.append(")");
+    System.out.println("31231232131231------------------------"+sb.toString());
+    return new SQL() {{
+      SELECT(" count(*) ");
+      FROM(" answer a ");
+      WHERE(" a.question_id in " + sb.toString());
+    }}.toString();
+  }
+
+  /**
+   * 根据高赞回答排名
+   * @param map
+   * @return
+   */
+  public String listGoodAnswerByQuestionId(final Map<String, Object> map) {
+    List<Integer> questionIdList = (List<Integer>)map.get("questionIdList");
+    StringBuilder sb = new StringBuilder();
+    sb.append("(");
+    for (Integer questionId : questionIdList) {
+      sb.append(" '" + questionId + "',");
+    }
+    sb.deleteCharAt(sb.length() - 1);
+    sb.append(")");
+    System.out.println(sb.toString());
+    return new SQL() {{
+      SELECT(" a.answer_id,a.answer_content,a.liked_count,a.create_time,\n"
+          + "  q.question_id,q.question_title,u.user_id,u.username,u.avatar_url,u.simple_desc ");
+      FROM(" answer a ");
+      JOIN(" question q on a.question_id = q.question_id ");
+      JOIN(" user u on a.user_id = u.user_id ");
+      WHERE(" a.question_id in " + sb.toString());
+    }}.toString() + " order by liked_count desc limit #{offset},#{limit}";
+  }
+
 }

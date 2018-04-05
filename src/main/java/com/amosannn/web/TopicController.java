@@ -36,13 +36,14 @@ public class TopicController {
     return ResponseResult.createSuccessResult("请求成功", map);
   }
 
-  @RequestMapping(value = "/topic/topicDetail/{topicId}", method = RequestMethod.POST)
+  @RequestMapping(value = "/topic/{topicId}", method = RequestMethod.POST)
   public ResponseResult<Map<String, Object>> topicDetail(@PathVariable Integer topicId, @RequestBody Map<String, Object> map, HttpServletRequest request) {
     Integer userId = userService.getUserIdFromRedis(request);
 
-    Integer curPage = Integer.parseInt(map.get("curPage")+"");
+    Integer page = Integer.parseInt(map.get("page")+"");
     Boolean allQuestion = Boolean.parseBoolean(map.get("allQuestion")+"");// todo 需测试是否"false"可以转换成false
-    return ResponseResult.createSuccessResult("请求成功", topicService.topicDetail(topicId, curPage, allQuestion, userId));
+    Map<String, Object> resMap = topicService.topicDetail(topicId, page, allQuestion, userId);
+    return ResponseResult.createSuccessResult("请求成功", resMap);
   }
 
   /**
@@ -107,7 +108,7 @@ public class TopicController {
     if (status) {
       return ResponseResult.createSuccessResult("已关注过该话题！", status);
     }
-    return ResponseResult.createFailResult("未关注过该话题！", status);
+    return ResponseResult.createSuccessResult("未关注过该话题！", status);
   }
 
   /**

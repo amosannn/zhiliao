@@ -7,6 +7,7 @@ import com.amosannn.mapper.TopicDao;
 import com.amosannn.mapper.UserDao;
 import com.amosannn.model.Answer;
 import com.amosannn.model.AnswerComment;
+import com.amosannn.model.PageBean;
 import com.amosannn.model.Question;
 import com.amosannn.model.QuestionComment;
 import com.amosannn.model.Topic;
@@ -298,11 +299,11 @@ public class QuestionServiceImpl implements QuestionService {
    * @return
    */
   @Override
-  public List<Question> listQuestionByUserId(Integer userId, Integer curPage) {
+  public PageBean<Question> listQuestionByUserId(Integer userId, Integer curPage) {
     // 请求页默认为0
     curPage = curPage == null ? 1 : curPage;
     // 每页问题数
-    int limit = 6;
+    int limit = 8;
     // 问题数坐标
     int offset = (curPage - 1) * limit;
 
@@ -326,7 +327,11 @@ public class QuestionServiceImpl implements QuestionService {
     // 得到某页问题列表
     List<Question> questionList = questionDao.listQuestionByUserId(map);
 
-    return questionList;
+    // 构造PageBean
+    PageBean<Question> pageBean = new PageBean<>(allPage, curPage);
+    pageBean.setList(questionList);
+
+    return pageBean;
   }
 
 }

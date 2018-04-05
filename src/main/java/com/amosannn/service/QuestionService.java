@@ -1,5 +1,6 @@
 package com.amosannn.service;
 
+import com.amosannn.model.PageBean;
 import com.amosannn.model.Question;
 import java.util.List;
 import java.util.Map;
@@ -20,5 +21,5 @@ public interface QuestionService {
 
   List<Question> listFollowingQuestion(Integer userId);
 
-  List<Question> listQuestionByUserId(Integer userId, Integer curPage);
+  PageBean<Question> listQuestionByUserId(Integer userId, Integer curPage);
 }

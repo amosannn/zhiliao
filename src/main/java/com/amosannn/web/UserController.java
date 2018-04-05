@@ -2,6 +2,7 @@ package com.amosannn.web;
 
 import com.amosannn.model.Answer;
 import com.amosannn.model.Collection;
+import com.amosannn.model.PageBean;
 import com.amosannn.model.Question;
 import com.amosannn.model.Topic;
 import com.amosannn.model.User;
@@ -100,8 +101,8 @@ public class UserController {
     profileMap = userService.profile(userId, localUserId);
 
     // 获取用户回答列表
-    List<Answer> answerList = answerService.listAnswerByUserId(userId, page);
-    profileMap.put("answerList", answerList);
+    PageBean<Answer> pageBean = answerService.listAnswerByUserId(userId, page);
+    profileMap.put("pageBean", pageBean);
 
     return ResponseResult.createSuccessResult("请求成功!", profileMap);
   }
@@ -116,14 +117,14 @@ public class UserController {
   @RequestMapping("/profileQuestion/{userId}")
   public ResponseResult<Map<String, Object>> profileQuestion(@PathVariable Integer userId,
       @RequestBody Map<String, Object> map, HttpServletRequest request) {
-    Integer curPage = Integer.parseInt(map.get("curPage") + "");
+    Integer page = Integer.parseInt(map.get("page") + "");
         Integer localUserId = userService.getUserIdFromRedis(request);
     // 获取用户信息
     Map<String, Object> profileMap = userService.profile(userId, localUserId);
     // 获取提问列表
-    List<Question> questionList = questionService.listQuestionByUserId(userId, curPage);
+    PageBean<Question> pageBean = questionService.listQuestionByUserId(userId, page);
     // 装载提问列表
-    profileMap.put("questionList", questionList);
+    profileMap.put("pageBean", pageBean);
 
     return ResponseResult.createSuccessResult("用户主页提问模块装载成功！", profileMap);
   }

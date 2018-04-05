@@ -1,6 +1,7 @@
 package com.amosannn.service;
 
 import com.amosannn.model.Answer;
+import com.amosannn.model.PageBean;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ public interface AnswerService {
 
   Map<String, Object> getAnswerDetail(Integer answerId, Integer userId);
 
-  List<Answer> listAnswerByUserId(Integer userId, Integer curPage);
+  PageBean<Answer> listAnswerByUserId(Integer userId, Integer curPage);
 
   void likeAnswer(Integer answerId, Integer userId);
 

@@ -6,6 +6,7 @@ import com.amosannn.service.CommentService;
 import com.amosannn.service.UserService;
 import com.amosannn.util.RedisKey;
 import com.amosannn.util.ResponseResult;
+import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,19 +34,20 @@ public class AnswerController {
    * @return
    */
   @RequestMapping("/answer")
-  public ResponseResult<Integer> answer(@RequestBody Map<String, Object> map,
+  public ResponseResult<Map<String, Object>> answer(@RequestBody Map<String, Object> map,
       HttpServletRequest request) {
     Integer userId = userService.getUserIdFromRedis(request);
     Map<String, Object> answerMap = (Map<String, Object>) map.get("answer");
 
     Answer answer = new Answer();
     answer.setAnswerContent(String.valueOf(answerMap.get("answerContent")));
-    answer.setUserId(Integer.parseInt(answerMap.get("userId") + ""));
     answer.setQuestionId(Integer.parseInt(answerMap.get("questionId") + ""));
 
     // 插入成功的行数
     Integer insertRowsCount = answerService.answer(answer, userId);
-    return ResponseResult.createSuccessResult("回答成功！", answer.getAnswerId());
+    Map<String, Object> resMap = new HashMap<>();
+    resMap.put("answerId", answer.getAnswerId());
+    return ResponseResult.createSuccessResult("回答成功！", resMap);
   }
 
   /**

@@ -26,7 +26,7 @@ public interface AnswerDao {
   @Insert({"insert into ", TABLE_NAME,
       " (answer_content,create_time,question_id,user_id) values (#{answerContent},#{createTime},#{questionId},#{userId})"})
   @Options(useGeneratedKeys = true, keyProperty = "answerId")
-  Integer insertAnswer(Answer answer);
+  Integer insertAnswer( Answer answer);
 
   @Select({"select answer_id, answer_content, liked_count, create_time, question_id, user_id from ", TABLE_NAME, " where answer_id=#{answerId}"})
   @Results({
@@ -78,11 +78,48 @@ public interface AnswerDao {
   User selectUserById(@Param("userId") Integer userId);
 
   @SelectProvider(type = AnswerSqlProvider.class, method = "listAnswerByAnswerId")
+  @Results({
+      @Result(id = true, column = "answer_id", property = "answerId", javaType = Integer.class),
+      @Result(column = "answer_content", property = "answerContent"),
+      @Result(column = "liked_count", property = "likedCount", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+      @Result(column = "create_time", property = "createTime"),
+      @Result(column = "question_id", property = "question", javaType = Question.class,
+          one = @One(select = "selectQuestionById")),
+      @Result(column = "user_id", property = "user",
+          one = @One(select = "selectUserById"))
+  })
   List<Answer> listAnswerByAnswerId(List<Integer> idList);
 
   @Select("select count(*) from answer where user_id = #{userId}")
   Integer selectAnswerCountByUserId(@Param("userId") Integer userId);
 
   @SelectProvider(type = AnswerSqlProvider.class, method = "listAnswerByUserId")
+  @Results({
+      @Result(id = true, column = "answer_id", property = "answerId", javaType = Integer.class),
+      @Result(column = "answer_content", property = "answerContent"),
+      @Result(column = "liked_count", property = "likedCount", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+      @Result(column = "create_time", property = "createTime"),
+      @Result(column = "question_id", property = "question", javaType = Question.class,
+          one = @One(select = "selectQuestionById")),
+      @Result(column = "user_id", property = "user",
+          one = @One(select = "selectUserById"))
+  })
   List<Answer> listAnswerByUserId(Map<String, Object> map);
+
+  @SelectProvider(type = AnswerSqlProvider.class, method = "listAnswerCountByQuestionId")
+  Integer listAnswerCountByQuestionId(@Param("questionIdList") List<Integer> questionIdList);
+
+  @SelectProvider(type = AnswerSqlProvider.class, method = "listGoodAnswerByQuestionId")
+  @Results({
+      @Result(id = true, column = "answer_id", property = "answerId", javaType = Integer.class),
+      @Result(column = "answer_content", property = "answerContent"),
+      @Result(column = "liked_count", property = "likedCount", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+      @Result(column = "create_time", property = "createTime"),
+      @Result(column = "question_id", property = "question", javaType = Question.class,
+          one = @One(select = "selectQuestionById")),
+      @Result(column = "user_id", property = "user",
+          one = @One(select = "selectUserById"))
+  })
+  List<Answer> listGoodAnswerByQuestionId(Map<String, Object> map);
+
 }

@@ -7,6 +7,7 @@ import com.amosannn.mapper.UserDao;
 import com.amosannn.model.Answer;
 import com.amosannn.model.AnswerComment;
 import com.amosannn.model.Message;
+import com.amosannn.model.PageBean;
 import com.amosannn.model.Question;
 import com.amosannn.service.AnswerService;
 import com.amosannn.service.CommentService;
@@ -48,7 +49,7 @@ public class AnswerServiceImpl implements AnswerService{
     message.setSecondType(1);
     message.setMessageDate(MyUtil.formatDate(new Date()));
     message.setMessageTime(System.currentTimeMillis());
-    message.setUserId(userId);
+    message.setFromUserId(userId);
     message.setFromUserName(userDao.selectUsernameByUserId(userId));
     Question question = questionDao.selectQuestionByAnswerId(answer.getAnswerId());
     message.setQuestionId(question.getQuestionId());
@@ -67,7 +68,7 @@ public class AnswerServiceImpl implements AnswerService{
    * @return
    */
   @Override
-  public List<Answer> listAnswerByUserId(Integer userId, Integer curPage) {
+  public PageBean<Answer> listAnswerByUserId(Integer userId, Integer curPage) {
     // 请求页默认为0
     curPage = curPage == null ? 1 : curPage;
     // 每页回答数
@@ -104,7 +105,11 @@ public class AnswerServiceImpl implements AnswerService{
       }
     }
 
-    return answerList;
+    // 构造PageBean
+    PageBean<Answer> pageBean = new PageBean<>(allPage, curPage);
+    pageBean.setList(answerList);
+
+    return pageBean;
   }
 
   @Override
