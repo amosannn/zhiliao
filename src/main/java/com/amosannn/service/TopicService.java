@@ -11,7 +11,9 @@ public interface TopicService {
 
   Map<String, List<Topic>> listAllTopic();
 
-  Map<String, Object> topicDetail(Integer topicId, Integer curPage, Boolean allQuestion, Integer userId);
+  Map<String, Object> topicDetail(Integer topicId, Integer curPage, String tabType, Integer userId);
+
+  Map<String, List<Topic>> listParentTopic(Integer userId);
 
   Map<String, List<Topic>> listTopicByParentId(Integer topicId);
 

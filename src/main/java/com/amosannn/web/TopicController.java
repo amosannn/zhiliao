@@ -41,9 +41,21 @@ public class TopicController {
     Integer userId = userService.getUserIdFromRedis(request);
 
     Integer page = Integer.parseInt(map.get("page")+"");
-    Boolean allQuestion = Boolean.parseBoolean(map.get("allQuestion")+"");// todo 需测试是否"false"可以转换成false
-    Map<String, Object> resMap = topicService.topicDetail(topicId, page, allQuestion, userId);
+    String tabType = String.valueOf(map.get("tabType"));// todo 需测试是否"false"可以转换成false
+    Map<String, Object> resMap = topicService.topicDetail(topicId, page, tabType, userId);
     return ResponseResult.createSuccessResult("请求成功", resMap);
+  }
+
+  /**
+   * 父话题列表
+   * @param map
+   * @return
+   */
+  @RequestMapping("/listParentTopic")
+  public ResponseResult<Map<String, List<Topic>>> listParentTopic(
+      @RequestBody Map<String, Integer> map) {
+    Integer topicId = map.get("topicId");
+    return ResponseResult.createSuccessResult("请求成功", topicService.listParentTopic(topicId));
   }
 
   /**
@@ -51,7 +63,7 @@ public class TopicController {
    * @param map
    * @return
    */
-  @RequestMapping("/topic/listTopicByParentId")
+  @RequestMapping("/listTopicByParentId")
   public ResponseResult<Map<String, List<Topic>>> listTopicByParentId(
       @RequestBody Map<String, Integer> map) {
     Integer topicId = map.get("topicId");

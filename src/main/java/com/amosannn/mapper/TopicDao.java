@@ -39,6 +39,10 @@ public interface TopicDao {
   Topic topicDetail(Integer topicId);
 
   // 父话题
+  @Select({"select distinct a.topic_id,a.topic_name,a.topic_desc, a.topic_image, a.followed_count,a.parent_topic_id from topic a join topic b where b.topic_id = #{topicId} and a.topic_id = b.parent_topic_id"})
+  List<Topic> listParentTopic(@Param("topicId") Integer topicId);
+
+  // 子话题
   @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where parent_topic_id = #{topicId} "})
   List<Topic> listTopicByParentId(@Param("topicId") Integer topicId);
 

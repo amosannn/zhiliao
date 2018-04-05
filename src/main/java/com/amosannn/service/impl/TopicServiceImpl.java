@@ -53,7 +53,7 @@ public class TopicServiceImpl implements TopicService {
   }
 
   @Override
-  public Map<String, Object> topicDetail(Integer topicId, Integer curPage, Boolean allQuestion, Integer userId) {
+  public Map<String, Object> topicDetail(Integer topicId, Integer curPage, String tabType, Integer userId) {
     Map<String, Object> map = new HashMap<>();
     // 获取话题信息
     Topic topic = topicDao.topicDetail(topicId);
@@ -63,8 +63,8 @@ public class TopicServiceImpl implements TopicService {
       Long followedCount = jedis.zcard(topicId + RedisKey.FOLLOWED_TOPIC);
       topic.setFollowedCount(Integer.parseInt(followedCount + ""));
 
-      // 如果不是请求全部问题列表（精华）
-      if (allQuestion == null || allQuestion.equals(false)) {
+      if ("hot".equals(tabType)) {
+        // 热门
         // 获得该话题下答案列表的分页数据
         List<Integer> questionIdList = topicDao.selectQuestionIdByTopicId(topicId);
 
@@ -74,11 +74,23 @@ public class TopicServiceImpl implements TopicService {
         } else {
           map.put("pageBean", new PageBean<Answer>());
         }
-      } else {
+      } else if ("dynamic".equals(tabType)) {
+        // 最新回答
+        // 获得该话题下答案列表的分页数据
+        List<Integer> questionIdList = topicDao.selectQuestionIdByTopicId(topicId);
+
+        if (questionIdList.size() > 0) {
+          PageBean<Answer> pageBean = _listNewAnswerByQuestionId(questionIdList, curPage, jedis, userId);
+          map.put("pageBean", pageBean);
+        } else {
+          map.put("pageBean", new PageBean<Answer>());
+        }
+      } else if ("allQuestion".equals(tabType)) {
+        // 全部问题
         PageBean<Question> pageBean = _listAllQuestionByTopicId(topic.getTopicId(), curPage, jedis);
         map.put("pageBean", pageBean);
         // 告诉页面返回的是问题列表，而不是答案列表
-        map.put("allQuestion", true);
+        map.put("tabType", "allQuestion");
       }
     }
     map.put("topic", topic);
@@ -86,10 +98,18 @@ public class TopicServiceImpl implements TopicService {
   }
 
   @Override
+  public Map<String, List<Topic>> listParentTopic(Integer topicId) {
+    List<Topic> topics = topicDao.listParentTopic(topicId);
+    Map<String, List<Topic>> map = new HashMap<>();
+    map.put("parentTopics", topics);
+    return map;
+  }
+
+  @Override
   public Map<String, List<Topic>> listTopicByParentId(Integer topicId) {
     List<Topic> topics = topicDao.listTopicByParentId(topicId);
     Map<String, List<Topic>> map = new HashMap<>();
-    map.put("topicId", topics);
+    map.put("childTopics", topics);
     return map;
   }
 
@@ -159,6 +179,14 @@ public class TopicServiceImpl implements TopicService {
     return rank == null ? false : true;
   }
 
+  /**
+   * 获取热门回答
+   * @param questionIdList
+   * @param curPage
+   * @param jedis
+   * @param userId
+   * @return
+   */
   private PageBean<Answer> _listGoodAnswerByQuestionId(List<Integer> questionIdList, Integer curPage, Jedis jedis, Integer userId) {
     // 能执行该函数，说明questionIdList不空
     // 当请求页数为空时
@@ -184,6 +212,52 @@ public class TopicServiceImpl implements TopicService {
     map.put("questionIdList", questionIdList);
     // 得到某页数据列表
     List<Answer> answerList = answerDao.listGoodAnswerByQuestionId(map);
+
+    for (Answer answer : answerList) {
+      // 获取用户点赞状态
+      Long rank = jedis.zrank(answer.getAnswerId() + RedisKey.LIKED_ANSWER, String.valueOf(userId));
+      answer.setLikeState(rank == null ? false : true);
+    }
+    // 构造PageBean
+    PageBean<Answer> pageBean = new PageBean<>(allPage, curPage);
+    pageBean.setList(answerList);
+
+    return pageBean;
+  }
+
+  /**
+   * 获取最近回答
+   * @param questionIdList
+   * @param curPage
+   * @param jedis
+   * @param userId
+   * @return
+   */
+  private PageBean<Answer> _listNewAnswerByQuestionId(List<Integer> questionIdList, Integer curPage, Jedis jedis, Integer userId) {
+    // 能执行该函数，说明questionIdList不空
+    // 当请求页数为空时
+    curPage = curPage == null ? 1 : curPage;
+    // 每页记录数，从哪开始
+    int limit = 8;
+    int offset = (curPage - 1) * limit;
+    // 获得总记录数，总页数
+    int allCount = answerDao.listAnswerCountByQuestionId(questionIdList);
+    int allPage = 0;
+    if (allCount <= limit) {
+      allPage = 1;
+    } else if (allCount / limit == 0) {
+      allPage = allCount / limit;
+    } else {
+      allPage = allCount / limit + 1;
+    }
+
+    // 构造查询map
+    Map<String, Object> map = new HashMap<>();
+    map.put("offset", offset);
+    map.put("limit", limit);
+    map.put("questionIdList", questionIdList);
+    // 得到某页数据列表
+    List<Answer> answerList = answerDao.listNewAnswerByQuestionId(map);
 
     for (Answer answer : answerList) {
       // 获取用户点赞状态

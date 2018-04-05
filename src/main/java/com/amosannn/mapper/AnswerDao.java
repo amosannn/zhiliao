@@ -122,4 +122,17 @@ public interface AnswerDao {
   })
   List<Answer> listGoodAnswerByQuestionId(Map<String, Object> map);
 
+  @SelectProvider(type = AnswerSqlProvider.class, method = "listNewAnswerByQuestionId")
+  @Results({
+      @Result(id = true, column = "answer_id", property = "answerId", javaType = Integer.class),
+      @Result(column = "answer_content", property = "answerContent"),
+      @Result(column = "liked_count", property = "likedCount", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+      @Result(column = "create_time", property = "createTime"),
+      @Result(column = "question_id", property = "question", javaType = Question.class,
+          one = @One(select = "selectQuestionById")),
+      @Result(column = "user_id", property = "user",
+          one = @One(select = "selectUserById"))
+  })
+  List<Answer> listNewAnswerByQuestionId(Map<String, Object> map);
+
 }
