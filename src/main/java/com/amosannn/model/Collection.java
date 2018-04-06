@@ -4,6 +4,7 @@ public class Collection {
 
   private Integer collectionId;
   private String collectionName;
+  private String collectionDesc;
   private Long createTime;
   private Long updateTime;
 
@@ -27,6 +28,14 @@ public class Collection {
 
   public void setCollectionName(String collectionName) {
     this.collectionName = collectionName;
+  }
+
+  public String getCollectionDesc() {
+    return collectionDesc;
+  }
+
+  public void setCollectionDesc(String collectionDesc) {
+    this.collectionDesc = collectionDesc;
   }
 
   public Long getCreateTime() {

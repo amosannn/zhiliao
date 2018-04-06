@@ -30,17 +30,21 @@ public class CollectionController {
    * @return
    */
   @RequestMapping("/addCollection")
-  public ResponseResult<Integer> addCollection(@RequestBody Map<String, Object> map,
+  public ResponseResult<Map<String, Object>> addCollection(@RequestBody Map<String, Object> map,
       HttpServletRequest request) {
     Collection collection = new Collection();
     Integer userId = userService.getUserIdFromRedis(request);
     String collectionName = String.valueOf(map.get("collectionName"));
+    String collectionDesc = String.valueOf(map.get("collectionDesc"));
     collection.setCollectionName(collectionName);
+    collection.setCollectionDesc(collectionDesc);
     Integer collectionId = collectionService.addCollection(collection, userId);
+    Map<String, Object> resMap = new HashMap<>();
     if (collectionId > 0) {
-      return ResponseResult.createSuccessResult("新建收藏夹成功！", collectionId);
+      resMap.put("collectionId", collectionId);
+      return ResponseResult.createSuccessResult("新建收藏夹成功！", resMap);
     }
-    return ResponseResult.createFailResult("新建收藏夹失败！", -1);
+    return ResponseResult.createFailResult("新建收藏夹失败！", resMap);
   }
 
   /**

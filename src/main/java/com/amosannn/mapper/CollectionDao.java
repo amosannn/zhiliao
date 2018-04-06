@@ -18,12 +18,12 @@ public interface CollectionDao {
 
   String TABLE_NAME = " collection ";
 
-  @Insert({"insert into ", TABLE_NAME, " (collection_name,create_time,update_time,user_id) values(#{collectionName},#{createTime},#{updateTime},#{userId})"})
+  @Insert({"insert into ", TABLE_NAME, " (collection_name,collection_desc,create_time,update_time,user_id) values(#{collectionName},#{collectionDesc},#{createTime},#{updateTime},#{userId})"})
   @Options(useGeneratedKeys = true, keyProperty = "collectionId")
   Integer insertCollection(Collection collection);
 
   @Select({"select collection_id,collection_name,create_time,update_time,followed_count,user_id from ",
-      TABLE_NAME, " where user_id = #{userId}"})
+      TABLE_NAME, " where user_id = #{userId} order by update_time desc"})
   @Results({
       @Result(column = "collection_id", property = "collectionId"),
       @Result(column = "collection_name", property = "collectionName"),
