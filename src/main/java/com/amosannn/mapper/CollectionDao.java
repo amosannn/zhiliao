@@ -38,10 +38,11 @@ public interface CollectionDao {
   @Select({"select user_id from ", TABLE_NAME, " where collection_id = #{collectionId}"})
   Integer selectUserIdByCollectionId(@Param("collectionId") Integer collectionId);
 
-  @Select("select collection_id, collection_name, create_time, update_time from collection where collection_id = #{collectionId}")
+  @Select("select collection_id, collection_name, collection_desc, create_time, update_time from collection where collection_id = #{collectionId}")
   @Results({
       @Result(column = "collection_id", property = "collectionId"),
       @Result(column = "collection_name", property = "collectionName"),
+      @Result(column = "collection_desc", property = "collectionDesc"),
       @Result(column = "create_time", property = "createTime"),
       @Result(column = "update_time", property = "updateTime"),
       @Result(column = "user_id", property = "user",

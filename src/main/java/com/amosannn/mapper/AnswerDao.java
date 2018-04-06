@@ -88,7 +88,7 @@ public interface AnswerDao {
       @Result(column = "user_id", property = "user",
           one = @One(select = "selectUserById"))
   })
-  List<Answer> listAnswerByAnswerId(List<Integer> idList);
+  List<Answer> listAnswerByAnswerId(@Param("idList") List<Integer> idList);
 
   @Select("select count(*) from answer where user_id = #{userId}")
   Integer selectAnswerCountByUserId(@Param("userId") Integer userId);

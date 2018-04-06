@@ -33,13 +33,17 @@ public class CollectionController {
   public ResponseResult<Map<String, Object>> addCollection(@RequestBody Map<String, Object> map,
       HttpServletRequest request) {
     Collection collection = new Collection();
+    Map<String, Object> resMap = new HashMap<>();
     Integer userId = userService.getUserIdFromRedis(request);
     String collectionName = String.valueOf(map.get("collectionName"));
+    if (collectionName.isEmpty()) {
+      resMap.put("error_description", "收藏夹名称不可为空！");
+      return ResponseResult.createFailResult("新建收藏夹失败！", resMap);
+    }
     String collectionDesc = String.valueOf(map.get("collectionDesc"));
     collection.setCollectionName(collectionName);
     collection.setCollectionDesc(collectionDesc);
     Integer collectionId = collectionService.addCollection(collection, userId);
-    Map<String, Object> resMap = new HashMap<>();
     if (collectionId > 0) {
       resMap.put("collectionId", collectionId);
       return ResponseResult.createSuccessResult("新建收藏夹成功！", resMap);
@@ -86,14 +90,16 @@ public class CollectionController {
    * @return
    */
   @RequestMapping("/collectionContainAnswer")
-  public ResponseResult<Boolean> collectionContainAnswer(@RequestBody Map<String, Object> map) {
+  public ResponseResult<Map<String, Object>> collectionContainAnswer(@RequestBody Map<String, Object> map) {
     Integer collectionId = Integer.parseInt(map.get("collectionId") + "");
     Integer answerId = Integer.parseInt(map.get("answerId") + "");
     Boolean status = collectionService.collectionContainAnswer(collectionId, answerId);
+    Map<String, Object> resMap = new HashMap<>();
+    resMap.put("collectStatus", status);
     if (status) {
-      return ResponseResult.createSuccessResult("收藏夹包含该问题！", status);
+      return ResponseResult.createSuccessResult("收藏夹包含该问题！", resMap);
     }
-    return ResponseResult.createFailResult("收藏夹不包含该问题！", status);
+    return ResponseResult.createSuccessResult("收藏夹不包含该问题！", resMap);
   }
 
   /**
@@ -119,14 +125,16 @@ public class CollectionController {
    * @return
    */
   @RequestMapping("/collectAnswer")
-  public ResponseResult<Boolean> collectAnswer(@RequestBody Map<String, Object> map) {
+  public ResponseResult<Map<String, Object>> collectAnswer(@RequestBody Map<String, Object> map) {
     Integer collectionId = Integer.parseInt(map.get("collectionId") + "");
     Integer answerId = Integer.parseInt(map.get("answerId") + "");
     Boolean status = collectionService.collectAnswer(collectionId, answerId);
+    Map<String, Object> resMap = new HashMap<>();
+    resMap.put("collectStatus", status);
     if (status) {
-      return ResponseResult.createSuccessResult("收藏回答成功！", status);
+      return ResponseResult.createSuccessResult("收藏回答成功！", resMap);
     }
-    return ResponseResult.createFailResult("收藏回答失败！", status);
+    return ResponseResult.createFailResult("收藏回答失败！", resMap);
   }
 
   /**
@@ -134,15 +142,17 @@ public class CollectionController {
    * @param map
    * @return
    */
-  @RequestMapping("/ uncollectAnswer")
-  public ResponseResult<Boolean> uncollectAnswer(@RequestBody Map<String, Object> map) {
+  @RequestMapping("/uncollectAnswer")
+  public ResponseResult<Map<String, Object>> uncollectAnswer(@RequestBody Map<String, Object> map) {
     Integer collectionId = Integer.parseInt(map.get("collectionId") + "");
     Integer answerId = Integer.parseInt(map.get("answerId") + "");
     Boolean status = collectionService.uncollectAnswer(collectionId, answerId);
+    Map<String, Object> resMap = new HashMap<>();
+    resMap.put("uncollectStatus", status);
     if (status) {
-      return ResponseResult.createSuccessResult("取消收藏回答成功！", status);
+      return ResponseResult.createSuccessResult("取消收藏回答成功！", resMap);
     }
-    return ResponseResult.createFailResult("取消收藏回答失败！", status);
+    return ResponseResult.createFailResult("取消收藏回答失败！", resMap);
   }
 
   /**
