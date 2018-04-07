@@ -7,6 +7,7 @@ public class PageBean<T> {
 
 	private int allPage;
 	private int curPage;
+	private int allCount;
 
 	private List<T> list = new ArrayList<T>();
 
@@ -16,6 +17,12 @@ public class PageBean<T> {
 	public PageBean(int allPage, int curPage) {
 		this.allPage = allPage;
 		this.curPage = curPage;
+	}
+
+	public PageBean(int allPage, int curPage, int allCount) {
+		this.allPage = allPage;
+		this.curPage = curPage;
+		this.allCount = allCount;
 	}
 
 	public int getAllPage() {
@@ -32,6 +39,14 @@ public class PageBean<T> {
 
 	public void setCurPage(int curPage) {
 		this.curPage = curPage;
+	}
+
+	public int getAllCount() {
+		return allCount;
+	}
+
+	public void setAllCount(int allCount) {
+		this.allCount = allCount;
 	}
 
 	public List<T> getList() {

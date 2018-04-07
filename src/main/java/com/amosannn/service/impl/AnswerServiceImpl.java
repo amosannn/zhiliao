@@ -106,7 +106,7 @@ public class AnswerServiceImpl implements AnswerService{
     }
 
     // 构造PageBean
-    PageBean<Answer> pageBean = new PageBean<>(allPage, curPage);
+    PageBean<Answer> pageBean = new PageBean<>(allPage, curPage, allCount);
     pageBean.setList(answerList);
 
     return pageBean;

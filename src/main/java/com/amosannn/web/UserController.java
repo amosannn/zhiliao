@@ -52,12 +52,12 @@ public class UserController {
   }
 
   @RequestMapping("/login")
-  public ResponseResult<Map<String, String>> login(@RequestBody Map<String, String> reqMap,
+  public ResponseResult<Map<String, Object>> login(@RequestBody Map<String, String> reqMap,
       HttpServletResponse res) {
     String username = reqMap.get("username");
     String email = reqMap.get("email");
     String password = reqMap.get("password");
-    Map<String, String> resMap = userService.login(username, email, password, res);
+    Map<String, Object> resMap = userService.login(username, email, password, res);
     if (resMap.get("login_error") != null) {
       return ResponseResult.createLoginFailResult(resMap);
     }
@@ -97,14 +97,41 @@ public class UserController {
     Integer page = Integer.parseInt(map.get("page") + "");
     Map<String, Object> profileMap = new HashMap<>();
     Integer localUserId = userService.getUserIdFromRedis(request);
+
+    if (userId == 0) {
+      // 用户 id 为0代表是自己
+      userId = localUserId;
+    }
+
     // 获取用户信息
     profileMap = userService.profile(userId, localUserId);
 
     // 获取用户回答列表
+//    PageBean<Answer> pageBean = answerService.listAnswerByUserId(userId, page);
+//    profileMap.put("pageBean", pageBean);
+
+    return ResponseResult.createSuccessResult("请求成功!", profileMap);
+  }
+
+  /**
+   * 我的主页（我的问题页
+   * @param userId
+   * @param map
+   * @param request
+   * @return
+   */
+  @RequestMapping("/profileAnswer/{userId}")
+  public ResponseResult<Map<String, Object>> profileAnswer(@PathVariable Integer userId,
+      @RequestBody Map<String, Object> map, HttpServletRequest request) {
+    Integer page = Integer.parseInt(map.get("page") + "");
+    Integer localUserId = userService.getUserIdFromRedis(request);
+    // 获取用户信息
+    Map<String, Object> profileMap = userService.profile(userId, localUserId);
+
     PageBean<Answer> pageBean = answerService.listAnswerByUserId(userId, page);
     profileMap.put("pageBean", pageBean);
 
-    return ResponseResult.createSuccessResult("请求成功!", profileMap);
+    return ResponseResult.createSuccessResult("用户主页问题模块装载成功！", profileMap);
   }
 
   /**

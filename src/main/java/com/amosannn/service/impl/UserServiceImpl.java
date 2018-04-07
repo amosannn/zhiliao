@@ -104,9 +104,9 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Map<String, String> login(String username, String email, String password,
+  public Map<String, Object> login(String username, String email, String password,
       HttpServletResponse response) {
-    Map<String, String> map = new HashMap<>();
+    Map<String, Object> map = new HashMap<>();
     Matcher matcher = null;
     if (StringUtils.isEmpty(username) && StringUtils.isEmpty(email)) {
       map.put("login_error", "用户名或邮箱不可为空");
@@ -173,6 +173,7 @@ public class UserServiceImpl implements UserService {
     map.put("login_success", "登录成功");
     // 临时方案  前端页面 token 验证
     map.put("token", loginToken);
+    map.put("userId", userId);
     return map;
   }
 

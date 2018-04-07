@@ -10,7 +10,7 @@ public interface UserService {
 
   Map<String, String> register(String username, String email, String password);
 
-  Map<String, String> login(String username, String email, String password, HttpServletResponse response);
+  Map<String, Object> login(String username, String email, String password, HttpServletResponse response);
 
   void activate(String activationCode);
 
