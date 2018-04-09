@@ -65,6 +65,14 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-mail</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aspect</artifactId>
+    </dependency>
 
     <!-- 热部署 -->
     <dependency>
@@ -127,6 +135,7 @@
       <artifactId>commons-collections</artifactId>
       <version>3.2</version>
     </dependency>
+
 
   </dependencies>
 

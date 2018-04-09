@@ -68,6 +68,13 @@ spring:
         min-idle: 8
         max-active: 1000
         max-wait: 3000
+  mail:
+    host: smtp.163.com
+    port: 25
+    username: 13250060902
+    password: auth163
+    defaultEncoding: UTF-8
+
 
 mybatis:
   config-location: classpath:mybatis-config.xml

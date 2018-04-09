@@ -1,6 +1,8 @@
 package com.amosannn.service.impl;
 
+import com.amosannn.async.MailTask;
 import com.amosannn.configuration.RedisCacheConfiguration;
+import com.amosannn.configuration.TaskExecutorConfig;
 import com.amosannn.mapper.UserDao;
 import com.amosannn.model.User;
 import com.amosannn.service.UserService;
@@ -18,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -28,6 +33,12 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private UserDao userDao;
+
+  @Autowired
+  private JavaMailSender javaMailSender;
+
+  @Autowired
+  private TaskExecutor taskExecutor;
 
   @Autowired
   private JedisPool jedisPool;
@@ -82,6 +93,9 @@ public class UserServiceImpl implements UserService {
     user.setActivationCode(activateCode);
 
     // 发送激活邮件
+//    mailTask("123", "343906478@qq.com", javaMailSender, 1).sendSimpleMail("343906478@qq.com", "232131", "test");
+    taskExecutor.execute(new MailTask(activateCode, "343906478@qq.com", javaMailSender, 1));
+//    new MailTask(activateCode, "343906478@qq.com", javaMailSender, 1);
 
     // 数据库插入用户数据
     userDao.insertUser(user);
@@ -173,7 +187,6 @@ public class UserServiceImpl implements UserService {
     map.put("login_success", "登录成功");
     // 临时方案  前端页面 token 验证
     map.put("token", loginToken);
-    map.put("userId", userId);
     return map;
   }
 

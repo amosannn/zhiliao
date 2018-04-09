@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -67,13 +69,12 @@ public class UserController {
 
   /**
    * 激活账号
-   * @param map
+   * @param activationCode
    * @return
    */
-  @RequestMapping("/activate")
-  public ResponseResult<Map<String, String>> activate(@RequestBody Map<String, String> map) {
-    String activationCode = map.get("code");
-    userService.activate(activationCode);
+  @RequestMapping(value = "/activate", method= RequestMethod.GET)
+  public ResponseResult<Map<String, String>> activate(@RequestParam("code") String code) {
+    userService.activate(code);
     return ResponseResult.createSuccessResult("账户已激活!", null);
   }
 
